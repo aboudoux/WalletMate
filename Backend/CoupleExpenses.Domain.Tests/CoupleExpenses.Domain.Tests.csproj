@@ -20,28 +20,11 @@
     <ProjectReference Include="..\CoupleExpenses.Domain\CoupleExpenses.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Compile Update="Features\PeriodBalance.feature.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>PeriodBalance.feature</DependentUpon>
-    </Compile>
+  <ItemGroup>  
     <Compile Update="Steps\PeriodSteps.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
 
-  <ItemGroup>
-    <None Update="Features\PeriodBalance.feature">
-      <Generator>SpecFlowSingleFileGenerator</Generator>
-      <LastGenOutput>PeriodBalance.feature.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <SpecFlowFeatureFiles Update="Features\PeriodBalance.feature">
-      <Generator>SpecFlowSingleFileGenerator</Generator>
-    </SpecFlowFeatureFiles>
-  </ItemGroup>
 
 </Project>
