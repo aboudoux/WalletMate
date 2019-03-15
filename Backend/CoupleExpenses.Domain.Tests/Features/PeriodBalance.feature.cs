@@ -17,7 +17,7 @@ namespace CoupleExpenses.Domain.Tests.Features
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "3.0.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public partial class PeriodBalanceFeature : Xunit.IClassFixture<PeriodBalanceFeature.FixtureData>, System.IDisposable
+    public partial class CalculDeBalancePourUnePeriodeFeature : Xunit.IClassFixture<CalculDeBalancePourUnePeriodeFeature.FixtureData>, System.IDisposable
     {
         
         private static TechTalk.SpecFlow.ITestRunner testRunner;
@@ -27,7 +27,7 @@ namespace CoupleExpenses.Domain.Tests.Features
 #line 1 "PeriodBalance.feature"
 #line hidden
         
-        public PeriodBalanceFeature(PeriodBalanceFeature.FixtureData fixtureData, Xunit.Abstractions.ITestOutputHelper testOutputHelper)
+        public CalculDeBalancePourUnePeriodeFeature(CalculDeBalancePourUnePeriodeFeature.FixtureData fixtureData, Xunit.Abstractions.ITestOutputHelper testOutputHelper)
         {
             this._testOutputHelper = testOutputHelper;
             this.TestInitialize();
@@ -36,8 +36,9 @@ namespace CoupleExpenses.Domain.Tests.Features
         public static void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "PeriodBalance", "\tIn order to avoid silly mistakes\r\n\tAs a math idiot\r\n\tI want to be told the sum o" +
-                    "f two numbers", ProgrammingLanguage.CSharp, ((string[])(null)));
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Calcul de balance pour une période", "\tEn tant qu\'utilisateur\r\n    Je veux que la période me calcul la balance en fonct" +
+                    "ion de mes opérations\r\n    Afin de connaitre quelle somme est dûe lors d\'une pér" +
+                    "iode", ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -77,25 +78,52 @@ namespace CoupleExpenses.Domain.Tests.Features
             this.ScenarioTearDown();
         }
         
-        [Xunit.FactAttribute(DisplayName="Add two numbers")]
-        [Xunit.TraitAttribute("FeatureTitle", "PeriodBalance")]
-        [Xunit.TraitAttribute("Description", "Add two numbers")]
-        [Xunit.TraitAttribute("Category", "mytag")]
-        public virtual void AddTwoNumbers()
+        [Xunit.FactAttribute(DisplayName="Calcul de la somme dûe en fonction des dépenses")]
+        [Xunit.TraitAttribute("FeatureTitle", "Calcul de balance pour une période")]
+        [Xunit.TraitAttribute("Description", "Calcul de la somme dûe en fonction des dépenses")]
+        public virtual void CalculDeLaSommeDueEnFonctionDesDepenses()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Add two numbers", null, new string[] {
-                        "mytag"});
-#line 7
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Calcul de la somme dûe en fonction des dépenses", null, ((string[])(null)));
+#line 6
 this.ScenarioInitialize(scenarioInfo);
             this.ScenarioStart();
+#line 7
+ testRunner.Given("Une période est créée", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+            TechTalk.SpecFlow.Table table1 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Montant",
+                        "Libelle",
+                        "Binome",
+                        "Type"});
+            table1.AddRow(new string[] {
+                        "100",
+                        "Courses",
+                        "Aurelien",
+                        "Commun"});
+            table1.AddRow(new string[] {
+                        "200",
+                        "Pret",
+                        "Aurelien",
+                        "Avance"});
+            table1.AddRow(new string[] {
+                        "50",
+                        "Cadeaux",
+                        "Marie",
+                        "Avance"});
+            table1.AddRow(new string[] {
+                        "300",
+                        "Leclerc",
+                        "Marie",
+                        "Commun"});
+            table1.AddRow(new string[] {
+                        "700",
+                        "Nounou",
+                        "Marie",
+                        "Commun"});
 #line 8
- testRunner.Given("I have entered 50 into the calculator", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 9
- testRunner.And("I have entered 70 into the calculator", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 10
- testRunner.When("I press add", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 11
- testRunner.Then("the result should be 120 on the screen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.When("J\'ajoute à la période les dépenses suivantes", ((string)(null)), table1, "When ");
+#line 15
+ testRunner.Then("le binome Aurelien doit la somme de 300 euros", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }
@@ -107,12 +135,12 @@ this.ScenarioInitialize(scenarioInfo);
             
             public FixtureData()
             {
-                PeriodBalanceFeature.FeatureSetup();
+                CalculDeBalancePourUnePeriodeFeature.FeatureSetup();
             }
             
             void System.IDisposable.Dispose()
             {
-                PeriodBalanceFeature.FeatureTearDown();
+                CalculDeBalancePourUnePeriodeFeature.FeatureTearDown();
             }
         }
     }

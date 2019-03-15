@@ -1,11 +1,18 @@
-﻿Feature: PeriodBalance
-	In order to avoid silly mistakes
-	As a math idiot
-	I want to be told the sum of two numbers
+﻿Feature: Calcul de balance pour une période
+	En tant qu'utilisateur
+    Je veux que la période me calcul la balance en fonction de mes opérations
+    Afin de connaitre quelle somme est dûe lors d'une période
 
-@mytag
-Scenario: Add two numbers
-	Given I have entered 50 into the calculator
-	And I have entered 70 into the calculator
-	When I press add
-	Then the result should be 120 on the screen
+Scenario: Calcul de la somme dûe en fonction des dépenses
+	Given Une période est créée	
+	When J'ajoute à la période les dépenses suivantes
+    | Montant | Libelle | Binome   | Type   |
+    | 100     | Courses | Aurelien | Commun |
+    | 200     | Pret    | Aurelien | Avance |
+    | 50      | Cadeaux | Marie    | Avance |
+    | 300     | Leclerc | Marie    | Commun |
+    | 700     | Nounou  | Marie    | Commun |
+	Then le binome Aurelien doit la somme de 300 euros
+
+#Scenario: Calcul de la somme dûe en fonction des recettes
+#Scenario: Calcul de la somme dûe en fonction des dépenses et recettes

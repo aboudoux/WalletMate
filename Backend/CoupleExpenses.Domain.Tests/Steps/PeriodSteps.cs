@@ -1,37 +1,51 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
+using CoupleExpenses.Domain.Common;
+using CoupleExpenses.Domain.Periods;
+using CoupleExpenses.Domain.Periods.Events;
+using CoupleExpenses.Domain.Periods.ValueObjects;
+using FluentAssertions;
 using TechTalk.SpecFlow;
 
 namespace CoupleExpenses.Domain.Tests.Steps {
     [Binding]
-    public sealed class PeriodSteps {
-        // For additional details on SpecFlow step definitions see http://go.specflow.org/doc-stepdef
+    public sealed class PeriodSteps
+    {
+        private Period _period;
 
-        [Given("I have entered (.*) into the calculator")]
-        public void GivenIHaveEnteredSomethingIntoTheCalculator(int number) {
-            //TODO: implement arrange (precondition) logic
-            // For storing and retrieving scenario-specific data see http://go.specflow.org/doc-sharingdata 
-            // To use the multiline text or the table argument of the scenario,
-            // additional string/Table parameters can be defined on the step definition
-            // method. 
-
-            ScenarioContext.Current.Pending();
+        [Given(@"Une période est créée")]
+        public void GivenUnePeriodeEstCreee() 
+        {
+            _period = Period.Create(PeriodName.From(3,2019));
         }
 
-        [When("I press add")]
-        public void WhenIPressAdd() {
-            //TODO: implement act (action) logic
-
-            ScenarioContext.Current.Pending();
+        [When(@"J'ajoute à la période les dépenses suivantes")]
+        public void WhenJAjouteALaPeriodeLesDepensesSuivantes((Amount amount, Label label, Pair pair, SpendingOperationType operationType)[] operations) 
+        {
+            operations.ForEach(e => _period.AddSpending(e.amount, e.label, e.pair, e.operationType));
         }
 
-        [Then("the result should be (.*) on the screen")]
-        public void ThenTheResultShouldBe(int result) {
-            //TODO: implement assert (verification) logic
-
-            ScenarioContext.Current.Pending();
+        [Then(@"le binome (.*) doit la somme de (.*) euros")]
+        public void ThenLeBinomeMarieDoitLaSommeDeEuros(PairInfo binome, double montant)
+        {
+            var balance = _period.UncommittedEvents.GetStream().OfType<PeriodBalanceChanged>().Last();
+            balance.AmountDue.Should().Be(montant);
+            balance.By.Should().Be(binome);
         }
+
+        [StepArgumentTransformation]
+        private static (Amount amount, Label label, Pair pair, SpendingOperationType operationType)[] ToOperation(
+            Table table)
+            => table.Rows.Select(row => (
+                    Amount.From(double.Parse(row["Montant"])),
+                    Label.From(row["Libelle"]),
+                    Pair.From(row["Binome"] == "Aurelien" ? 1 : 2),
+                    SpendingOperationType.From(row["Type"] == "Commun" ? 1 : 2)))
+                .ToArray();
+
+        [StepArgumentTransformation]
+        private static PairInfo ToPair(string source)
+            => source == "Aurelien" 
+                ? PairInfo.Aurelien 
+                : PairInfo.Marie;
     }
 }

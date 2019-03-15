@@ -20,7 +20,7 @@
     <ProjectReference Include="..\CoupleExpenses.Domain\CoupleExpenses.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>  
+  <ItemGroup>
     <Compile Update="Steps\PeriodSteps.cs">
       <SubType>Code</SubType>
     </Compile>
