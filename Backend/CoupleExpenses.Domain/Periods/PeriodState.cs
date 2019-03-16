@@ -43,5 +43,8 @@ namespace CoupleExpenses.Domain.Periods
         internal bool PairNotEquals(OperationId operationId, Pair newPair) => _periodOperations.PairNotEquals(operationId.Value, (PairInfo) newPair.Value);
         internal bool OperationTypeNotEquals(OperationId operationId, SpendingOperationType operationType) => _periodOperations.OperationTypeNotEquals(operationId.Value, operationType.Value);
         internal bool OperationTypeNotEquals(OperationId operationId, RecipeOperationType operationType) => _periodOperations.OperationTypeNotEquals(operationId.Value, operationType.Value);
+
+        internal (double amount, PairInfo by) GetBalance()
+            => _periodOperations.GetBalance();
     }
 }

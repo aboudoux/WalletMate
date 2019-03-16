@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using CoupleExpenses.Domain.Periods.Events;
 
 namespace CoupleExpenses.Domain.Periods
@@ -8,23 +9,46 @@ namespace CoupleExpenses.Domain.Periods
     {
         private readonly Dictionary<int, OperationDto> _allOperations = new Dictionary<int, OperationDto>();
 
-        public void Process(SpendingAdded @event) => _allOperations.Add(@event.OperationId, new OperationDto(@event));
-        public void Process(AmountChanged @event) => _allOperations[@event.OperationId].Amount = @event.Amount;
-        public void Process(LabelChanged @event) => _allOperations[@event.OperationId].Label = @event.Label;
-        public void Process(PairChanged @event) => _allOperations[@event.OperationId].Pair = (PairInfo)@event.Pair;
-        public void Process(SpendingOperationTypeChanged @event) => _allOperations[@event.OperationId].OperationType = @event.OperationType;
-        public void Process(RecipeOperationTypeChanged @event) => _allOperations[@event.OperationId].OperationType = @event.OperationType;
+        internal void Process(SpendingAdded @event) => _allOperations.Add(@event.OperationId, new OperationDto(@event));
+        internal void Process(AmountChanged @event) => _allOperations[@event.OperationId].Amount = @event.Amount;
+        internal void Process(LabelChanged @event) => _allOperations[@event.OperationId].Label = @event.Label;
+        internal void Process(PairChanged @event) => _allOperations[@event.OperationId].Pair = (PairInfo)@event.Pair;
+        internal void Process(SpendingOperationTypeChanged @event) => _allOperations[@event.OperationId].OperationType = @event.OperationType;
+        internal void Process(RecipeOperationTypeChanged @event) => _allOperations[@event.OperationId].OperationType = @event.OperationType;
 
         internal void Process(RecipeAdded @event) => _allOperations.Add(@event.OperationId, new OperationDto(@event));
 
-        public void Process(SpendingRemoved @event) => _allOperations.Remove(@event.OperationId);
+        internal void Process(SpendingRemoved @event) => _allOperations.Remove(@event.OperationId);
 
-        public bool LabelNotEquals(int operationId, string newLabel) => _allOperations[operationId].Label != newLabel;
-        public bool AmountNotEquals(int operationId, double newAmount) => Math.Abs(_allOperations[operationId].Amount - newAmount) > double.Epsilon;
-        public bool PairNotEquals(int operationId, PairInfo pairInfo) => _allOperations[operationId].Pair != pairInfo;
-        public bool OperationTypeNotEquals(int operationId, int operationType) => _allOperations[operationId].OperationType != operationType;
+        internal bool LabelNotEquals(int operationId, string newLabel) => _allOperations[operationId].Label != newLabel;
+        internal bool AmountNotEquals(int operationId, double newAmount) => Math.Abs(_allOperations[operationId].Amount - newAmount) > double.Epsilon;
+        internal bool PairNotEquals(int operationId, PairInfo pairInfo) => _allOperations[operationId].Pair != pairInfo;
+        internal bool OperationTypeNotEquals(int operationId, int operationType) => _allOperations[operationId].OperationType != operationType;
 
-        public bool Exists(int operationId) => _allOperations.ContainsKey(operationId);
+        internal bool Exists(int operationId) => _allOperations.ContainsKey(operationId);
+
+        internal (double amount, PairInfo by) GetBalance()
+        {
+            var total = _allOperations.Values
+                .Where(a => a.IsSpending)
+                .Select(a => new
+                {
+                    Amount = a.OperationType == (int) SpendingOperationTypeInfo.Advance
+                        ? a.Amount
+                        : a.Amount / 2,
+                    By = a.Pair
+                }).GroupBy(a => a.By,
+                    a => a.Amount, 
+                    (key, g) => new {Amount = g.Sum(), By = key})
+                    .ToList();
+
+            var amountMarie = total.FirstOrDefault(a => a.By == PairInfo.Marie)?.Amount ?? 0;
+            var amountAurelien = total.FirstOrDefault(a => a.By == PairInfo.Aurelien)?.Amount ?? 0;
+
+            var amountDue = amountAurelien - amountMarie;
+
+            return (Math.Abs(amountDue), amountDue < 0 ? PairInfo.Aurelien : PairInfo.Marie);
+        }
     }
 
     public sealed class OperationDto

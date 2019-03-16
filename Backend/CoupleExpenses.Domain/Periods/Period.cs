@@ -29,7 +29,8 @@ namespace CoupleExpenses.Domain.Periods
         {
             var operationId = OperationId.From(_state.GetNextOperationId());
             RaiseEvent(new SpendingAdded(operationId.Value, amount.Value, label.Value, (PairInfo) pair.Value, (SpendingOperationTypeInfo) operationType.Value));
-            RaiseEvent(new PeriodBalanceChanged(50, PairInfo.Marie));
+            var balance = _state.GetBalance();
+            RaiseEvent(new PeriodBalanceChanged(balance.amount, balance.by));
             return operationId;
         }
         public void ChangeSpending(OperationId operationId, Amount amount, Label label, Pair pair, SpendingOperationType operationType)
