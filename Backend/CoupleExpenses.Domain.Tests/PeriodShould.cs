@@ -1,6 +1,7 @@
 using System.Linq;
 using CoupleExpenses.Domain.Periods;
 using CoupleExpenses.Domain.Periods.Events;
+using CoupleExpenses.Domain.Periods.Events.Structures;
 using CoupleExpenses.Domain.Periods.ValueObjects;
 using FluentAssertions;
 using Xunit;
@@ -156,7 +157,7 @@ namespace CoupleExpenses.Domain.Tests
             var period = Some.Period();
             period.AddRecipe(Amount.From(100), Label.From("test"), Pair.Aurelien, RecipeOperationType.PartiallyDue);
 
-            period.UncommittedEvents.GetStream().Should().HaveCount(2).And
+            period.UncommittedEvents.GetStream().Should().HaveCount(3).And
                 .ContainEquivalentOf(new RecipeAdded(1, 100, "test", PairInfo.Aurelien, RecipeOperationTypeInfo.PartiallyDue),
                     e => e.Excluding(a => a.AggregateId).Excluding(a => a.Sequence));
         }

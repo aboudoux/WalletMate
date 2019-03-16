@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using CoupleExpenses.Domain.Periods.Events;
+using CoupleExpenses.Domain.Periods.Events.Structures;
+using CoupleExpenses.Domain.Periods.ValueObjects;
 
 namespace CoupleExpenses.Domain.Periods
 {
@@ -29,7 +31,7 @@ namespace CoupleExpenses.Domain.Periods
 
         internal (double amount, PairInfo by) GetBalance()
         {
-            var total = _allOperations.Values
+            var totalSpending = _allOperations.Values
                 .Where(a => a.IsSpending)
                 .Select(a => new
                 {
@@ -42,11 +44,28 @@ namespace CoupleExpenses.Domain.Periods
                     (key, g) => new {Amount = g.Sum(), By = key})
                     .ToList();
 
-            var amountMarie = total.FirstOrDefault(a => a.By == PairInfo.Marie)?.Amount ?? 0;
-            var amountAurelien = total.FirstOrDefault(a => a.By == PairInfo.Aurelien)?.Amount ?? 0;
+            var totalRecipe = _allOperations.Values
+                .Where(a => !a.IsSpending)
+                .Select(a => new
+                {
+                    Amount = a.OperationType == (int)RecipeOperationTypeInfo.TotallyDue
+                        ? a.Amount
+                        : a.Amount / 2,
+                    By = a.Pair
+                }).GroupBy(a => a.By,
+                    a => a.Amount,
+                    (key, g) => new { Amount = g.Sum(), By = key })
+                .ToList();
 
-            var amountDue = amountAurelien - amountMarie;
+            var amountSpendingMarie = totalSpending.FirstOrDefault(a => a.By == PairInfo.Marie)?.Amount ?? 0;
+            var amountSpendingAurelien = totalSpending.FirstOrDefault(a => a.By == PairInfo.Aurelien)?.Amount ?? 0;
 
+            var amountRecipeMarie = totalRecipe.FirstOrDefault(a => a.By == PairInfo.Marie)?.Amount ?? 0;
+            var amountRecipeAurelien = totalRecipe.FirstOrDefault(a => a.By == PairInfo.Aurelien)?.Amount ?? 0;
+
+
+            var amountDue = (amountSpendingAurelien+amountRecipeMarie) - (amountSpendingMarie+amountRecipeAurelien);
+            
             return (Math.Abs(amountDue), amountDue < 0 ? PairInfo.Aurelien : PairInfo.Marie);
         }
     }

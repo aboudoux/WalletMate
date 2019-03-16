@@ -128,6 +128,56 @@ this.ScenarioInitialize(scenarioInfo);
             this.ScenarioCleanup();
         }
         
+        [Xunit.FactAttribute(DisplayName="Calcul de la somme dûe en fonction des recettes")]
+        [Xunit.TraitAttribute("FeatureTitle", "Calcul de balance pour une période")]
+        [Xunit.TraitAttribute("Description", "Calcul de la somme dûe en fonction des recettes")]
+        public virtual void CalculDeLaSommeDueEnFonctionDesRecettes()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Calcul de la somme dûe en fonction des recettes", null, ((string[])(null)));
+#line 17
+this.ScenarioInitialize(scenarioInfo);
+            this.ScenarioStart();
+#line 18
+ testRunner.Given("Une période est créée", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+            TechTalk.SpecFlow.Table table2 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Montant",
+                        "Libelle",
+                        "Binome",
+                        "Type"});
+            table2.AddRow(new string[] {
+                        "100",
+                        "Courses",
+                        "Aurelien",
+                        "Partielle"});
+            table2.AddRow(new string[] {
+                        "200",
+                        "Pret",
+                        "Aurelien",
+                        "Totale"});
+            table2.AddRow(new string[] {
+                        "50",
+                        "Cadeaux",
+                        "Marie",
+                        "Totale"});
+            table2.AddRow(new string[] {
+                        "300",
+                        "Leclerc",
+                        "Marie",
+                        "Partielle"});
+            table2.AddRow(new string[] {
+                        "700",
+                        "Nounou",
+                        "Marie",
+                        "Partielle"});
+#line 19
+ testRunner.When("J\'ajoute à la période les recettes suivantes", ((string)(null)), table2, "When ");
+#line 26
+ testRunner.Then("le binome Marie doit la somme de 300 euros", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
         [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "3.0.0.0")]
         [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
         public class FixtureData : System.IDisposable

@@ -1,5 +1,6 @@
 ﻿using CoupleExpenses.Domain.Common.ValueObjects;
 using CoupleExpenses.Domain.Periods.Events;
+using CoupleExpenses.Domain.Periods.Events.Structures;
 
 namespace CoupleExpenses.Domain.Periods.ValueObjects
 {

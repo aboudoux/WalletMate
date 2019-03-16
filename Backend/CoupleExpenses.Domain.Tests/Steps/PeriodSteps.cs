@@ -24,6 +24,12 @@ namespace CoupleExpenses.Domain.Tests.Steps {
             operations.ForEach(e => _period.AddSpending(e.amount, e.label, e.pair, e.operationType));
         }
 
+        [When(@"J'ajoute à la période les recettes suivantes")]
+        public void WhenJAjouteALaPeriodeLesRecettesSuivantes((Amount amount, Label label, Pair pair, RecipeOperationType operationType)[] operations)
+        {
+            operations.ForEach(e => _period.AddRecipe(e.amount, e.label, e.pair, e.operationType));
+        }
+
         [Then(@"le binome (.*) doit la somme de (.*) euros")]
         public void ThenLeBinomeMarieDoitLaSommeDeEuros(PairInfo binome, double montant)
         {
@@ -33,13 +39,23 @@ namespace CoupleExpenses.Domain.Tests.Steps {
         }
 
         [StepArgumentTransformation]
-        private static (Amount amount, Label label, Pair pair, SpendingOperationType operationType)[] ToOperation(
+        private static (Amount amount, Label label, Pair pair, SpendingOperationType operationType)[] ToSpendingOperations(
             Table table)
             => table.Rows.Select(row => (
                     Amount.From(double.Parse(row["Montant"])),
                     Label.From(row["Libelle"]),
                     Pair.From(row["Binome"] == "Aurelien" ? 1 : 2),
                     SpendingOperationType.From(row["Type"] == "Commun" ? 1 : 2)))
+                .ToArray();
+
+        [StepArgumentTransformation]
+        private static (Amount amount, Label label, Pair pair, RecipeOperationType operationType)[] ToRecipeOperations(
+            Table table)
+            => table.Rows.Select(row => (
+                    Amount.From(double.Parse(row["Montant"])),
+                    Label.From(row["Libelle"]),
+                    Pair.From(row["Binome"] == "Aurelien" ? 1 : 2),
+                    RecipeOperationType.From(row["Type"] == "Partielle" ? 1 : 2)))
                 .ToArray();
 
         [StepArgumentTransformation]

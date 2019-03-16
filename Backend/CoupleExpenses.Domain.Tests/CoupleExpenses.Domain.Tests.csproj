@@ -21,6 +21,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Features\PeriodBalance.feature.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>PeriodBalance.feature</DependentUpon>
+    </Compile>
     <Compile Update="Steps\PeriodSteps.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -29,6 +34,7 @@
   <ItemGroup>
     <SpecFlowFeatureFiles Update="Features\PeriodBalance.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>PeriodBalance.feature.cs</LastGenOutput>
     </SpecFlowFeatureFiles>
   </ItemGroup>
 

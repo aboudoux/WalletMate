@@ -1,6 +1,7 @@
 ﻿using CoupleExpenses.Domain.Common;
 using CoupleExpenses.Domain.Common.Events;
 using CoupleExpenses.Domain.Periods.Events;
+using CoupleExpenses.Domain.Periods.Events.Structures;
 using CoupleExpenses.Domain.Periods.ValueObjects;
 
 namespace CoupleExpenses.Domain.Periods 
@@ -29,8 +30,7 @@ namespace CoupleExpenses.Domain.Periods
         {
             var operationId = OperationId.From(_state.GetNextOperationId());
             RaiseEvent(new SpendingAdded(operationId.Value, amount.Value, label.Value, (PairInfo) pair.Value, (SpendingOperationTypeInfo) operationType.Value));
-            var balance = _state.GetBalance();
-            RaiseEvent(new PeriodBalanceChanged(balance.amount, balance.by));
+            RaiseBalanceChanged();
             return operationId;
         }
         public void ChangeSpending(OperationId operationId, Amount amount, Label label, Pair pair, SpendingOperationType operationType)
@@ -46,6 +46,7 @@ namespace CoupleExpenses.Domain.Periods
         {
             var operationId = OperationId.From(_state.GetNextOperationId());
             RaiseEvent(new RecipeAdded(operationId.Value, amount.Value, label.Value, (PairInfo) pair.Value, (RecipeOperationTypeInfo) operationType.Value));
+            RaiseBalanceChanged();
             return operationId;
         }
 
@@ -81,6 +82,12 @@ namespace CoupleExpenses.Domain.Periods
                 RaiseEvent(new AmountChanged(operationId, amount));
             if (_state.PairNotEquals(operationId, pair))
                 RaiseEvent(new PairChanged(operationId, pair));
+        }
+
+        private void RaiseBalanceChanged()
+        {
+            var balance = _state.GetBalance();
+            RaiseEvent(new PeriodBalanceChanged(balance.amount, balance.by));
         }
     }
 }

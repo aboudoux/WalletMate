@@ -1,4 +1,5 @@
 ﻿using CoupleExpenses.Domain.Common.Events;
+using CoupleExpenses.Domain.Periods.Events.Structures;
 
 namespace CoupleExpenses.Domain.Periods.Events
 {
