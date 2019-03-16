@@ -63,7 +63,6 @@ namespace CoupleExpenses.Domain.Periods
             var amountRecipeMarie = totalRecipe.FirstOrDefault(a => a.By == PairInfo.Marie)?.Amount ?? 0;
             var amountRecipeAurelien = totalRecipe.FirstOrDefault(a => a.By == PairInfo.Aurelien)?.Amount ?? 0;
 
-
             var amountDue = (amountSpendingAurelien+amountRecipeMarie) - (amountSpendingMarie+amountRecipeAurelien);
             
             return (Math.Abs(amountDue), amountDue < 0 ? PairInfo.Aurelien : PairInfo.Marie);

@@ -19,15 +19,29 @@ namespace CoupleExpenses.Domain.Tests.Steps {
         }
 
         [When(@"J'ajoute à la période les dépenses suivantes")]
+        [Given(@"j'y ai ajouté les dépenses suivantes")]
         public void WhenJAjouteALaPeriodeLesDepensesSuivantes((Amount amount, Label label, Pair pair, SpendingOperationType operationType)[] operations) 
         {
             operations.ForEach(e => _period.AddSpending(e.amount, e.label, e.pair, e.operationType));
         }
 
         [When(@"J'ajoute à la période les recettes suivantes")]
+        [Given(@"j'y ai ajouté les recettes suivantes")]
         public void WhenJAjouteALaPeriodeLesRecettesSuivantes((Amount amount, Label label, Pair pair, RecipeOperationType operationType)[] operations)
         {
             operations.ForEach(e => _period.AddRecipe(e.amount, e.label, e.pair, e.operationType));
+        }
+
+        [When(@"je modifie le montant le l'operation (.*) en (.*) euros")]
+        public void WhenJeModifieLeMontnantLeLOperationEnEuros(OperationId operationId, Amount montant)
+        {
+            _period.ChangeSpending(operationId, montant);
+        }
+
+        [When(@"je modifie le binome le l'operation (.*) en (.*)")]
+        public void WhenJeModifieLeBinomeLeLOperationEnMarie(OperationId operationId, Pair binome)
+        {
+            _period.ChangeSpending(operationId, pair:binome);
         }
 
         [Then(@"le binome (.*) doit la somme de (.*) euros")]
@@ -59,9 +73,23 @@ namespace CoupleExpenses.Domain.Tests.Steps {
                 .ToArray();
 
         [StepArgumentTransformation]
-        private static PairInfo ToPair(string source)
+        private static PairInfo ToPairInfo(string source)
             => source == "Aurelien" 
                 ? PairInfo.Aurelien 
                 : PairInfo.Marie;
+
+        [StepArgumentTransformation]
+        private static Pair ToPair(string source)
+            => source == "Aurelien"
+                ? Pair.Aurelien
+                : Pair.Marie;
+
+        [StepArgumentTransformation]
+        private static OperationId ToOperationId(string source)
+            => OperationId.From(int.Parse(source));
+
+        [StepArgumentTransformation]
+        private static Amount ToAmount(string source)
+            => Amount.From(double.Parse(source));
     }
 }

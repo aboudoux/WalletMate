@@ -78,12 +78,12 @@ namespace CoupleExpenses.Domain.Tests.Features
             this.ScenarioTearDown();
         }
         
-        [Xunit.FactAttribute(DisplayName="Calcul de la somme dûe en fonction des dépenses")]
+        [Xunit.FactAttribute(DisplayName="Calcul de la somme due en fonction des dépenses")]
         [Xunit.TraitAttribute("FeatureTitle", "Calcul de balance pour une période")]
-        [Xunit.TraitAttribute("Description", "Calcul de la somme dûe en fonction des dépenses")]
+        [Xunit.TraitAttribute("Description", "Calcul de la somme due en fonction des dépenses")]
         public virtual void CalculDeLaSommeDueEnFonctionDesDepenses()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Calcul de la somme dûe en fonction des dépenses", null, ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Calcul de la somme due en fonction des dépenses", null, ((string[])(null)));
 #line 6
 this.ScenarioInitialize(scenarioInfo);
             this.ScenarioStart();
@@ -128,12 +128,12 @@ this.ScenarioInitialize(scenarioInfo);
             this.ScenarioCleanup();
         }
         
-        [Xunit.FactAttribute(DisplayName="Calcul de la somme dûe en fonction des recettes")]
+        [Xunit.FactAttribute(DisplayName="Calcul de la somme due en fonction des recettes")]
         [Xunit.TraitAttribute("FeatureTitle", "Calcul de balance pour une période")]
-        [Xunit.TraitAttribute("Description", "Calcul de la somme dûe en fonction des recettes")]
+        [Xunit.TraitAttribute("Description", "Calcul de la somme due en fonction des recettes")]
         public virtual void CalculDeLaSommeDueEnFonctionDesRecettes()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Calcul de la somme dûe en fonction des recettes", null, ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Calcul de la somme due en fonction des recettes", null, ((string[])(null)));
 #line 17
 this.ScenarioInitialize(scenarioInfo);
             this.ScenarioStart();
@@ -174,6 +174,199 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.When("J\'ajoute à la période les recettes suivantes", ((string)(null)), table2, "When ");
 #line 26
  testRunner.Then("le binome Marie doit la somme de 300 euros", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [Xunit.FactAttribute(DisplayName="Calcul de la somme due en fonction des dépenses et recettes")]
+        [Xunit.TraitAttribute("FeatureTitle", "Calcul de balance pour une période")]
+        [Xunit.TraitAttribute("Description", "Calcul de la somme due en fonction des dépenses et recettes")]
+        public virtual void CalculDeLaSommeDueEnFonctionDesDepensesEtRecettes()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Calcul de la somme due en fonction des dépenses et recettes", null, ((string[])(null)));
+#line 28
+this.ScenarioInitialize(scenarioInfo);
+            this.ScenarioStart();
+#line 29
+ testRunner.Given("Une période est créée", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+            TechTalk.SpecFlow.Table table3 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Montant",
+                        "Libelle",
+                        "Binome",
+                        "Type"});
+            table3.AddRow(new string[] {
+                        "200",
+                        "Pret",
+                        "Aurelien",
+                        "Avance"});
+            table3.AddRow(new string[] {
+                        "50",
+                        "Cadeaux",
+                        "Marie",
+                        "Avance"});
+            table3.AddRow(new string[] {
+                        "300",
+                        "Leclerc",
+                        "Marie",
+                        "Commun"});
+#line 30
+ testRunner.When("J\'ajoute à la période les dépenses suivantes", ((string)(null)), table3, "When ");
+#line hidden
+            TechTalk.SpecFlow.Table table4 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Montant",
+                        "Libelle",
+                        "Binome",
+                        "Type"});
+            table4.AddRow(new string[] {
+                        "100",
+                        "Courses",
+                        "Aurelien",
+                        "Partielle"});
+            table4.AddRow(new string[] {
+                        "200",
+                        "Pret",
+                        "Aurelien",
+                        "Totale"});
+            table4.AddRow(new string[] {
+                        "50",
+                        "Cadeaux",
+                        "Marie",
+                        "Totale"});
+#line 35
+ testRunner.And("J\'ajoute à la période les recettes suivantes", ((string)(null)), table4, "And ");
+#line 40
+ testRunner.Then("le binome Aurelien doit la somme de 200 euros", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [Xunit.FactAttribute(DisplayName="Recalcul de la somme due lors d\'une modification de montant")]
+        [Xunit.TraitAttribute("FeatureTitle", "Calcul de balance pour une période")]
+        [Xunit.TraitAttribute("Description", "Recalcul de la somme due lors d\'une modification de montant")]
+        public virtual void RecalculDeLaSommeDueLorsDuneModificationDeMontant()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Recalcul de la somme due lors d\'une modification de montant", null, ((string[])(null)));
+#line 42
+this.ScenarioInitialize(scenarioInfo);
+            this.ScenarioStart();
+#line 43
+ testRunner.Given("Une période est créée", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+            TechTalk.SpecFlow.Table table5 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Montant",
+                        "Libelle",
+                        "Binome",
+                        "Type"});
+            table5.AddRow(new string[] {
+                        "200",
+                        "Pret",
+                        "Aurelien",
+                        "Avance"});
+            table5.AddRow(new string[] {
+                        "50",
+                        "Cadeaux",
+                        "Marie",
+                        "Avance"});
+            table5.AddRow(new string[] {
+                        "300",
+                        "Leclerc",
+                        "Marie",
+                        "Commun"});
+#line 44
+ testRunner.And("j\'y ai ajouté les dépenses suivantes", ((string)(null)), table5, "And ");
+#line hidden
+            TechTalk.SpecFlow.Table table6 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Montant",
+                        "Libelle",
+                        "Binome",
+                        "Type"});
+            table6.AddRow(new string[] {
+                        "100",
+                        "Courses",
+                        "Aurelien",
+                        "Partielle"});
+            table6.AddRow(new string[] {
+                        "200",
+                        "Pret",
+                        "Aurelien",
+                        "Totale"});
+            table6.AddRow(new string[] {
+                        "50",
+                        "Cadeaux",
+                        "Marie",
+                        "Totale"});
+#line 49
+ testRunner.And("j\'y ai ajouté les recettes suivantes", ((string)(null)), table6, "And ");
+#line 54
+ testRunner.When("je modifie le montant le l\'operation 1 en 100 euros", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 55
+ testRunner.Then("le binome Aurelien doit la somme de 300 euros", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [Xunit.FactAttribute(DisplayName="Recalcul de la somme due lors d\'une modification de binome")]
+        [Xunit.TraitAttribute("FeatureTitle", "Calcul de balance pour une période")]
+        [Xunit.TraitAttribute("Description", "Recalcul de la somme due lors d\'une modification de binome")]
+        public virtual void RecalculDeLaSommeDueLorsDuneModificationDeBinome()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Recalcul de la somme due lors d\'une modification de binome", null, ((string[])(null)));
+#line 57
+this.ScenarioInitialize(scenarioInfo);
+            this.ScenarioStart();
+#line 58
+ testRunner.Given("Une période est créée", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+            TechTalk.SpecFlow.Table table7 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Montant",
+                        "Libelle",
+                        "Binome",
+                        "Type"});
+            table7.AddRow(new string[] {
+                        "200",
+                        "Pret",
+                        "Aurelien",
+                        "Avance"});
+            table7.AddRow(new string[] {
+                        "50",
+                        "Cadeaux",
+                        "Marie",
+                        "Avance"});
+            table7.AddRow(new string[] {
+                        "300",
+                        "Leclerc",
+                        "Marie",
+                        "Commun"});
+#line 59
+ testRunner.And("j\'y ai ajouté les dépenses suivantes", ((string)(null)), table7, "And ");
+#line hidden
+            TechTalk.SpecFlow.Table table8 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Montant",
+                        "Libelle",
+                        "Binome",
+                        "Type"});
+            table8.AddRow(new string[] {
+                        "100",
+                        "Courses",
+                        "Aurelien",
+                        "Partielle"});
+            table8.AddRow(new string[] {
+                        "200",
+                        "Pret",
+                        "Aurelien",
+                        "Totale"});
+            table8.AddRow(new string[] {
+                        "50",
+                        "Cadeaux",
+                        "Marie",
+                        "Totale"});
+#line 64
+ testRunner.And("j\'y ai ajouté les recettes suivantes", ((string)(null)), table8, "And ");
+#line 69
+ testRunner.When("je modifie le binome le l\'operation 1 en Marie", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 70
+ testRunner.Then("le binome Aurelien doit la somme de 600 euros", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }

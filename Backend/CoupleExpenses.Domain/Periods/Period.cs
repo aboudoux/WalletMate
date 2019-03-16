@@ -33,9 +33,14 @@ namespace CoupleExpenses.Domain.Periods
             RaiseBalanceChanged();
             return operationId;
         }
-        public void ChangeSpending(OperationId operationId, Amount amount, Label label, Pair pair, SpendingOperationType operationType)
-            => ChangeOperation(operationId, amount, label, pair, operationType);
-        
+
+        public void ChangeSpending(OperationId operationId, Amount amount = null, Label label = null, Pair pair = null,
+            SpendingOperationType operationType = null)
+        {
+            ChangeOperation(operationId, amount, label, pair, operationType);
+            RaiseBalanceChanged();
+        }
+
         public void RemoveSpending(OperationId operationId)
         {
             if(_state.OperationExists(operationId))
@@ -50,9 +55,12 @@ namespace CoupleExpenses.Domain.Periods
             return operationId;
         }
 
-        public void ChangeRecipe(OperationId operationId, Amount amount, Label label, Pair pair, RecipeOperationType operationType)
-            => ChangeOperation(operationId, amount, label, pair, operationType);
-        
+        public void ChangeRecipe(OperationId operationId, Amount amount = null, Label label = null, Pair pair = null,
+            RecipeOperationType operationType = null)
+        {
+            ChangeOperation(operationId, amount, label, pair, operationType);
+            RaiseBalanceChanged();
+        }
 
         public void RemoveRecipe(OperationId operationId)
         {

@@ -95,7 +95,7 @@ namespace CoupleExpenses.Domain.Tests
         {
             var period = ChangeSpendingInfo(label: Label.From("coucou"));
 
-            period.UncommittedEvents.GetStream().Should().HaveCount(1).And
+            period.UncommittedEvents.GetStream().Should().HaveCount(2).And
                 .ContainEquivalentOf(new LabelChanged(OperationId.From(1), Label.From("coucou")),
                     e => e.Excluding(a => a.AggregateId).Excluding(a => a.Sequence));
         }
@@ -105,7 +105,7 @@ namespace CoupleExpenses.Domain.Tests
         {
             var period = ChangeSpendingInfo(amount: Amount.From(5));
 
-            period.UncommittedEvents.GetStream().Should().HaveCount(1).And
+            period.UncommittedEvents.GetStream().Should().HaveCount(2).And
                 .ContainEquivalentOf(new AmountChanged(OperationId.From(1), Amount.From(5)),
                     e => e.Excluding(a => a.AggregateId).Excluding(a => a.Sequence));
         }
@@ -115,7 +115,7 @@ namespace CoupleExpenses.Domain.Tests
         {
             var period = ChangeSpendingInfo(pair: Pair.Marie);
 
-            period.UncommittedEvents.GetStream().Should().HaveCount(1).And
+            period.UncommittedEvents.GetStream().Should().HaveCount(2).And
                 .ContainEquivalentOf(new PairChanged(OperationId.From(1), Pair.Marie),
                     e => e.Excluding(a => a.AggregateId).Excluding(a => a.Sequence));
         }
@@ -125,7 +125,7 @@ namespace CoupleExpenses.Domain.Tests
         {
             var period = ChangeSpendingInfo(operationType:SpendingOperationType.Common);
 
-            period.UncommittedEvents.GetStream().Should().HaveCount(1).And
+            period.UncommittedEvents.GetStream().Should().HaveCount(2).And
                 .ContainEquivalentOf(new SpendingOperationTypeChanged(OperationId.From(1), SpendingOperationType.Common),
                     e => e.Excluding(a => a.AggregateId).Excluding(a => a.Sequence));
         }
@@ -134,7 +134,7 @@ namespace CoupleExpenses.Domain.Tests
         public void RaiseMultipleChange()
         {
             var period = ChangeSpendingInfo(Amount.From(25), Label.From("well"), Pair.Marie, SpendingOperationType.Common);
-            period.UncommittedEvents.GetStream().Should().HaveCount(4);
+            period.UncommittedEvents.GetStream().Should().HaveCount(5);
         }
 
         [Fact]
@@ -148,7 +148,7 @@ namespace CoupleExpenses.Domain.Tests
             period.ChangeSpending(id, Amount.From(5), Label.From("test2"), Pair.Marie, SpendingOperationType.Common);
             period.ChangeSpending(id, Amount.From(5), Label.From("test2"), Pair.Marie, SpendingOperationType.Common);
 
-            period.UncommittedEvents.GetStream().Should().HaveCount(7);
+            period.UncommittedEvents.GetStream().Should().HaveCount(12);
         }
 
         [Fact]
