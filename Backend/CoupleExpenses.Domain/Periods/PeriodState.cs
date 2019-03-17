@@ -1,12 +1,28 @@
-﻿using CoupleExpenses.Domain.Periods.Events;
+﻿using CoupleExpenses.Domain.Common;
+using CoupleExpenses.Domain.Periods.Events;
+using CoupleExpenses.Domain.Periods.Events.Structures;
 using CoupleExpenses.Domain.Periods.ValueObjects;
 
 namespace CoupleExpenses.Domain.Periods
 {
-    internal sealed class PeriodState 
+    public sealed class PeriodState : AggregateState
     {
         private readonly PeriodOperations _periodOperations = new PeriodOperations();
         private int _lastOperationId;
+
+        public PeriodState()
+        {
+            AddHandler<PeriodCreated>(e => PeriodName = PeriodName.From(e.PeriodName.Month, e.PeriodName.Year));
+            AddHandler<SpendingAdded>(Handle);
+            AddHandler<AmountChanged>(Handle);
+            AddHandler<LabelChanged>(Handle);
+            AddHandler<PairChanged>(Handle);
+            AddHandler<SpendingOperationTypeChanged>(Handle);
+            AddHandler<RecipeAdded>(Handle);
+            AddHandler<RecipeOperationTypeChanged>(Handle);
+            AddHandler<SpendingRemoved>(Handle);
+            AddHandler<RecipeRemoved>(Handle);
+        }
 
         internal void Handle(SpendingAdded @event) {
             _periodOperations.Process(@event);
@@ -45,5 +61,7 @@ namespace CoupleExpenses.Domain.Periods
 
         internal (double amount, PairInfo by) ComputeBalance()
             => _periodOperations.ComputeBalance();
+
+        public PeriodName PeriodName { get; private set; }
     }
 }

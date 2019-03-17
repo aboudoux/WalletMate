@@ -2,7 +2,7 @@
 
 namespace CoupleExpenses.Domain.Common.Events
 {
-    public class UncommittedEvents : EventStream {
+    public sealed class UncommittedEvents : EventStream {
         public UncommittedEvents() {
         }
 

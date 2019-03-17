@@ -3,6 +3,6 @@
 namespace CoupleExpenses.Domain.Common.Events
 {
     public interface IEventIdentifiers {
-        void Set(Guid aggregateId, int sequence);
+        void Set(string aggregateId, int sequence);
     }
 }

@@ -2,7 +2,7 @@
 
 namespace CoupleExpenses.Domain.Common.Events
 {
-    public class History : EventStream {
+    public sealed class History : EventStream {
         public static History Empty => new History();
 
         public History() {

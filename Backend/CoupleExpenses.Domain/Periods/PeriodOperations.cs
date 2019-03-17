@@ -49,7 +49,7 @@ namespace CoupleExpenses.Domain.Periods
                 .Where(a => !a.IsSpending)
                 .Select(a => new
                 {
-                    Amount = a.OperationType == (int)RecipeOperationTypeInfo.TotallyDue
+                    Amount = a.OperationType == (int)RecipeOperationTypeInfo.Individual
                         ? a.Amount
                         : a.Amount / 2,
                     By = a.Pair

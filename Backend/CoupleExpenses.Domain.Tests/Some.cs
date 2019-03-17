@@ -11,7 +11,7 @@ namespace CoupleExpenses.Domain.Tests
 {
     public static class Some
     {
-        public static Period Period( Action<EventStack> events = null)
+        public static Period Period(Action<EventStack> events = null)
         {
             var periodName = PeriodName.From(3, 2019);
             if (events == null)
@@ -26,11 +26,23 @@ namespace CoupleExpenses.Domain.Tests
             return new Period(history);
         }
 
+        public static PeriodCreator PeriodCreator(Action<EventStack> events = null)
+        {
+            if(events == null)
+                return new PeriodCreator(History.Empty);
+
+            var eventStack = new EventStack();
+            events.Invoke(eventStack);
+            return new PeriodCreator(new History( eventStack.All() ));
+        }
+
         public static SpendingAdded SpendingAdded(OperationId operationId) 
             => new SpendingAdded(operationId.Value, 10, "TEST", PairInfo.Aurelien, SpendingOperationTypeInfo.Common);
 
         public static RecipeAdded RecipeAdded(OperationId operationId)
-            => new RecipeAdded(operationId.Value, 10, "TEST", PairInfo.Aurelien, RecipeOperationTypeInfo.PartiallyDue);
+            => new RecipeAdded(operationId.Value, 10, "TEST", PairInfo.Aurelien, RecipeOperationTypeInfo.Common);
+
+        public static PeriodCreated PeriodCreated(PeriodName periodName) => new PeriodCreated(periodName);
     }
     
     public sealed class EventStack

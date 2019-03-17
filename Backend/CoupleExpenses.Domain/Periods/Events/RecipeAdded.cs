@@ -3,7 +3,7 @@ using CoupleExpenses.Domain.Periods.Events.Structures;
 
 namespace CoupleExpenses.Domain.Periods.Events
 {
-    public class RecipeAdded : DomainEvent, IOperation 
+    public sealed class RecipeAdded : DomainEvent, IOperation 
     {
         public RecipeAdded(int operationId, double amount, string label, PairInfo pair, RecipeOperationTypeInfo type)
         {

@@ -5,8 +5,8 @@ using CoupleExpenses.Domain.Periods.Events.Structures;
 namespace CoupleExpenses.Domain.Periods.ValueObjects
 {
     public class RecipeOperationType : PositiveNumberValueObject<RecipeOperationType> {
-        public static RecipeOperationType PartiallyDue => new RecipeOperationType((int) RecipeOperationTypeInfo.PartiallyDue);
-        public static RecipeOperationType TotallyDue => new RecipeOperationType((int) RecipeOperationTypeInfo.TotallyDue);
+        public static RecipeOperationType Common => new RecipeOperationType((int) RecipeOperationTypeInfo.Common);
+        public static RecipeOperationType Individual => new RecipeOperationType((int) RecipeOperationTypeInfo.Individual);
 
         private RecipeOperationType(int value) : base(value) {
         }

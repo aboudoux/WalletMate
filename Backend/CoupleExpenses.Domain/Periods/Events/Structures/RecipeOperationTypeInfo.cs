@@ -2,7 +2,7 @@
 {
     public enum RecipeOperationTypeInfo
     {
-        PartiallyDue = 1,
-        TotallyDue = 2,
+        Common = 1,
+        Individual = 2,
     }
 }

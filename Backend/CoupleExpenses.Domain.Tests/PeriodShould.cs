@@ -155,10 +155,10 @@ namespace CoupleExpenses.Domain.Tests
         public void RaiseRecipeAddedWhenAddingRecipe()
         {
             var period = Some.Period();
-            period.AddRecipe(Amount.From(100), Label.From("test"), Pair.Aurelien, RecipeOperationType.PartiallyDue);
+            period.AddRecipe(Amount.From(100), Label.From("test"), Pair.Aurelien, RecipeOperationType.Common);
 
             period.UncommittedEvents.GetStream().Should().HaveCount(3).And
-                .ContainEquivalentOf(new RecipeAdded(1, 100, "test", PairInfo.Aurelien, RecipeOperationTypeInfo.PartiallyDue),
+                .ContainEquivalentOf(new RecipeAdded(1, 100, "test", PairInfo.Aurelien, RecipeOperationTypeInfo.Common),
                     e => e.Excluding(a => a.AggregateId).Excluding(a => a.Sequence));
         }
 

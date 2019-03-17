@@ -4,7 +4,7 @@ namespace CoupleExpenses.Domain.Common.Events
 {
     public interface IDomainEvent
     {
-        Guid AggregateId { get;  }
+        string AggregateId { get;  }
         int Sequence { get;  }
     }
 }

@@ -2,6 +2,7 @@
 using CoupleExpenses.Domain.Common;
 using CoupleExpenses.Domain.Periods;
 using CoupleExpenses.Domain.Periods.Events;
+using CoupleExpenses.Domain.Periods.Events.Structures;
 using CoupleExpenses.Domain.Periods.ValueObjects;
 using FluentAssertions;
 using TechTalk.SpecFlow;
@@ -52,7 +53,6 @@ namespace CoupleExpenses.Domain.Tests.Steps {
             _period.RemoveOperation(operationId);
         }
 
-
         [When(@"je modifie le type de l'operation (.*) en (.*)")]
         public void WhenJeModifieLeTypeDeLOperationEnCommun(OperationId operationId,
             SpendingOperationType spendingOperationType)
@@ -70,8 +70,7 @@ namespace CoupleExpenses.Domain.Tests.Steps {
 
         [StepArgumentTransformation]
         private static (Amount amount, Label label, Pair pair, SpendingOperationType operationType)[]
-            ToSpendingOperations(
-                Table table)
+            ToSpendingOperations(Table table)
             => table.Rows.Select(row => (
                     Amount.From(double.Parse(row["Montant"])),
                     Label.From(row["Libelle"]),
@@ -80,13 +79,12 @@ namespace CoupleExpenses.Domain.Tests.Steps {
                 .ToArray();
 
         [StepArgumentTransformation]
-        private static (Amount amount, Label label, Pair pair, RecipeOperationType operationType)[] ToRecipeOperations(
-            Table table)
+        private static (Amount amount, Label label, Pair pair, RecipeOperationType operationType)[] ToRecipeOperations(Table table)
             => table.Rows.Select(row => (
                     Amount.From(double.Parse(row["Montant"])),
                     Label.From(row["Libelle"]),
                     Pair.From(row["Binome"] == "Aurelien" ? 1 : 2),
-                    RecipeOperationType.From(row["Type"] == "Partielle" ? 1 : 2)))
+                    RecipeOperationType.From(row["Type"] == "Commune" ? 1 : 2)))
                 .ToArray();
 
         [StepArgumentTransformation]

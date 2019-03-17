@@ -1,4 +1,4 @@
-﻿namespace CoupleExpenses.Domain.Periods.Events
+﻿namespace CoupleExpenses.Domain.Periods.Events.Structures
 {
     public enum PairInfo
     {

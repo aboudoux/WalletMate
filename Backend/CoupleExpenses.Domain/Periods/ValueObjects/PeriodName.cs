@@ -45,5 +45,14 @@ namespace CoupleExpenses.Domain.Periods.ValueObjects
         {
             return $"{_months[Month]} {Year}";
         }
+
+        public PeriodName GetIncrement()
+        {
+            return From(
+                IsDecember() ? 1 : Month+1,
+                IsDecember() ? Year+1 : Year);
+
+            bool IsDecember() => Month == 12;
+        }
     }
 }

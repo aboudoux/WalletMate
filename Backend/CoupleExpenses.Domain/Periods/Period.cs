@@ -7,61 +7,35 @@ using CoupleExpenses.Domain.Periods.ValueObjects;
 
 namespace CoupleExpenses.Domain.Periods 
 {
-    public sealed class Period : AggregateRoot 
-    {
-        private readonly PeriodState _state = new PeriodState();
-             
-        public Period(History history)
-        {            
-            AddPlayer<SpendingAdded>(e => _state.Handle(e));
-            AddPlayer<SpendingRemoved>(e => _state.Handle(e));
-            AddPlayer<AmountChanged>(e => _state.Handle(e));
-            AddPlayer<LabelChanged>(e => _state.Handle(e));
-            AddPlayer<PairChanged>(e => _state.Handle(e));
-            AddPlayer<RecipeAdded>(e=>_state.Handle(e));
-            AddPlayer<RecipeRemoved>(e=>_state.Handle(e));
-            AddPlayer<SpendingOperationTypeChanged>(e => _state.Handle(e));
-            AddPlayer<RecipeOperationTypeChanged>(e => _state.Handle(e));
-            HydrateFrom(history);
+    public sealed class Period : AggregateRoot<PeriodState>
+    {             
+        public Period(History history) : base(history)
+        {
         }
 
+        public PeriodName PeriodName => State.PeriodName;
+
         public static Period Create(PeriodName periodName) 
-            => CreateNew<Period>(PeriodId.New().Value, new PeriodCreated(periodName));
+            => CreateNew<Period>(PeriodId.New().Value.ToString(), new PeriodCreated(periodName));
 
         public OperationId AddSpending(Amount amount, Label label, Pair pair, SpendingOperationType operationType)
         {
-            var operationId = OperationId.From(_state.GetNextOperationId());
+            var operationId = OperationId.From(State.GetNextOperationId());
             RaiseEvent(new SpendingAdded(operationId.Value, amount.Value, label.Value, (PairInfo) pair.Value, (SpendingOperationTypeInfo) operationType.Value));
             RaiseBalanceChanged();
             return operationId;
         }
 
-        public void ChangeSpending(OperationId operationId, Amount amount = null, Label label = null, Pair pair = null,
-            SpendingOperationType operationType = null)
+        public void ChangeSpending(OperationId operationId, Amount amount = null, Label label = null, Pair pair = null, SpendingOperationType operationType = null)
         {
             ChangeOperation(operationId, amount, label, pair, operationType);
             if (UncommitedEventsHaveDifferentEventThatLabelChanged())
                 RaiseBalanceChanged();
         }
-
-        private bool UncommitedEventsHaveDifferentEventThatLabelChanged()
-            => UncommittedEvents.GetStream().Any(a => a.GetType() != typeof(LabelChanged));
-
-
-        public void RemoveOperation(OperationId operationId)
-        {
-            if (!_state.OperationExists(operationId)) return;
-
-            if (_state.IsSpendingOperation(operationId))
-                RaiseEvent(new SpendingRemoved(operationId.Value));
-            else
-                RaiseEvent(new RecipeRemoved(operationId.Value));
-            RaiseBalanceChanged();
-        }
-
+      
         public OperationId AddRecipe(Amount amount, Label label, Pair pair, RecipeOperationType operationType)
         {
-            var operationId = OperationId.From(_state.GetNextOperationId());
+            var operationId = OperationId.From(State.GetNextOperationId());
             RaiseEvent(new RecipeAdded(operationId.Value, amount.Value, label.Value, (PairInfo) pair.Value, (RecipeOperationTypeInfo) operationType.Value));
             RaiseBalanceChanged();
             return operationId;
@@ -75,33 +49,49 @@ namespace CoupleExpenses.Domain.Periods
                 RaiseBalanceChanged();            
         }
 
+        public void RemoveOperation(OperationId operationId)
+        {            
+            if (!State.OperationExists(operationId)) return;
+
+            if (State.IsSpendingOperation(operationId))
+                RaiseEvent(new SpendingRemoved(operationId.Value));
+            else
+                RaiseEvent(new RecipeRemoved(operationId.Value));
+            RaiseBalanceChanged();
+        }
+
+
+
+        private bool UncommitedEventsHaveDifferentEventThatLabelChanged()
+            => UncommittedEvents.GetStream().Any(a => a.GetType() != typeof(LabelChanged));
+
         private void ChangeOperation(OperationId operationId, Amount amount, Label label, Pair pair, SpendingOperationType operationType)
         {
             ChangeOperation(operationId, amount, label, pair);
-            if (_state.OperationTypeNotEquals(operationId, operationType))
+            if (State.OperationTypeNotEquals(operationId, operationType))
                 RaiseEvent(new SpendingOperationTypeChanged(operationId, operationType));
         }
 
         private void ChangeOperation(OperationId operationId, Amount amount, Label label, Pair pair, RecipeOperationType operationType)
         {
             ChangeOperation(operationId, amount, label, pair);
-            if (_state.OperationTypeNotEquals(operationId, operationType))
+            if (State.OperationTypeNotEquals(operationId, operationType))
                 RaiseEvent(new RecipeOperationTypeChanged(operationId, operationType));
         }
 
         private void ChangeOperation(OperationId operationId, Amount amount, Label label, Pair pair)
         {
-            if (_state.LabelNotEqual(operationId, label))
+            if (State.LabelNotEqual(operationId, label))
                 RaiseEvent(new LabelChanged(operationId, label));
-            if (_state.AmountNotEqual(operationId, amount))
+            if (State.AmountNotEqual(operationId, amount))
                 RaiseEvent(new AmountChanged(operationId, amount));
-            if (_state.PairNotEquals(operationId, pair))
+            if (State.PairNotEquals(operationId, pair))
                 RaiseEvent(new PairChanged(operationId, pair));
         }
 
         private void RaiseBalanceChanged()
         {
-            var balance = _state.ComputeBalance();
+            var balance = State.ComputeBalance();
             RaiseEvent(new PeriodBalanceChanged(balance.amount, balance.by));
         }
     }
