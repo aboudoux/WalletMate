@@ -40,7 +40,7 @@ namespace CoupleExpenses.Domain.Tests
                 p.WithEvent(new PeriodCreated(PeriodName.From(1, 2019)))
                  .WithEvent(Some.SpendingAdded(OperationId.From(1))));
 
-            period.RemoveSpending(OperationId.From(1));
+            period.RemoveOperation(OperationId.From(1));
 
             period.UncommittedEvents.GetStream().Should()
                 .ContainEquivalentOf(new SpendingRemoved(1),
@@ -48,19 +48,19 @@ namespace CoupleExpenses.Domain.Tests
         }
 
         [Fact]
-        public void DontRaiseSpendingRemovedWhenRemoveUnexistingSpending()
+        public void dont_raise_spending_removed_when_remove_unexisting_spending()
         {
             var period = Some.Period(p => 
                 p.WithEvent(new PeriodCreated(PeriodName.From(1, 2019)))
                  .WithEvent(Some.SpendingAdded(OperationId.From(1))));
 
-            period.RemoveSpending(OperationId.From(2));
+            period.RemoveOperation(OperationId.From(2));
 
             period.UncommittedEvents.GetStream().OfType<SpendingRemoved>().Should().BeEmpty();
         }
 
         [Fact]
-        public void GenerateNewIdWhenRaisingSpendingAdded()
+        public void generate_new_id_when_raising_spending_added()
         {
             var period = Some.Period();
 
@@ -91,11 +91,11 @@ namespace CoupleExpenses.Domain.Tests
         }
 
         [Fact]
-        public void RaiseLabelChangedIfJustChangingLabel()
+        public void raise_label_changed_if_just_changing_label()
         {
             var period = ChangeSpendingInfo(label: Label.From("coucou"));
 
-            period.UncommittedEvents.GetStream().Should().HaveCount(2).And
+            period.UncommittedEvents.GetStream().Should().HaveCount(1).And
                 .ContainEquivalentOf(new LabelChanged(OperationId.From(1), Label.From("coucou")),
                     e => e.Excluding(a => a.AggregateId).Excluding(a => a.Sequence));
         }
@@ -169,9 +169,9 @@ namespace CoupleExpenses.Domain.Tests
                 p.WithEvent(new PeriodCreated(PeriodName.From(1, 2019)))
                     .WithEvent(Some.RecipeAdded(OperationId.From(1))));
 
-            period.RemoveRecipe(OperationId.From(1));
+            period.RemoveOperation(OperationId.From(1));
 
-            period.UncommittedEvents.GetStream().Should().HaveCount(1).And
+            period.UncommittedEvents.GetStream().Should().HaveCount(2).And
                 .ContainEquivalentOf(new RecipeRemoved(1),
                     e => e.Excluding(a => a.AggregateId).Excluding(a => a.Sequence));
         }

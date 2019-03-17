@@ -1,5 +1,4 @@
-﻿using System;
-using CoupleExpenses.Domain.Periods.Events;
+﻿using CoupleExpenses.Domain.Periods.Events;
 using CoupleExpenses.Domain.Periods.ValueObjects;
 
 namespace CoupleExpenses.Domain.Periods
@@ -13,27 +12,27 @@ namespace CoupleExpenses.Domain.Periods
             _periodOperations.Process(@event);
             UpdateOperationIdIfGreater(@event);
         }
-
         internal void Handle(AmountChanged @event) => _periodOperations.Process(@event);
         internal void Handle(LabelChanged @event) => _periodOperations.Process(@event);
         internal void Handle(PairChanged @event) => _periodOperations.Process(@event);
         internal void Handle(SpendingOperationTypeChanged @event) => _periodOperations.Process(@event);
-
         internal void Handle(RecipeAdded @event) 
         {
             _periodOperations.Process(@event);
             UpdateOperationIdIfGreater(@event);
         }
-
         internal void Handle(RecipeOperationTypeChanged @event) => _periodOperations.Process(@event);
-
         internal void Handle(SpendingRemoved @event) => _periodOperations.Process(@event);
+        internal void Handle(RecipeRemoved @event) => _periodOperations.Process(@event);
 
         internal int GetNextOperationId() => ++_lastOperationId;
 
         internal bool OperationExists(OperationId operationId) => _periodOperations.Exists(operationId.Value);
 
-        private void UpdateOperationIdIfGreater(IOperation @event) {
+        internal bool IsSpendingOperation(OperationId operationId) => _periodOperations.IsSpendingOperation(operationId.Value);
+
+        private void UpdateOperationIdIfGreater(IOperation @event)
+        {
             if (@event.OperationId > _lastOperationId)
                 _lastOperationId = @event.OperationId;
         }
@@ -44,7 +43,7 @@ namespace CoupleExpenses.Domain.Periods
         internal bool OperationTypeNotEquals(OperationId operationId, SpendingOperationType operationType) => operationType != null && _periodOperations.OperationTypeNotEquals(operationId.Value, operationType.Value);
         internal bool OperationTypeNotEquals(OperationId operationId, RecipeOperationType operationType) => operationType != null && _periodOperations.OperationTypeNotEquals(operationId.Value, operationType.Value);
 
-        internal (double amount, PairInfo by) GetBalance()
-            => _periodOperations.GetBalance();
+        internal (double amount, PairInfo by) ComputeBalance()
+            => _periodOperations.ComputeBalance();
     }
 }

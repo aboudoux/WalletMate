@@ -1,4 +1,5 @@
-﻿using CoupleExpenses.Domain.Common;
+﻿using System.Linq;
+using CoupleExpenses.Domain.Common;
 using CoupleExpenses.Domain.Common.Events;
 using CoupleExpenses.Domain.Periods.Events;
 using CoupleExpenses.Domain.Periods.Events.Structures;
@@ -18,6 +19,7 @@ namespace CoupleExpenses.Domain.Periods
             AddPlayer<LabelChanged>(e => _state.Handle(e));
             AddPlayer<PairChanged>(e => _state.Handle(e));
             AddPlayer<RecipeAdded>(e=>_state.Handle(e));
+            AddPlayer<RecipeRemoved>(e=>_state.Handle(e));
             AddPlayer<SpendingOperationTypeChanged>(e => _state.Handle(e));
             AddPlayer<RecipeOperationTypeChanged>(e => _state.Handle(e));
             HydrateFrom(history);
@@ -38,13 +40,23 @@ namespace CoupleExpenses.Domain.Periods
             SpendingOperationType operationType = null)
         {
             ChangeOperation(operationId, amount, label, pair, operationType);
-            RaiseBalanceChanged();
+            if (UncommitedEventsHaveDifferentEventThatLabelChanged())
+                RaiseBalanceChanged();
         }
 
-        public void RemoveSpending(OperationId operationId)
+        private bool UncommitedEventsHaveDifferentEventThatLabelChanged()
+            => UncommittedEvents.GetStream().Any(a => a.GetType() != typeof(LabelChanged));
+
+
+        public void RemoveOperation(OperationId operationId)
         {
-            if(_state.OperationExists(operationId))
+            if (!_state.OperationExists(operationId)) return;
+
+            if (_state.IsSpendingOperation(operationId))
                 RaiseEvent(new SpendingRemoved(operationId.Value));
+            else
+                RaiseEvent(new RecipeRemoved(operationId.Value));
+            RaiseBalanceChanged();
         }
 
         public OperationId AddRecipe(Amount amount, Label label, Pair pair, RecipeOperationType operationType)
@@ -55,17 +67,12 @@ namespace CoupleExpenses.Domain.Periods
             return operationId;
         }
 
-        public void ChangeRecipe(OperationId operationId, Amount amount = null, Label label = null, Pair pair = null,
-            RecipeOperationType operationType = null)
+        public void ChangeRecipe(OperationId operationId, Amount amount = null, Label label = null, Pair pair = null, RecipeOperationType operationType = null)
         {
             ChangeOperation(operationId, amount, label, pair, operationType);
-            RaiseBalanceChanged();
-        }
 
-        public void RemoveRecipe(OperationId operationId)
-        {
-            if (_state.OperationExists(operationId))
-                RaiseEvent(new RecipeRemoved(operationId.Value));
+            if(UncommitedEventsHaveDifferentEventThatLabelChanged())
+                RaiseBalanceChanged();            
         }
 
         private void ChangeOperation(OperationId operationId, Amount amount, Label label, Pair pair, SpendingOperationType operationType)
@@ -94,7 +101,7 @@ namespace CoupleExpenses.Domain.Periods
 
         private void RaiseBalanceChanged()
         {
-            var balance = _state.GetBalance();
+            var balance = _state.ComputeBalance();
             RaiseEvent(new PeriodBalanceChanged(balance.amount, balance.by));
         }
     }

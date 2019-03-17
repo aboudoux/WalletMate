@@ -13,35 +13,51 @@ namespace CoupleExpenses.Domain.Tests.Steps {
         private Period _period;
 
         [Given(@"Une période est créée")]
-        public void GivenUnePeriodeEstCreee() 
+        public void GivenUnePeriodeEstCreee()
         {
-            _period = Period.Create(PeriodName.From(3,2019));
+            _period = Period.Create(PeriodName.From(3, 2019));
         }
 
         [When(@"J'ajoute à la période les dépenses suivantes")]
         [Given(@"j'y ai ajouté les dépenses suivantes")]
-        public void WhenJAjouteALaPeriodeLesDepensesSuivantes((Amount amount, Label label, Pair pair, SpendingOperationType operationType)[] operations) 
+        public void WhenJAjouteALaPeriodeLesDepensesSuivantes(
+            (Amount amount, Label label, Pair pair, SpendingOperationType operationType)[] operations)
         {
             operations.ForEach(e => _period.AddSpending(e.amount, e.label, e.pair, e.operationType));
         }
 
         [When(@"J'ajoute à la période les recettes suivantes")]
         [Given(@"j'y ai ajouté les recettes suivantes")]
-        public void WhenJAjouteALaPeriodeLesRecettesSuivantes((Amount amount, Label label, Pair pair, RecipeOperationType operationType)[] operations)
+        public void WhenJAjouteALaPeriodeLesRecettesSuivantes(
+            (Amount amount, Label label, Pair pair, RecipeOperationType operationType)[] operations)
         {
             operations.ForEach(e => _period.AddRecipe(e.amount, e.label, e.pair, e.operationType));
         }
 
-        [When(@"je modifie le montant le l'operation (.*) en (.*) euros")]
+        [When(@"je modifie le montant de l'operation (.*) en (.*) euros")]
         public void WhenJeModifieLeMontnantLeLOperationEnEuros(OperationId operationId, Amount montant)
         {
             _period.ChangeSpending(operationId, montant);
         }
 
-        [When(@"je modifie le binome le l'operation (.*) en (.*)")]
+        [When(@"je modifie le binome de l'operation (.*) en (.*)")]
         public void WhenJeModifieLeBinomeLeLOperationEnMarie(OperationId operationId, Pair binome)
         {
-            _period.ChangeSpending(operationId, pair:binome);
+            _period.ChangeSpending(operationId, pair: binome);
+        }
+
+        [When(@"je supprime l'opération (.*)")]
+        public void WhenJeSupprimeLOperation(OperationId operationId)
+        {
+            _period.RemoveOperation(operationId);
+        }
+
+
+        [When(@"je modifie le type de l'operation (.*) en (.*)")]
+        public void WhenJeModifieLeTypeDeLOperationEnCommun(OperationId operationId,
+            SpendingOperationType spendingOperationType)
+        {
+            _period.ChangeSpending(operationId, operationType: spendingOperationType);
         }
 
         [Then(@"le binome (.*) doit la somme de (.*) euros")]
@@ -53,8 +69,9 @@ namespace CoupleExpenses.Domain.Tests.Steps {
         }
 
         [StepArgumentTransformation]
-        private static (Amount amount, Label label, Pair pair, SpendingOperationType operationType)[] ToSpendingOperations(
-            Table table)
+        private static (Amount amount, Label label, Pair pair, SpendingOperationType operationType)[]
+            ToSpendingOperations(
+                Table table)
             => table.Rows.Select(row => (
                     Amount.From(double.Parse(row["Montant"])),
                     Label.From(row["Libelle"]),
@@ -74,8 +91,8 @@ namespace CoupleExpenses.Domain.Tests.Steps {
 
         [StepArgumentTransformation]
         private static PairInfo ToPairInfo(string source)
-            => source == "Aurelien" 
-                ? PairInfo.Aurelien 
+            => source == "Aurelien"
+                ? PairInfo.Aurelien
                 : PairInfo.Marie;
 
         [StepArgumentTransformation]
@@ -91,5 +108,11 @@ namespace CoupleExpenses.Domain.Tests.Steps {
         [StepArgumentTransformation]
         private static Amount ToAmount(string source)
             => Amount.From(double.Parse(source));
+
+        [StepArgumentTransformation]
+        private static SpendingOperationType ToSpendingOperationType(string source)
+            => source == "Commun"
+                ? SpendingOperationType.Common
+                : SpendingOperationType.Advance;
     }
 }

@@ -51,7 +51,7 @@ Scenario: Recalcul de la somme due lors d'une modification de montant
     | 100     | Courses | Aurelien | Partielle |
     | 200     | Pret    | Aurelien | Totale    |
     | 50      | Cadeaux | Marie    | Totale    |
-	When je modifie le montant le l'operation 1 en 100 euros
+	When je modifie le montant de l'operation 1 en 100 euros
 	Then le binome Aurelien doit la somme de 300 euros
 
 Scenario: Recalcul de la somme due lors d'une modification de binome
@@ -66,8 +66,50 @@ Scenario: Recalcul de la somme due lors d'une modification de binome
     | 100     | Courses | Aurelien | Partielle |
     | 200     | Pret    | Aurelien | Totale    |
     | 50      | Cadeaux | Marie    | Totale    |
-	When je modifie le binome le l'operation 1 en Marie
+	When je modifie le binome de l'operation 1 en Marie
 	Then le binome Aurelien doit la somme de 600 euros
 
-#Scenario: Recalcul de la somme due lors d'une modification de type
+Scenario: Recalcul de la somme due lors d'une modification de type
+	Given Une période est créée	
+	And j'y ai ajouté les dépenses suivantes
+	| Montant | Libelle | Binome   | Type   |
+    | 200     | Pret    | Aurelien | Avance |
+    | 50      | Cadeaux | Marie    | Avance |
+    | 300     | Leclerc | Marie    | Commun |
+	And j'y ai ajouté les recettes suivantes
+	| Montant | Libelle | Binome   | Type      |
+    | 100     | Courses | Aurelien | Partielle |
+    | 200     | Pret    | Aurelien | Totale    |
+    | 50      | Cadeaux | Marie    | Totale    |
+	When je modifie le type de l'operation 1 en Commun
+	Then le binome Aurelien doit la somme de 300 euros
 
+Scenario: Recalcul de la somme due lors de la suppression d'une dépense
+	Given Une période est créée	
+	And j'y ai ajouté les dépenses suivantes
+	| Montant | Libelle | Binome   | Type   |
+    | 200     | Pret    | Aurelien | Avance |
+    | 50      | Cadeaux | Marie    | Avance |
+    | 300     | Leclerc | Marie    | Commun |
+	And j'y ai ajouté les recettes suivantes
+	| Montant | Libelle | Binome   | Type      |
+    | 100     | Courses | Aurelien | Partielle |
+    | 200     | Pret    | Aurelien | Totale    |
+    | 50      | Cadeaux | Marie    | Totale    |
+	When je supprime l'opération 2
+	Then le binome Aurelien doit la somme de 150 euros
+
+Scenario: Recalcul de la somme due lors de la suppression d'une recette
+Given Une période est créée	
+	And j'y ai ajouté les dépenses suivantes
+	| Montant | Libelle | Binome   | Type   |
+    | 200     | Pret    | Aurelien | Avance |
+    | 50      | Cadeaux | Marie    | Avance |
+    | 300     | Leclerc | Marie    | Commun |
+	And j'y ai ajouté les recettes suivantes
+	| Montant | Libelle | Binome   | Type      |
+    | 100     | Courses | Aurelien | Partielle |
+    | 200     | Pret    | Aurelien | Totale    |
+    | 50      | Cadeaux | Marie    | Totale    |
+	When je supprime l'opération 4
+	Then le binome Aurelien doit la somme de 150 euros

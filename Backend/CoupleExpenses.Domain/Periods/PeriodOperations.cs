@@ -21,6 +21,7 @@ namespace CoupleExpenses.Domain.Periods
         internal void Process(RecipeAdded @event) => _allOperations.Add(@event.OperationId, new OperationDto(@event));
 
         internal void Process(SpendingRemoved @event) => _allOperations.Remove(@event.OperationId);
+        internal void Process(RecipeRemoved @event) => _allOperations.Remove(@event.OperationId);
 
         internal bool LabelNotEquals(int operationId, string newLabel) => _allOperations[operationId].Label != newLabel;
         internal bool AmountNotEquals(int operationId, double newAmount) => Math.Abs(_allOperations[operationId].Amount - newAmount) > double.Epsilon;
@@ -29,7 +30,7 @@ namespace CoupleExpenses.Domain.Periods
 
         internal bool Exists(int operationId) => _allOperations.ContainsKey(operationId);
 
-        internal (double amount, PairInfo by) GetBalance()
+        internal (double amount, PairInfo by) ComputeBalance()
         {
             var totalSpending = _allOperations.Values
                 .Where(a => a.IsSpending)
@@ -67,6 +68,9 @@ namespace CoupleExpenses.Domain.Periods
             
             return (Math.Abs(amountDue), amountDue < 0 ? PairInfo.Aurelien : PairInfo.Marie);
         }
+
+        public bool IsSpendingOperation(int operationIdValue) => _allOperations[operationIdValue].IsSpending;
+
     }
 
     public sealed class OperationDto
