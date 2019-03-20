@@ -9,7 +9,7 @@ namespace CoupleExpenses.Domain.Tests
         [Fact]        
         public void ReturnPairNameForAurelien()
         {
-            Pair.Aurelien.ToString().Should().Be("Aurelien");
+            Pair.Aurelien.ToString().Should().Be("Aurélien");
         }
 
         [Fact]

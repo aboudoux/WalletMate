@@ -4,7 +4,8 @@ using CoupleExpenses.Domain.Common.Events;
 using CoupleExpenses.Domain.Common.Exceptions;
 
 namespace CoupleExpenses.Domain.Common {
-    public abstract class AggregateRoot<TState> where TState : AggregateState, new()
+    public abstract class AggregateRoot<TState> : IAggregateRoot
+        where TState : AggregateState, new()
     {
         protected readonly TState State = new TState();
         public string AggregateId { get; protected set; }

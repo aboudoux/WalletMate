@@ -6,10 +6,15 @@ namespace CoupleExpenses.Domain.Common.ValueObjects
         where T : class 
     {
         protected PositiveDoubleValueObject(double value) {
-            if (value <= 0)
+            if (value < 0)
                 throw new NegativeNumberException(typeof(T));
             Value = value;
         }
+
+        protected PositiveDoubleValueObject(double value, bool deserialization) {         
+            Value = value;
+        }
+
 
         public static T From(double value)
             => CreatePrivateInstance<T>(value);

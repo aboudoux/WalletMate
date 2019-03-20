@@ -1,4 +1,5 @@
 ﻿using CoupleExpenses.Domain.Common.ValueObjects.Exceptions;
+using Newtonsoft.Json;
 
 namespace CoupleExpenses.Domain.Common.ValueObjects
 {
@@ -9,6 +10,11 @@ namespace CoupleExpenses.Domain.Common.ValueObjects
         {
             if(value <= 0)
                 throw new NegativeNumberException(typeof(T));
+            Value = value;
+        }
+
+        protected PositiveNumberValueObject(int value, bool _)
+        {
             Value = value;
         }
 

@@ -1,11 +1,13 @@
 ﻿using CoupleExpenses.Domain.Common.Events;
 using CoupleExpenses.Domain.Periods.Events.Structures;
+using CoupleExpenses.Domain.Periods.ValueObjects;
 
 namespace CoupleExpenses.Domain.Periods.Events
 {
+    [SerializableTypeIdentifier("64f7b8db-0f8d-45d4-a29e-2a1278bdef33")]
     public sealed class RecipeAdded : DomainEvent, IOperation 
     {
-        public RecipeAdded(int operationId, double amount, string label, PairInfo pair, RecipeOperationTypeInfo type)
+        public RecipeAdded(OperationId operationId, Amount amount, Label label, Pair pair, RecipeOperationType type)
         {
             Pair = pair;
             Label = label;
@@ -14,10 +16,10 @@ namespace CoupleExpenses.Domain.Periods.Events
             OperationId = operationId;
         }
 
-        public int OperationId { get; }
-        public PairInfo Pair { get; }
-        public string Label { get; }
-        public double Amount { get; }
-        public RecipeOperationTypeInfo Type { get; }
+        public OperationId OperationId { get; }
+        public Pair Pair { get; }
+        public Label Label { get; }
+        public Amount Amount { get; }
+        public RecipeOperationType Type { get; }
     }
 }

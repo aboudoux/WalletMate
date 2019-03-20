@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 
 namespace CoupleExpenses.Domain.Common.Events
 {

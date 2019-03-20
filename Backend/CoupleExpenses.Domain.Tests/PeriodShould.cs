@@ -1,7 +1,6 @@
 using System.Linq;
 using CoupleExpenses.Domain.Periods;
 using CoupleExpenses.Domain.Periods.Events;
-using CoupleExpenses.Domain.Periods.Events.Structures;
 using CoupleExpenses.Domain.Periods.ValueObjects;
 using FluentAssertions;
 using Xunit;
@@ -29,7 +28,7 @@ namespace CoupleExpenses.Domain.Tests
 
             period.UncommittedEvents.GetStream().Should()
                 .ContainEquivalentOf(
-                    new SpendingAdded(1, 10, "Test spending", PairInfo.Aurelien, SpendingOperationTypeInfo.Common), 
+                    new SpendingAdded(OperationId.From(1), Amount.From(10), Label.From("Test spending"), Pair.Aurelien, SpendingOperationType.Common), 
                     e => e.Excluding(a=>a.AggregateId).Excluding(a=>a.Sequence));
         }
 
@@ -43,7 +42,7 @@ namespace CoupleExpenses.Domain.Tests
             period.RemoveOperation(OperationId.From(1));
 
             period.UncommittedEvents.GetStream().Should()
-                .ContainEquivalentOf(new SpendingRemoved(1),
+                .ContainEquivalentOf(new SpendingRemoved(OperationId.From(1)),
                 e => e.Excluding(a => a.AggregateId).Excluding(a => a.Sequence));
         }
 
@@ -69,7 +68,7 @@ namespace CoupleExpenses.Domain.Tests
 
             period.UncommittedEvents.GetStream()
                 .OfType<SpendingAdded>()
-                .Select(a => a.OperationId)
+                .Select(a => a.OperationId.Value)
                 .OrderBy(a => a)
                 .ToList().Should().ContainInOrder(1, 2, 3, 4, 5, 6, 7, 8, 9);
         }
@@ -86,7 +85,7 @@ namespace CoupleExpenses.Domain.Tests
             period.AddSpending(Amount.From(10),Label.From("test"), Pair.Aurelien, SpendingOperationType.Advance);
 
             period.UncommittedEvents.GetStream().Should()
-                .ContainEquivalentOf(new SpendingAdded(5, 10, "test", PairInfo.Aurelien, SpendingOperationTypeInfo.Advance),
+                .ContainEquivalentOf(new SpendingAdded(OperationId.From(5), Amount.From(10), Label.From("test"), Pair.Aurelien, SpendingOperationType.Advance),
                     e=>e.Excluding(a=>a.AggregateId).Excluding(a=>a.Sequence) );
         }
 
@@ -158,7 +157,7 @@ namespace CoupleExpenses.Domain.Tests
             period.AddRecipe(Amount.From(100), Label.From("test"), Pair.Aurelien, RecipeOperationType.Common);
 
             period.UncommittedEvents.GetStream().Should().HaveCount(3).And
-                .ContainEquivalentOf(new RecipeAdded(1, 100, "test", PairInfo.Aurelien, RecipeOperationTypeInfo.Common),
+                .ContainEquivalentOf(new RecipeAdded(OperationId.From(1), Amount.From(100), Label.From("test"), Pair.Aurelien, RecipeOperationType.Common),
                     e => e.Excluding(a => a.AggregateId).Excluding(a => a.Sequence));
         }
 
@@ -172,14 +171,14 @@ namespace CoupleExpenses.Domain.Tests
             period.RemoveOperation(OperationId.From(1));
 
             period.UncommittedEvents.GetStream().Should().HaveCount(2).And
-                .ContainEquivalentOf(new RecipeRemoved(1),
+                .ContainEquivalentOf(new RecipeRemoved(OperationId.From(1)),
                     e => e.Excluding(a => a.AggregateId).Excluding(a => a.Sequence));
         }
                 
         
         private static Period ChangeSpendingInfo(Amount amount = null, Label label = null, Pair pair = null, SpendingOperationType operationType = null)
         {
-            var period = Some.Period(p => p.WithEvent(new SpendingAdded(1, 10, "test", PairInfo.Aurelien, SpendingOperationTypeInfo.Advance)));
+            var period = Some.Period(p => p.WithEvent(new SpendingAdded(OperationId.From(1), Amount.From(10), Label.From("test"), Pair.Aurelien, SpendingOperationType.Advance)));
             MakeChanges(period, amount, label, pair, operationType);
             return period;
         }

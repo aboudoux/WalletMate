@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace CoupleExpenses.Domain.Common 
 {
@@ -14,6 +15,15 @@ namespace CoupleExpenses.Domain.Common
             {
                 action(element);
             }
+        }
+
+        public static async Task ForEachAsync<T>(this IEnumerable<T> source, Func<T, Task> action) 
+        {
+            if (source == default) 
+                return;            
+
+            foreach (var element in source) 
+                await action(element);            
         }
     }
 }

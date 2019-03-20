@@ -11,32 +11,32 @@ namespace CoupleExpenses.Domain.Periods
     {
         private readonly Dictionary<int, OperationDto> _allOperations = new Dictionary<int, OperationDto>();
 
-        internal void Process(SpendingAdded @event) => _allOperations.Add(@event.OperationId, new OperationDto(@event));
+        internal void Process(SpendingAdded @event) => _allOperations.Add(@event.OperationId.Value, new OperationDto(@event));
         internal void Process(AmountChanged @event) => _allOperations[@event.OperationId].Amount = @event.Amount;
         internal void Process(LabelChanged @event) => _allOperations[@event.OperationId].Label = @event.Label;
-        internal void Process(PairChanged @event) => _allOperations[@event.OperationId].Pair = (PairInfo)@event.Pair;
+        internal void Process(PairChanged @event) => _allOperations[@event.OperationId.Value].Pair = @event.Pair.Value;
         internal void Process(SpendingOperationTypeChanged @event) => _allOperations[@event.OperationId].OperationType = @event.OperationType;
-        internal void Process(RecipeOperationTypeChanged @event) => _allOperations[@event.OperationId].OperationType = @event.OperationType;
+        internal void Process(RecipeOperationTypeChanged @event) => _allOperations[@event.OperationId.Value].OperationType = @event.OperationType.Value;
 
-        internal void Process(RecipeAdded @event) => _allOperations.Add(@event.OperationId, new OperationDto(@event));
+        internal void Process(RecipeAdded @event) => _allOperations.Add(@event.OperationId.Value, new OperationDto(@event));
 
-        internal void Process(SpendingRemoved @event) => _allOperations.Remove(@event.OperationId);
-        internal void Process(RecipeRemoved @event) => _allOperations.Remove(@event.OperationId);
+        internal void Process(SpendingRemoved @event) => _allOperations.Remove(@event.OperationId.Value);
+        internal void Process(RecipeRemoved @event) => _allOperations.Remove(@event.OperationId.Value);
 
         internal bool LabelNotEquals(int operationId, string newLabel) => _allOperations[operationId].Label != newLabel;
         internal bool AmountNotEquals(int operationId, double newAmount) => Math.Abs(_allOperations[operationId].Amount - newAmount) > double.Epsilon;
-        internal bool PairNotEquals(int operationId, PairInfo pairInfo) => _allOperations[operationId].Pair != pairInfo;
+        internal bool PairNotEquals(int operationId, Pair pairInfo) => _allOperations[operationId].Pair != pairInfo.Value;
         internal bool OperationTypeNotEquals(int operationId, int operationType) => _allOperations[operationId].OperationType != operationType;
 
         internal bool Exists(int operationId) => _allOperations.ContainsKey(operationId);
 
-        internal (double amount, PairInfo by) ComputeBalance()
+        internal (Amount amount, Pair by) ComputeBalance()
         {
             var totalSpending = _allOperations.Values
                 .Where(a => a.IsSpending)
                 .Select(a => new
                 {
-                    Amount = a.OperationType == (int) SpendingOperationTypeInfo.Advance
+                    Amount = a.OperationType == SpendingOperationType.Advance.Value
                         ? a.Amount
                         : a.Amount / 2,
                     By = a.Pair
@@ -49,7 +49,7 @@ namespace CoupleExpenses.Domain.Periods
                 .Where(a => !a.IsSpending)
                 .Select(a => new
                 {
-                    Amount = a.OperationType == (int)RecipeOperationTypeInfo.Individual
+                    Amount = a.OperationType == RecipeOperationType.Individual.Value
                         ? a.Amount
                         : a.Amount / 2,
                     By = a.Pair
@@ -58,15 +58,15 @@ namespace CoupleExpenses.Domain.Periods
                     (key, g) => new { Amount = g.Sum(), By = key })
                 .ToList();
 
-            var amountSpendingMarie = totalSpending.FirstOrDefault(a => a.By == PairInfo.Marie)?.Amount ?? 0;
-            var amountSpendingAurelien = totalSpending.FirstOrDefault(a => a.By == PairInfo.Aurelien)?.Amount ?? 0;
+            var amountSpendingMarie = totalSpending.FirstOrDefault(a => a.By == Pair.Marie.Value)?.Amount ?? 0;
+            var amountSpendingAurelien = totalSpending.FirstOrDefault(a => a.By == Pair.Aurelien.Value)?.Amount ?? 0;
 
-            var amountRecipeMarie = totalRecipe.FirstOrDefault(a => a.By == PairInfo.Marie)?.Amount ?? 0;
-            var amountRecipeAurelien = totalRecipe.FirstOrDefault(a => a.By == PairInfo.Aurelien)?.Amount ?? 0;
+            var amountRecipeMarie = totalRecipe.FirstOrDefault(a => a.By == Pair.Marie.Value)?.Amount ?? 0;
+            var amountRecipeAurelien = totalRecipe.FirstOrDefault(a => a.By == Pair.Aurelien.Value)?.Amount ?? 0;
 
             var amountDue = (amountSpendingAurelien+amountRecipeMarie) - (amountSpendingMarie+amountRecipeAurelien);
             
-            return (Math.Abs(amountDue), amountDue < 0 ? PairInfo.Aurelien : PairInfo.Marie);
+            return (Amount.From(Math.Abs(amountDue)), amountDue < 0 ? Pair.Aurelien : Pair.Marie);
         }
 
         public bool IsSpendingOperation(int operationIdValue) => _allOperations[operationIdValue].IsSpending;
@@ -77,20 +77,20 @@ namespace CoupleExpenses.Domain.Periods
     {
        public OperationDto(SpendingAdded @event)
         {
-            OperationId = @event.OperationId;
-            Label = @event.Label;
-            Amount = @event.Amount;
-            Pair = @event.Pair;
-            OperationType = (int)@event.Type;
+            OperationId = @event.OperationId.Value;
+            Label = @event.Label.Value;
+            Amount = @event.Amount.Value;
+            Pair = @event.Pair.Value;
+            OperationType = @event.Type.Value;
             IsSpending = true;
         }
 
         public OperationDto(RecipeAdded @event) {
-            OperationId = @event.OperationId;
+            OperationId = @event.OperationId.Value;
             Label = @event.Label;
-            Amount = @event.Amount;
-            Pair = @event.Pair;
-            OperationType = (int)@event.Type;
+            Amount = @event.Amount.Value;
+            Pair = @event.Pair.Value;
+            OperationType = @event.Type.Value;
             IsSpending = false;
         }
 
@@ -99,7 +99,7 @@ namespace CoupleExpenses.Domain.Periods
         public int OperationId { get; set; }
         public string Label { get; set; }
         public double Amount { get; set; }
-        public PairInfo Pair { get; set; }
+        public int Pair { get; set; }
         public int OperationType { get; set; }        
     }
 }

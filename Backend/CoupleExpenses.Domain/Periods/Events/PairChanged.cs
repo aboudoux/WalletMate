@@ -3,14 +3,15 @@ using CoupleExpenses.Domain.Periods.ValueObjects;
 
 namespace CoupleExpenses.Domain.Periods.Events
 {
+    [SerializableTypeIdentifier("22aa52ed-4ae3-4f39-9e30-ca3b9a921129")]
     public sealed class PairChanged : DomainEvent
     {
         public PairChanged(OperationId operationId, Pair pair)
         {
-            OperationId = operationId.Value;
-            Pair = pair.Value;
+            OperationId = operationId;
+            Pair = pair;
         }
-        public int OperationId { get; }
-        public int Pair { get; }
+        public OperationId OperationId { get; }
+        public Pair Pair { get; }
     }
 }

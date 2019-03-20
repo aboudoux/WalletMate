@@ -61,7 +61,7 @@ namespace CoupleExpenses.Domain.Tests.Steps {
         }
 
         [Then(@"le binome (.*) doit la somme de (.*) euros")]
-        public void ThenLeBinomeMarieDoitLaSommeDeEuros(PairInfo binome, double montant)
+        public void ThenLeBinomeMarieDoitLaSommeDeEuros(Pair binome, Amount montant)
         {
             var balance = _period.UncommittedEvents.GetStream().OfType<PeriodBalanceChanged>().Last();
             balance.AmountDue.Should().Be(montant);
@@ -86,12 +86,7 @@ namespace CoupleExpenses.Domain.Tests.Steps {
                     Pair.From(row["Binome"] == "Aurelien" ? 1 : 2),
                     RecipeOperationType.From(row["Type"] == "Commune" ? 1 : 2)))
                 .ToArray();
-
-        [StepArgumentTransformation]
-        private static PairInfo ToPairInfo(string source)
-            => source == "Aurelien"
-                ? PairInfo.Aurelien
-                : PairInfo.Marie;
+        
 
         [StepArgumentTransformation]
         private static Pair ToPair(string source)

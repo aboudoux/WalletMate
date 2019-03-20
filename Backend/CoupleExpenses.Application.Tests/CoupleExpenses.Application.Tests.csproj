@@ -13,4 +13,8 @@
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\CoupleExpenses.Application\CoupleExpenses.Application.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -49,17 +49,17 @@ namespace CoupleExpenses.Domain.Periods
 
         private void UpdateOperationIdIfGreater(IOperation @event)
         {
-            if (@event.OperationId > _lastOperationId)
-                _lastOperationId = @event.OperationId;
+            if (@event.OperationId.Value > _lastOperationId)
+                _lastOperationId = @event.OperationId.Value;
         }
 
         internal bool LabelNotEqual(OperationId operationId, Label newLabel) => newLabel != null && _periodOperations.LabelNotEquals(operationId.Value, newLabel.Value);
         internal bool AmountNotEqual(OperationId operationId, Amount newAmount) => newAmount != null &&_periodOperations.AmountNotEquals(operationId.Value, newAmount.Value);
-        internal bool PairNotEquals(OperationId operationId, Pair newPair) => newPair != null && _periodOperations.PairNotEquals(operationId.Value, (PairInfo) newPair.Value);
+        internal bool PairNotEquals(OperationId operationId, Pair newPair) => newPair != null && _periodOperations.PairNotEquals(operationId.Value, newPair);
         internal bool OperationTypeNotEquals(OperationId operationId, SpendingOperationType operationType) => operationType != null && _periodOperations.OperationTypeNotEquals(operationId.Value, operationType.Value);
         internal bool OperationTypeNotEquals(OperationId operationId, RecipeOperationType operationType) => operationType != null && _periodOperations.OperationTypeNotEquals(operationId.Value, operationType.Value);
 
-        internal (double amount, PairInfo by) ComputeBalance()
+        internal (Amount amount, Pair by) ComputeBalance()
             => _periodOperations.ComputeBalance();
 
         public PeriodName PeriodName { get; private set; }

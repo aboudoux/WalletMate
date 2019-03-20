@@ -1,13 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using CoupleExpenses.Domain.Common.Events;
 using CoupleExpenses.Domain.Common.ValueObjects;
 using CoupleExpenses.Domain.Periods.ValueObjects.Exceptions;
+using Newtonsoft.Json;
 
 namespace CoupleExpenses.Domain.Periods.ValueObjects
 {
+    [SerializableTypeIdentifier("c2b71f60-121d-4167-8418-8a8e9153f185")]
     public class PeriodName : ValueObject<int, int>
-    {
+    {        
+        [JsonIgnore]
         public int Month => Value1;
+        [JsonIgnore]
         public int Year => Value2;
 
         private PeriodName(int month, int year)
@@ -18,6 +22,13 @@ namespace CoupleExpenses.Domain.Periods.ValueObjects
             if( year < 2000 || year > 9999)
                 throw new InvalidYearInPeriodNameException(year);
 
+            Value1 = month;
+            Value2 = year;
+        }
+
+        [JsonConstructor]
+        private PeriodName(int month, int year, bool _ = true)
+        {
             Value1 = month;
             Value2 = year;
         }

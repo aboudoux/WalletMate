@@ -1,11 +1,13 @@
 ﻿using CoupleExpenses.Domain.Common.Events;
 using CoupleExpenses.Domain.Periods.Events.Structures;
+using CoupleExpenses.Domain.Periods.ValueObjects;
 
 namespace CoupleExpenses.Domain.Periods.Events
 {
+    [SerializableTypeIdentifier("492915bb-e114-48d9-8551-844d834f21d8")]
     public sealed class SpendingAdded : DomainEvent, IOperation
     {
-        public SpendingAdded(int operationId, double amount, string label, PairInfo pair, SpendingOperationTypeInfo type)
+        public SpendingAdded(OperationId operationId, Amount amount, Label label, Pair pair, SpendingOperationType type)
         {
             Pair = pair;
             Label = label;
@@ -14,10 +16,10 @@ namespace CoupleExpenses.Domain.Periods.Events
             OperationId = operationId;
         }
 
-        public int OperationId { get; }
-        public PairInfo Pair { get;  } 
-        public string Label { get;  }
-        public double Amount { get;  }
-        public SpendingOperationTypeInfo Type { get;  } 
+        public OperationId OperationId { get; }
+        public Pair Pair { get;  } 
+        public Label Label { get;  }
+        public Amount Amount { get;  }
+        public SpendingOperationType Type { get;  } 
     }
 }

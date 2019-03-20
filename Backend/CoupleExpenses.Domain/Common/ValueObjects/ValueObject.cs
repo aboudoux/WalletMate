@@ -4,7 +4,8 @@ using System.Reflection;
 using CoupleExpenses.Domain.Common.Exceptions;
 
 namespace CoupleExpenses.Domain.Common.ValueObjects {
-    public abstract class ValueObject<TValue> : IEquatable<ValueObject<TValue>>, IValueObject {
+    public abstract class ValueObject<TValue> : IEquatable<ValueObject<TValue>>, IValueObject
+    {
         public TValue Value { get; protected set; }
 
         protected static T CreatePrivateInstance<T>(object param) where T : class {

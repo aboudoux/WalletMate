@@ -1,7 +1,9 @@
-﻿namespace CoupleExpenses.Domain.Periods.Events.Structures
+﻿using CoupleExpenses.Domain.Periods.ValueObjects;
+
+namespace CoupleExpenses.Domain.Periods.Events.Structures
 {
     public interface IOperation
     {
-        int OperationId { get; }
+        OperationId OperationId { get; }
     }
 }

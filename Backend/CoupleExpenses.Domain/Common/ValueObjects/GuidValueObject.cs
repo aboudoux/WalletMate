@@ -4,13 +4,16 @@ using CoupleExpenses.Domain.Common.ValueObjects.Exceptions;
 namespace CoupleExpenses.Domain.Common.ValueObjects
 {
     public abstract class GuidValueObject<T> : ValueObject<Guid>
-        where T : class {
+        where T : class 
+    {
         protected GuidValueObject(Guid value) {
             if (value == Guid.Empty)
                 throw new EmptyGuidException(typeof(T));
 
             Value = value;
         }
+
+        protected GuidValueObject(Guid value, bool _) => Value = value;
 
         public static T New()
             => From(Guid.NewGuid());

@@ -21,7 +21,7 @@ namespace CoupleExpenses.Domain.Periods
         public OperationId AddSpending(Amount amount, Label label, Pair pair, SpendingOperationType operationType)
         {
             var operationId = OperationId.From(State.GetNextOperationId());
-            RaiseEvent(new SpendingAdded(operationId.Value, amount.Value, label.Value, (PairInfo) pair.Value, (SpendingOperationTypeInfo) operationType.Value));
+            RaiseEvent(new SpendingAdded(operationId, amount, label, pair, operationType));
             RaiseBalanceChanged();
             return operationId;
         }
@@ -36,7 +36,7 @@ namespace CoupleExpenses.Domain.Periods
         public OperationId AddRecipe(Amount amount, Label label, Pair pair, RecipeOperationType operationType)
         {
             var operationId = OperationId.From(State.GetNextOperationId());
-            RaiseEvent(new RecipeAdded(operationId.Value, amount.Value, label.Value, (PairInfo) pair.Value, (RecipeOperationTypeInfo) operationType.Value));
+            RaiseEvent(new RecipeAdded(operationId, amount, label, pair, operationType));
             RaiseBalanceChanged();
             return operationId;
         }
@@ -54,9 +54,9 @@ namespace CoupleExpenses.Domain.Periods
             if (!State.OperationExists(operationId)) return;
 
             if (State.IsSpendingOperation(operationId))
-                RaiseEvent(new SpendingRemoved(operationId.Value));
+                RaiseEvent(new SpendingRemoved(operationId));
             else
-                RaiseEvent(new RecipeRemoved(operationId.Value));
+                RaiseEvent(new RecipeRemoved(operationId));
             RaiseBalanceChanged();
         }
 

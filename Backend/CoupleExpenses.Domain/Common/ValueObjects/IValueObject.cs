@@ -1,5 +1,8 @@
-﻿namespace CoupleExpenses.Domain.Common.ValueObjects
+﻿using CoupleExpenses.Domain.Common.Events;
+
+namespace CoupleExpenses.Domain.Common.ValueObjects
 {
-    public interface IValueObject {
+    public interface IValueObject : ISerializableType
+    {
     }
 }

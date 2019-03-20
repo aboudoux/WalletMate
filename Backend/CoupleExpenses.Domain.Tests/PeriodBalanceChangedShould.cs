@@ -15,7 +15,7 @@ namespace CoupleExpenses.Domain.Tests
             period.AddSpending(Amount.From(100), Label.From("Test depense"), Pair.Aurelien, SpendingOperationType.Common);
 
             period.UncommittedEvents.GetStream().Should()
-                .ContainEquivalentOf(new PeriodBalanceChanged(50, PairInfo.Marie), 
+                .ContainEquivalentOf(new PeriodBalanceChanged(Amount.From(50), Pair.Marie), 
                     e => e.Excluding(a=>a.AggregateId).Excluding(a=>a.Sequence));
         }        
     }
