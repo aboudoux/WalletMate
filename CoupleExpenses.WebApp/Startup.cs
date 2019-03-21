@@ -1,10 +1,16 @@
+using System;
+using Autofac;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Autofac.Extensions.DependencyInjection;
+using CoupleExpenses.Application.Core;
+using CoupleExpenses.Infrastructure;
+using Mediator.Net;
+using Mediator.Net.Autofac;
 
 namespace CoupleExpenses.WebApp
 {
@@ -18,7 +24,7 @@ namespace CoupleExpenses.WebApp
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
@@ -26,7 +32,9 @@ namespace CoupleExpenses.WebApp
             services.AddSpaStaticFiles(configuration =>
             {
                 configuration.RootPath = "ClientApp/build";
-            });
+            });            
+
+            return services.GetAutofacProvider();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

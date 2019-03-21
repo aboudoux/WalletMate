@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using CoupleExpenses.Domain.Common;
 using CoupleExpenses.Domain.Common.Events;
@@ -14,12 +15,19 @@ namespace CoupleExpenses.Infrastructure
         private readonly string _eventStoreFileName;
         private readonly BackGroundWriter _backgroundWriter;
 
+        private string _defaultDatabase = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "database.es");
+
         private List<IDomainEvent> _cacheEvents = new List<IDomainEvent>();
 
-        public FileEventStoreWithCache(string filePath, ISerializer serializer)
+        public FileEventStoreWithCache(ISerializer serializer) 
+            : this(serializer, null)
         {
-            if(filePath.IsEmpty())
-                throw new ArgumentNullException(nameof(filePath));
+        }
+
+        public FileEventStoreWithCache(ISerializer serializer, string filePath = null)
+        {
+            if (filePath.IsEmpty())
+                filePath = _defaultDatabase;
             if(!Directory.Exists(Path.GetDirectoryName(filePath)))
                 throw new DirectoryNotFoundException(filePath);
 
@@ -56,9 +64,11 @@ namespace CoupleExpenses.Infrastructure
 
         public Task<int> GetLastSequence(string aggregateId)
         {
-            return Task.FromResult(
-                _cacheEvents.Where(@event => @event.AggregateId == aggregateId)
-                            .Max(e => e.Sequence));
+            var selectedEvents = _cacheEvents.Where(@event => @event.AggregateId == aggregateId).ToList();
+
+            return Task.FromResult(selectedEvents.Any()
+                ? selectedEvents.Max(e => e.Sequence)
+                : -1);
         }
 
         private class BackGroundWriter

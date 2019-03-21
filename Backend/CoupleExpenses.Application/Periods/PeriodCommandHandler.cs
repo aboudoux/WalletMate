@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using CoupleExpenses.Domain.Common.Events;
+using CoupleExpenses.Domain.Common.Exceptions;
 using CoupleExpenses.Domain.Periods;
 using CoupleExpenses.Domain.Periods.Events;
 using Mediator.Net.Context;
@@ -28,7 +29,16 @@ namespace CoupleExpenses.Application.Periods
         {
             var command = context.Message;
 
-            var periodCreator = await _eventBroker.GetAggregate<PeriodCreator>(a => a is PeriodCreated);
+            PeriodCreator periodCreator;
+
+            try
+            {
+                periodCreator = await _eventBroker.GetAggregate<PeriodCreator>(a => a is PeriodCreated);
+            }
+            catch (AggregateNotFoundException)
+            {
+                periodCreator = new PeriodCreator(History.Empty);
+            }
             
             var period = periodCreator.Create(command.PeriodName);
 

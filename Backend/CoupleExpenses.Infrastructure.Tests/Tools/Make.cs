@@ -1,4 +1,4 @@
-namespace CoupleExpenses.Infrastructure.Tests
+namespace CoupleExpenses.Infrastructure.Tests.Tools
 {
     public class Make
     {

@@ -1,10 +1,9 @@
 using System;
 using System.IO;
 using System.Reflection;
-using System.Threading;
 using System.Threading.Tasks;
 
-namespace CoupleExpenses.Infrastructure.Tests
+namespace CoupleExpenses.Infrastructure.Tests.Tools
 {
     public class TestEnvironment
     {

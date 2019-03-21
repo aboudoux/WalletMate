@@ -1,16 +1,17 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
+using CoupleExpenses.Application.Core;
 using Mediator.Net;
 using Mediator.Net.Contracts;
 
-namespace CoupleExpenses.Application.Core
+namespace CoupleExpenses.Infrastructure
 {
     public class MediatorCommandBus : ICommandBus
     {
         private readonly IMediator _mediator;
-        public MediatorCommandBus()
+        public MediatorCommandBus(IMediator mediator)
         {
-            var mediaBuilder = new MediatorBuilder();
-            _mediator = mediaBuilder.RegisterHandlers(typeof(MediatorCommandBus).Assembly).Build();
+            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
 
         public async Task SendAsync(ICommand command)

@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using CoupleExpenses.Domain.Periods;
 using CoupleExpenses.Domain.Periods.Events;
 using CoupleExpenses.Domain.Periods.ValueObjects;
+using CoupleExpenses.Infrastructure.Tests.Tools;
 using FluentAssertions;
 using Xunit;
 
@@ -15,7 +16,7 @@ namespace CoupleExpenses.Infrastructure.Tests
         {
             await Make.TestFile("period.es").AndExecute(async environment =>
             {
-                var store = new FileEventStoreWithCache(environment.FilePath, new CustomJsonSerializer());
+                var store = new FileEventStoreWithCache(new CustomJsonSerializer(), environment.FilePath);
                 
                 await store.Save(new PeriodCreated(PeriodName.From(1, 2017)));
 
@@ -29,7 +30,7 @@ namespace CoupleExpenses.Infrastructure.Tests
         {
             await Make.TestFile("SpendingAdded.es").AndExecute(async env =>
             {
-                var store = new FileEventStoreWithCache(env.FilePath, new CustomJsonSerializer());
+                var store = new FileEventStoreWithCache(new CustomJsonSerializer(), env.FilePath);
                 await store.Save(new SpendingAdded(OperationId.From(5), Amount.From(15.2), Label.From("this is a test"), Pair.Aurelien, SpendingOperationType.Advance));
                 var @event = await store.GetEvents(a => true);
                 @event.Last().Should().BeOfType<SpendingAdded>().Which.OperationId.Should().Be(OperationId.From(5));
@@ -41,7 +42,7 @@ namespace CoupleExpenses.Infrastructure.Tests
         {
             await Make.TestFile("Sequence.es").AndExecute(async env =>
             {
-                var store = new FileEventStoreWithCache(env.FilePath, new CustomJsonSerializer());
+                var store = new FileEventStoreWithCache(new CustomJsonSerializer(), env.FilePath);
                 
                 var period = Period.Create(PeriodName.From(1, 2007));
                 period.AddSpending(Amount.From(5), Label.From("test"), Pair.Aurelien, SpendingOperationType.Common);
@@ -61,7 +62,7 @@ namespace CoupleExpenses.Infrastructure.Tests
         {
             await Make.TestFile("MultiThread.es").AndExecute(async env =>
             {
-                var store = new FileEventStoreWithCache(env.FilePath, new CustomJsonSerializer());
+                var store = new FileEventStoreWithCache(new CustomJsonSerializer(), env.FilePath);
                 
                 var period = Period.Create(PeriodName.From(1, 2007));
                 period.AddSpending(Amount.From(5), Label.From("test"), Pair.Aurelien, SpendingOperationType.Common);
@@ -76,6 +77,17 @@ namespace CoupleExpenses.Infrastructure.Tests
 
                 var lastSequence = await store.GetLastSequence(period.AggregateId);
                 lastSequence.Should().Be(8);                
+            });
+        }
+
+        [Fact]
+        public async Task Return_sequence0_if_event_stream_is_empty()
+        {
+            await Make.TestFile("sequence0.es").AndExecute(async env => {
+                var store = new FileEventStoreWithCache(new CustomJsonSerializer(), env.FilePath);
+
+                var lastSequence = await store.GetLastSequence("test");
+                lastSequence.Should().Be(-1);
             });
         }
     }
