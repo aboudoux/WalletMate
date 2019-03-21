@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 namespace CoupleExpenses.Domain.Periods.ValueObjects
 {
-    [SerializableTypeIdentifier("0edd46cd-af7d-4936-8c7f-dcdef7a8ff81")]
+    [SerializableTypeIdentifier("Amount")]
     public class Amount : PositiveDoubleValueObject<Amount>
     {
         private Amount(double value) : base(value)

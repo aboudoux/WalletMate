@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 
 namespace CoupleExpenses.Domain.Periods.ValueObjects
 {
-    [SerializableTypeIdentifier("004aac27-3b35-4a62-9645-6e797cef3cd0")]
+    [SerializableTypeIdentifier("RecipeOperationType")]
     public class RecipeOperationType : PositiveNumberValueObject<RecipeOperationType> 
     {
         public static RecipeOperationType Common => new RecipeOperationType(1);

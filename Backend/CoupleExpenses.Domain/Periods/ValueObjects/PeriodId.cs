@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 
 namespace CoupleExpenses.Domain.Periods.ValueObjects
 {
-    [SerializableTypeIdentifier("8a187ae9-e23e-4c58-a8c0-fe74e779f23c")]
+    [SerializableTypeIdentifier("PeriodId")]
     public class PeriodId : GuidValueObject<PeriodId>
     {        
         private PeriodId(Guid value) : base(value)

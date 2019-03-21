@@ -4,7 +4,7 @@ using CoupleExpenses.Domain.Periods.ValueObjects;
 
 namespace CoupleExpenses.Domain.Periods.Events
 {
-    [SerializableTypeIdentifier("64f7b8db-0f8d-45d4-a29e-2a1278bdef33")]
+    [SerializableTypeIdentifier("RecipeAdded")]
     public sealed class RecipeAdded : DomainEvent, IOperation 
     {
         public RecipeAdded(OperationId operationId, Amount amount, Label label, Pair pair, RecipeOperationType type)

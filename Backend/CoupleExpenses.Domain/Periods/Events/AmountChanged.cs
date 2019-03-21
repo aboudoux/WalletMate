@@ -3,17 +3,17 @@ using CoupleExpenses.Domain.Periods.ValueObjects;
 
 namespace CoupleExpenses.Domain.Periods.Events
 {
-    [SerializableTypeIdentifier("c95047a7-5573-4a34-85da-363bac8db01e")]
+    [SerializableTypeIdentifier("AmountChanged")]
     public sealed class AmountChanged : DomainEvent
     {
         public AmountChanged(OperationId operationId, Amount amount) 
         {
-            OperationId = operationId.Value;
-            Amount = amount.Value;
+            OperationId = operationId;
+            Amount = amount;
         }
 
-        public int OperationId { get; }
+        public OperationId OperationId { get; }
 
-        public double Amount { get; }
+        public Amount Amount { get; }
     }
 }

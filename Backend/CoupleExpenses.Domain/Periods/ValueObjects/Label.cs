@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 
 namespace CoupleExpenses.Domain.Periods.ValueObjects
 {
-    [SerializableTypeIdentifier("c3af3828-62a8-4fa9-a8e5-eb3456e27073")]
+    [SerializableTypeIdentifier("Label")]
     public sealed class Label : StringValueObject<Label>
     {
         private Label(string value) : base(value)

@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 
 namespace CoupleExpenses.Domain.Periods.ValueObjects
 {
-    [SerializableTypeIdentifier("c2b71f60-121d-4167-8418-8a8e9153f185")]
+    [SerializableTypeIdentifier("PeriodName")]
     public class PeriodName : ValueObject<int, int>
     {        
         [JsonIgnore]
@@ -27,10 +27,10 @@ namespace CoupleExpenses.Domain.Periods.ValueObjects
         }
 
         [JsonConstructor]
-        private PeriodName(int month, int year, bool _ = true)
+        private PeriodName(int value1, int value2, bool _ = true)
         {
-            Value1 = month;
-            Value2 = year;
+            Value1 = value1;
+            Value2 = value2;
         }
 
         public static PeriodName From(int month, int year) 

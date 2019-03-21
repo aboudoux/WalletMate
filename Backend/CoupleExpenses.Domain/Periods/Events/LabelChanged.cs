@@ -3,16 +3,16 @@ using CoupleExpenses.Domain.Periods.ValueObjects;
 
 namespace CoupleExpenses.Domain.Periods.Events
 {
-    [SerializableTypeIdentifier("ef732ebb-fb81-472c-8e5b-dd1b91d94a09")]
+    [SerializableTypeIdentifier("LabelChanged")]
     public sealed class LabelChanged : DomainEvent
     {
         public LabelChanged(OperationId operationId, Label label)
         {
-            OperationId = operationId.Value;
+            OperationId = operationId;
             Label = label;
         }
 
-        public int OperationId { get; }
-        public string Label { get; }
+        public OperationId OperationId { get; }
+        public Label Label { get; }
     }
 }

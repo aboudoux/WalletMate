@@ -12,10 +12,10 @@ namespace CoupleExpenses.Domain.Periods
         private readonly Dictionary<int, OperationDto> _allOperations = new Dictionary<int, OperationDto>();
 
         internal void Process(SpendingAdded @event) => _allOperations.Add(@event.OperationId.Value, new OperationDto(@event));
-        internal void Process(AmountChanged @event) => _allOperations[@event.OperationId].Amount = @event.Amount;
-        internal void Process(LabelChanged @event) => _allOperations[@event.OperationId].Label = @event.Label;
+        internal void Process(AmountChanged @event) => _allOperations[@event.OperationId.Value].Amount = @event.Amount.Value;
+        internal void Process(LabelChanged @event) => _allOperations[@event.OperationId.Value].Label = @event.Label;
         internal void Process(PairChanged @event) => _allOperations[@event.OperationId.Value].Pair = @event.Pair.Value;
-        internal void Process(SpendingOperationTypeChanged @event) => _allOperations[@event.OperationId].OperationType = @event.OperationType;
+        internal void Process(SpendingOperationTypeChanged @event) => _allOperations[@event.OperationId.Value].OperationType = @event.OperationType.Value;
         internal void Process(RecipeOperationTypeChanged @event) => _allOperations[@event.OperationId.Value].OperationType = @event.OperationType.Value;
 
         internal void Process(RecipeAdded @event) => _allOperations.Add(@event.OperationId.Value, new OperationDto(@event));

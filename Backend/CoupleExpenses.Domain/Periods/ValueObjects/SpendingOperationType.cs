@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 
 namespace CoupleExpenses.Domain.Periods.ValueObjects
 {
-    [SerializableTypeIdentifier("76d99fb5-5bf6-4457-80db-60562c460c7a")]
+    [SerializableTypeIdentifier("SpendingOperationType")]
     public class SpendingOperationType : PositiveNumberValueObject<SpendingOperationType>
     {
         public static SpendingOperationType Common => new SpendingOperationType(1);

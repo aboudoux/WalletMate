@@ -9,7 +9,7 @@ namespace CoupleExpenses.Infrastructure
 {
     public class SerializableTypeBinder : ISerializationBinder 
     {
-        private readonly Dictionary<Guid, Type> _knownTypesDictionary;
+        private readonly Dictionary<string, Type> _knownTypesDictionary;
 
         public SerializableTypeBinder(params Assembly[] assembliesToScan)
         {
@@ -25,7 +25,7 @@ namespace CoupleExpenses.Infrastructure
         private IEnumerable<Type> ScanAssemblyForRegisterAllDomainEvents(Assembly assemblyToScan) 
             => assemblyToScan.GetAllConcreteTypeThatImplementInterface<ISerializableType>();
 
-        public Type BindToType(string assemblyName, string typeName) => _knownTypesDictionary[Guid.Parse(typeName)];
+        public Type BindToType(string assemblyName, string typeName) => _knownTypesDictionary[typeName];
 
         public void BindToName(Type serializedType, out string assemblyName, out string typeName)
         {

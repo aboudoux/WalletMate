@@ -1,11 +1,10 @@
 ﻿using CoupleExpenses.Domain.Common.Events;
 using CoupleExpenses.Domain.Common.ValueObjects;
-using CoupleExpenses.Domain.Periods.Events.Structures;
 using Newtonsoft.Json;
 
 namespace CoupleExpenses.Domain.Periods.ValueObjects
 {
-    [SerializableTypeIdentifier("04c05bc7-2cb4-4964-953a-35156fbce95c")]
+    [SerializableTypeIdentifier("Pair")]
     public sealed class Pair : PositiveNumberValueObject<Pair>
     {
         public static Pair Aurelien => new Pair(1);

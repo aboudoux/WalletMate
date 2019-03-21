@@ -2,7 +2,6 @@
 using CoupleExpenses.Domain.Common;
 using CoupleExpenses.Domain.Common.Events;
 using CoupleExpenses.Domain.Periods.Events;
-using CoupleExpenses.Domain.Periods.Events.Structures;
 using CoupleExpenses.Domain.Periods.ValueObjects;
 
 namespace CoupleExpenses.Domain.Periods 
@@ -59,7 +58,6 @@ namespace CoupleExpenses.Domain.Periods
                 RaiseEvent(new RecipeRemoved(operationId));
             RaiseBalanceChanged();
         }
-
 
 
         private bool UncommitedEventsHaveDifferentEventThatLabelChanged()

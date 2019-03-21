@@ -3,7 +3,7 @@ using CoupleExpenses.Domain.Periods.ValueObjects;
 
 namespace CoupleExpenses.Domain.Periods.Events
 {
-    [SerializableTypeIdentifier("603fdd6f-1abb-43bc-bcf2-0738d2ed8e2c")]
+    [SerializableTypeIdentifier("RecipeRemoved")]
     public sealed class RecipeRemoved : DomainEvent 
     {
         public RecipeRemoved(OperationId operationId) 
