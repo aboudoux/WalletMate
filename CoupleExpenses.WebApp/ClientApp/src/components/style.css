@@ -1,0 +1,26 @@
+﻿.login-box {  
+  box-shadow: 11px 21px 60px -8px rgba(0, 0, 0, 0.68);
+  padding: 30px;
+  margin: 100px;
+  border: #d6d6c2 solid;
+  border-radius: 15px;   
+}
+
+.login-box > h2 {
+  text-align: center;
+}
+
+.login-box > Button {
+  margin-right: 10px;
+  margin-left: 10px;
+  height: 100px;  
+}
+
+.cancel-validate {
+  display: flex;
+  justify-content: center;  
+}
+
+.cancel-validate > Button {
+  margin: 5px;
+}
