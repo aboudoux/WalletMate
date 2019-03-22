@@ -1,0 +1,16 @@
+﻿.root {
+  flex-grow:1;
+}
+
+.grow{
+  flex-grow: 1;
+}
+
+.menu-button{
+  margin-left: -12;
+  margin-right: 20;
+}
+
+.period-title:hover  {
+    background-color: ghostwhite;    
+}

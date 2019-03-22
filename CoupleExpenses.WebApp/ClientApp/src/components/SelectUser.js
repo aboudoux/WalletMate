@@ -3,28 +3,40 @@ import 'bootstrap/dist/css/bootstrap.css';
 import { Col, Button, Form, FormGroup,  Input,  } from 'reactstrap';
 import './style.css'
 import axios from 'axios';
+import crypto from 'crypto'
 
 
 
-export const SelectUser = ({dispatch}) => {
+export const SelectUser = ({onSelect}) => {
     return (
         <ShadowBox message="Qui êtes vous ?">
-            <Button outline color="primary" size="lg" block onClick={() => dispatch("Marie")}>
+            <Button outline color="primary" size="lg" block onClick={() => onSelect({ Username: 'Marie' })}>
                 Marie
             </Button>
-            <Button outline color="success" size="lg" block onClick={() => dispatch("Aurelien")}>
+            <Button outline color="success" size="lg" block onClick={() => onSelect({ Username: 'Aurelien' })}>
                 Aurélien
             </Button>
         </ShadowBox>
         );
 }
 
-export const SelectPassword = ({ username, dispatch }) => {
+export const SelectPassword = ({ username, onConnected }) => {
 
     function handleSubmit(event) {
         event.preventDefault();
-        const data = new FormData(event.target);        
-        axios.post("/api/Authentication/Login", { login:username, password: data.get('password') });
+
+        const data = new FormData(event.target);
+        const authenticationInfos = {
+            Username: username,
+            Password: crypto.createHash('sha1').update(data.get('password')).digest("hex")
+        };
+
+        axios.post("/api/Authentication/authenticate", authenticationInfos)
+            .then(res => {
+                onConnected(res.data);
+            }).catch((error) => {
+                alert(error.message);                
+            });
     }
 
     return (
@@ -36,7 +48,7 @@ export const SelectPassword = ({ username, dispatch }) => {
                     </Col>            
                 </FormGroup>
                 <FormGroup row className="cancel-validate">                                
-                    <Button color="danger" onClick={() => dispatch(null)}>Annuler</Button>
+                    <Button color="danger" onClick={() => onConnected(null)}>Annuler</Button>
                     <Button type="submit" color="success">Valider</Button>
                 
             </FormGroup>
@@ -45,15 +57,14 @@ export const SelectPassword = ({ username, dispatch }) => {
     );
 };
 
-class ShadowBox extends React.Component {
-    render() {
+const ShadowBox = ({ message, children }) => {
         return (
             <div className="login-box">
-                <h2>{this.props.message}</h2>
-                {this.props.children}
+                <h2>{message}</h2>
+                {children}
             </div>
         );
-    }
+
 }
 
 

@@ -1,16 +1,13 @@
 using System;
-using Autofac;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Autofac.Extensions.DependencyInjection;
-using CoupleExpenses.Application.Core;
 using CoupleExpenses.Infrastructure;
-using Mediator.Net;
-using Mediator.Net.Autofac;
+using CoupleExpenses.WebApp.Controllers;
+using Microsoft.AspNetCore.Authentication;
 
 namespace CoupleExpenses.WebApp
 {
@@ -18,7 +15,7 @@ namespace CoupleExpenses.WebApp
     {
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            Configuration = configuration;            
         }
 
         public IConfiguration Configuration { get; }
@@ -34,9 +31,16 @@ namespace CoupleExpenses.WebApp
                 configuration.RootPath = "clientapp/build";
             });            
 
-            return services.GetAutofacProvider();
-        }
+            /*services.AddAuthentication("BasicAuthentication")
+                .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
+            services.AddScoped<IUserService, UserService>();*/
 
+            services.AddAuthentication("GuidAuthentication")
+                .AddScheme<AuthenticationSchemeOptions, GuidAuthenticationHandler>("GuidAuthentication", null);
+            services.AddSingleton<IAuthorizationService, AuthorizationService>();
+
+            return services.GetAutofacProvider();
+        }        
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
@@ -55,6 +59,8 @@ namespace CoupleExpenses.WebApp
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
 
+            app.UseAuthentication();            
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
@@ -72,5 +78,5 @@ namespace CoupleExpenses.WebApp
                 }
             });
         }
-    }
+    }  
 }
