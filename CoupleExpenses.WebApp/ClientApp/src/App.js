@@ -9,7 +9,7 @@ const App = () => {
     return (
         connectedUser == null
             ? <SelectUser dispatch={dispatch} />
-            : <SelectPassword username={connectedUser} />
+            : <SelectPassword username={connectedUser} dispatch={dispatch} />
     );
 }
 

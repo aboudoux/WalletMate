@@ -59,7 +59,7 @@ namespace CoupleExpenses.WebApp
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller}/{action=Index}/{id?}");
+                    template: "api/{controller}/{action}");
             });
 
             app.UseSpa(spa =>

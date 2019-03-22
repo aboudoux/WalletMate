@@ -2,6 +2,7 @@
 import 'bootstrap/dist/css/bootstrap.css';
 import { Col, Button, Form, FormGroup,  Input,  } from 'reactstrap';
 import './style.css'
+import axios from 'axios';
 
 
 
@@ -18,18 +19,12 @@ export const SelectUser = ({dispatch}) => {
         );
 }
 
-export const SelectPassword = ({ username }) => {
+export const SelectPassword = ({ username, dispatch }) => {
 
     function handleSubmit(event) {
         event.preventDefault();
-        const data = new FormData(event.target);
-
-        alert('fetch !');
-
-        fetch('/api/form-submit-url', {
-            method: 'POST',
-            body: data,
-        });
+        const data = new FormData(event.target);        
+        axios.post("/api/Authentication/Login", { login:username, password: data.get('password') });
     }
 
     return (
@@ -41,8 +36,8 @@ export const SelectPassword = ({ username }) => {
                     </Col>            
                 </FormGroup>
                 <FormGroup row className="cancel-validate">                                
-                    <Button color="danger">Annuler</Button>
-                    <Button color="success">Valider</Button>
+                    <Button color="danger" onClick={() => dispatch(null)}>Annuler</Button>
+                    <Button type="submit" color="success">Valider</Button>
                 
             </FormGroup>
         </Form>
