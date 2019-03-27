@@ -30,9 +30,11 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
-import RestoreIcon from '@material-ui/icons/Restore';
-import FavoriteIcon from '@material-ui/icons/Favorite';
 import LocalAtmIcon from '@material-ui/icons/LocalAtm';
+import Input from '@material-ui/core/Input';
+import InputLabel from '@material-ui/core/InputLabel';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import FormControl from '@material-ui/core/FormControl';
 
 export const Dashboard = ({ dispatch }) => {
 
@@ -54,20 +56,18 @@ export const Dashboard = ({ dispatch }) => {
         <div>
             <MainMenu dispatch={dispatch} refreshDashboard={setInitialized} />
             {state.map((p) => <PeriodPanel periodName={p} isExpanded={false} dispatch={dispatch} />)}
-            <BottomNavigation
-                showLabels
-            >
-                <BottomNavigationAction label="Ajouter une dépense à la periode en cours" icon={<LocalAtmIcon color="secondary" />} onClick={() => { alert('coucou'); }} />
-                <BottomNavigationAction label="Ajouter une recette à la période en cours" icon={<LocalAtmIcon color="primary" />} />
-            </BottomNavigation>
+           
         </div>);
 }
 
 const PeriodPanel = ({ periodName, isExpanded, dispatch }) =>
 {
     const [expandState, onExpend] = useReducer((state) => !state, isExpanded);
+    const [isSpendingDialogOpen, openSpendingDialog] = useState(false);
 
     return (
+        <div>
+            <AddSpendingDialog openState={isSpendingDialogOpen} setOpenState={openSpendingDialog} />
         <ExpansionPanel expanded={expandState} >
             <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />} className="period-title" onClick={onExpend} >
                 <Grid container direction="row" spacing={16}>
@@ -86,10 +86,11 @@ const PeriodPanel = ({ periodName, isExpanded, dispatch }) =>
             <BottomNavigation                                
                 showLabels                
             >
-                <BottomNavigationAction label="Ajouter une dépense" icon={<LocalAtmIcon color="secondary" />} onClick={() => {alert('coucou');}} />
+                    <BottomNavigationAction label="Ajouter une dépense" icon={<LocalAtmIcon color="secondary" />} onClick={() => { openSpendingDialog(true);}} />
                 <BottomNavigationAction label="Ajouter une recette" icon={<LocalAtmIcon color="primary" />} />
             </BottomNavigation>
-        </ExpansionPanel>
+            </ExpansionPanel>
+            </div>
         );
 }
 
@@ -310,4 +311,38 @@ const CreatePeriodDialog = ({ openState, doAction, refreshDashboard }) =>
             </DialogActions>
         </Dialog>
         );
+}
+
+const AddSpendingDialog = ({openState, setOpenState}) => {
+    return (
+        <Dialog
+            open={openState}
+            aria-labelledby="form-dialog-title">
+            <DialogTitle id="form-dialog-title">Ajouter un dépense</DialogTitle>
+            <DialogContent>
+                <FormControl fullWidth>
+                    <InputLabel htmlFor="adornment-amount">Montant</InputLabel>
+                    <Input
+                        id="adornment-amount"
+                        startAdornment={<InputAdornment position="start">€</InputAdornment>}
+                    />
+                </FormControl>
+                <FormControl fullWidth>
+                    <InputLabel htmlFor="adornment-libelle">Libelle</InputLabel>
+                    <Input
+                        id="adornment-libelle"
+                    />
+                </FormControl>
+              
+            </DialogContent>
+            <DialogActions>
+                <Button color="primary" onClick={() => setOpenState(false)}>
+                    Annuler
+                    </Button>
+                <Button
+                    color="primary">
+                    Valider
+                    </Button>
+            </DialogActions>
+        </Dialog>);
 }
