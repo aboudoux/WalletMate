@@ -10,10 +10,10 @@ import crypto from 'crypto'
 export const SelectUser = ({onSelect}) => {
     return (
         <ShadowBox message="Qui êtes vous ?">
-            <Button outline color="primary" size="lg" block onClick={() => onSelect({ Username: 'Marie' })}>
+            <Button outline color="primary" size="lg" block onClick={() => onSelect({ username: 'Marie' })}>
                 Marie
             </Button>
-            <Button outline color="success" size="lg" block onClick={() => onSelect({ Username: 'Aurelien' })}>
+            <Button outline color="success" size="lg" block onClick={() => onSelect({ username: 'Aurelien' })}>
                 Aurélien
             </Button>
         </ShadowBox>

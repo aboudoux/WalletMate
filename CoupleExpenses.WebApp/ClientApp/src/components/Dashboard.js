@@ -1,4 +1,4 @@
-﻿import React, { useEffect, useState, useReducer } from 'react';
+﻿import React, { useState, useReducer } from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -18,8 +18,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
-import axios from 'axios';
-import { Buffer } from 'buffer'
+import { Get } from './Call';
 
 
 export const Dashboard = ({ dispatch }) => {
@@ -28,30 +27,26 @@ export const Dashboard = ({ dispatch }) => {
     const [state, refreshPeriod] = useState([]);  
 
     if (!initialized) {
-        axios.get("/api/Period/All", {
-                headers: {
-                    "Authorization": "Guid " + getAuthorizationTokenFromLocalStorage()
+        Get("/api/Period/All")        
+            .then(response => refreshPeriod(response.data))
+            .catch((error) => {
+                if (error.response.status === 401) {
+                    dispatch(null);
                 }
-            })
-            .then(response => refreshPeriod(response.data));
+            });
         setInitialized(true);
     }
     
     return (
         <div>
             <MainMenu dispatch={dispatch} />
-            {state.map((p) => <PeriodPanel periodName={p} isExpanded={false} />)}
+            {state.map((p) => <PeriodPanel periodName={p} isExpanded={false} dispatch={dispatch} />)}
 
         </div>);
 }
 
-const getAuthorizationTokenFromLocalStorage = () => {
-    var authInfo = JSON.parse(localStorage.getItem('connectedUser'));
-    return Buffer.from(`${authInfo.Username}:${authInfo.authKey}`).toString('base64');
-}
-
-const PeriodPanel = ({ periodName, isExpanded }) => {
-
+const PeriodPanel = ({ periodName, isExpanded, dispatch }) =>
+{
     const [expandState, onExpend] = useReducer((state) => !state, isExpanded);
 
     return (
@@ -67,13 +62,14 @@ const PeriodPanel = ({ periodName, isExpanded }) => {
                 </Grid>
             </ExpansionPanelSummary>
             <ExpansionPanelDetails>
-                <PeriodOperations expended={expandState} />
+                <PeriodOperations expended={expandState} dispatch={dispatch} />
             </ExpansionPanelDetails>
         </ExpansionPanel>
         );
 }
 
-const MainMenu = ({dispatch}) => {
+const MainMenu = ({ dispatch }) =>
+{
     return (
         <div className="root">
             <AppBar position="static">
@@ -91,16 +87,21 @@ const MainMenu = ({dispatch}) => {
     );
 };
 
-const PeriodOperations = ({ expended } ) => {
-
+const PeriodOperations = ({ expended, dispatch}) =>
+{
     const [rows, updateRows] = useState([]);
-    const [initialised, setInitialized] = useState(false)
+    const [initialised, setInitialized] = useState(false);
 
     if (!expended && initialised) {
         setInitialized(false);
     } else if (expended && !initialised) {
-        axios.get("/api/Period/Operations")
-            .then(response => updateRows(response.data));
+        Get("/api/Period/Operations")
+            .then(response => updateRows(response.data))
+            .catch((error) => {
+                if (error.response.status === 401) {
+                    dispatch(null);
+                }
+            });
         setInitialized(true);
     }
     
