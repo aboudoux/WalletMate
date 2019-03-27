@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using IAuthorizationService = CoupleExpenses.WebApp.Services.IAuthorizationService;
 
 namespace CoupleExpenses.WebApp.Controllers
 {

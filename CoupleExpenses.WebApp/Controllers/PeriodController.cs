@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using CoupleExpenses.Domain.Periods.ValueObjects;
+using CoupleExpenses.WebApp.Dtos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,10 +11,13 @@ namespace CoupleExpenses.WebApp.Controllers
     [Authorize]
     public class PeriodController : Controller
     {
+
+        private static List<string> _periods = new List<string>();
+
         [HttpGet("[action]")]
         public IEnumerable<string> All()
         {
-            return new List<string>() { "Mars 2019", "Avril 2019", "Mai 2019", "June 2019"};
+            return _periods;
         }
 
         [HttpGet("[action]")]
@@ -30,14 +34,18 @@ namespace CoupleExpenses.WebApp.Controllers
             };
         }
 
-    }
+        [HttpPost("[action]")]
+        public IActionResult CreateNext()
+        {
+            return Ok();
+        }
 
-    public class PeriodOperation 
-    {
-        public string Type {get; set;}
-        public string Pair{get; set;}           
-        public double Amount{get; set;}
-        public string Label{get; set;}
-        public string OperationType{get; set;}
+        [HttpPost("[action]")]
+        public IActionResult Create([FromBody]Period input)
+        {
+            var periodName = PeriodName.From(input.Month, input.Year);
+            _periods.Add(periodName.ToString());
+            return Ok();
+        }
     }
 }

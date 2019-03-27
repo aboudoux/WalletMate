@@ -14,3 +14,10 @@
 .period-title:hover  {
     background-color: ghostwhite;    
 }
+
+.paper {
+  position: absolute;
+  width: 50%;
+  background-color: whitesmoke;
+  outline: none;
+}

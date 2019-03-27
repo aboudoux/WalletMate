@@ -12,9 +12,10 @@ export const Get = (url) =>
         });
 }
 
-export const Post = (url, param) => {
+export const Post = (url, param) =>
+{
     return axios.post(url, param,
-        {
+        {            
             headers: {
                 "Authorization": "Guid " + getAuthorizationTokenFromLocalStorage()
             }

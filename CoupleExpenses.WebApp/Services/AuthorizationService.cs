@@ -4,8 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CoupleExpenses.WebApp.Controllers;
 
-namespace CoupleExpenses.WebApp.Controllers
+namespace CoupleExpenses.WebApp.Services
 {
     public class AuthorizationService : IAuthorizationService
     {

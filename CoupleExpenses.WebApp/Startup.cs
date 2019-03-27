@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using CoupleExpenses.Infrastructure;
 using CoupleExpenses.WebApp.Controllers;
+using CoupleExpenses.WebApp.Services;
 using Microsoft.AspNetCore.Authentication;
 
 namespace CoupleExpenses.WebApp
