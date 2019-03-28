@@ -1,7 +1,7 @@
-import React, { useReducer, useState } from 'react';
-import { SelectUser, SelectPassword } from './components/SelectUser';
-import { Dashboard } from './components/Dashboard';
-
+import React, { useReducer } from 'react';
+import SelectUser from './components/SelectUser';
+import SelectPassword from './components/SelectPassword';
+import Dashboard from './components/Dashboard';
 
 const App = () => {
 
