@@ -9,6 +9,7 @@ using CoupleExpenses.Infrastructure;
 using CoupleExpenses.WebApp.Controllers;
 using CoupleExpenses.WebApp.Services;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Http;
 
 namespace CoupleExpenses.WebApp
 {
@@ -38,7 +39,9 @@ namespace CoupleExpenses.WebApp
 
             services.AddAuthentication("GuidAuthentication")
                 .AddScheme<AuthenticationSchemeOptions, GuidAuthenticationHandler>("GuidAuthentication", null);
+
             services.AddSingleton<IAuthorizationService, AuthorizationService>();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             return services.GetAutofacProvider();
         }        

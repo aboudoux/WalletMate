@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
+using CoupleExpenses.Domain.Common;
 using CoupleExpenses.Domain.Periods.ValueObjects;
 using CoupleExpenses.WebApp.Dtos;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CoupleExpenses.WebApp.Controllers
@@ -11,7 +13,6 @@ namespace CoupleExpenses.WebApp.Controllers
     [Authorize]
     public class PeriodController : Controller
     {
-
         private static List<string> _periods = new List<string>();
 
         [HttpGet("[action]")]

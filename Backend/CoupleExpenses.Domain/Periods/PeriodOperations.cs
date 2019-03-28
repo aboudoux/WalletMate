@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using CoupleExpenses.Domain.Periods.Events;
-using CoupleExpenses.Domain.Periods.Events.Structures;
 using CoupleExpenses.Domain.Periods.ValueObjects;
 
 namespace CoupleExpenses.Domain.Periods
