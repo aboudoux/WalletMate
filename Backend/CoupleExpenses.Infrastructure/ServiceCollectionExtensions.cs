@@ -13,7 +13,7 @@ namespace CoupleExpenses.Infrastructure
         public static IServiceProvider GetAutofacProvider(this IServiceCollection services, Action<ContainerBuilder> extraConfiguration = null)
         {
             var mediaBuilder = new MediatorBuilder();            
-            mediaBuilder.RegisterHandlers(typeof(ICommandBus).Assembly);
+            mediaBuilder.RegisterHandlers(typeof(ICommandBus).Assembly, typeof(ISerializer).Assembly);
 
             var containerBuilder = new ContainerBuilder();
             containerBuilder.Populate(services);            

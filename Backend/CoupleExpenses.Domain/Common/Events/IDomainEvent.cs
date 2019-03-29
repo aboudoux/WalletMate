@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading;
 using Mediator.Net.Contracts;
 
 namespace CoupleExpenses.Domain.Common.Events
@@ -8,5 +7,8 @@ namespace CoupleExpenses.Domain.Common.Events
     {
         string AggregateId { get;  }
         int Sequence { get;  }
+        
+        string UserName { get; }
+        DateTimeOffset CreationDate { get; }
     }
 }

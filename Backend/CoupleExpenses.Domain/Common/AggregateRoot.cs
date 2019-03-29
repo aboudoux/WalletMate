@@ -53,7 +53,7 @@ namespace CoupleExpenses.Domain.Common {
 
         protected void RaiseEvent(IDomainEvent @event)
         {
-            ((IEventIdentifiers) @event).Set(AggregateId, GetNextSequence());
+            ((IEventMetaData) @event).SetIdentifiers(AggregateId, GetNextSequence());
             UncommittedEvents.Add(@event);
             Apply(@event);
         }

@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Generic;
-using CoupleExpenses.Domain.Common;
+using System.Threading.Tasks;
+using CoupleExpenses.Application.Core;
+using CoupleExpenses.Application.Periods;
+using CoupleExpenses.Application.Periods.Queries;
 using CoupleExpenses.Domain.Periods.ValueObjects;
 using CoupleExpenses.WebApp.Dtos;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CoupleExpenses.WebApp.Controllers
@@ -13,12 +15,19 @@ namespace CoupleExpenses.WebApp.Controllers
     [Authorize]
     public class PeriodController : Controller
     {
-        private static List<string> _periods = new List<string>();
+        private readonly ICommandBus _commandBus;
+        private readonly IQueryBus _queryBus;
+
+        public PeriodController(ICommandBus commandBus, IQueryBus queryBus)
+        {
+            _commandBus = commandBus ?? throw new ArgumentNullException(nameof(commandBus));
+            _queryBus = queryBus ?? throw new ArgumentNullException(nameof(queryBus));
+        }
 
         [HttpGet("[action]")]
-        public IEnumerable<string> All()
+        public async Task<IReadOnlyList<string>> All()
         {
-            return _periods;
+            return await _queryBus.QueryAsync<IReadOnlyList<string>>(new GetAllPeriod());
         }
 
         [HttpGet("[action]")]
@@ -42,10 +51,9 @@ namespace CoupleExpenses.WebApp.Controllers
         }
 
         [HttpPost("[action]")]
-        public IActionResult Create([FromBody]Period input)
+        public async Task<IActionResult> Create([FromBody]Period input)
         {
-            var periodName = PeriodName.From(input.Month, input.Year);
-            _periods.Add(periodName.ToString());
+            await _commandBus.SendAsync(new CreatePeriod(PeriodName.From(input.Month, input.Year)));
             return Ok();
         }
     }

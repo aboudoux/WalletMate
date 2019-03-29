@@ -28,20 +28,16 @@ namespace CoupleExpenses.Application.Periods
         public async Task Handle(ReceiveContext<CreatePeriod> context, CancellationToken cancellationToken)
         {
             var command = context.Message;
-
             PeriodCreator periodCreator;
 
-            try
-            {
+            try {
                 periodCreator = await _eventBroker.GetAggregate<PeriodCreator>(a => a is PeriodCreated);
             }
-            catch (AggregateNotFoundException)
-            {
+            catch (AggregateNotFoundException) {
                 periodCreator = new PeriodCreator(History.Empty);
             }
             
             var period = periodCreator.Create(command.PeriodName);
-
             await _eventBroker.Publish(period.UncommittedEvents);
         }
 

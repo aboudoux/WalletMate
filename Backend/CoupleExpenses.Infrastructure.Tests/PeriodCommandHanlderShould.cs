@@ -2,6 +2,7 @@ using System.Threading.Tasks;
 using Autofac;
 using CoupleExpenses.Application.Core;
 using CoupleExpenses.Application.Periods;
+using CoupleExpenses.Domain.Common;
 using CoupleExpenses.Domain.Common.Events;
 using CoupleExpenses.Domain.Periods.ValueObjects;
 using CoupleExpenses.Infrastructure.Tests.Fakes;
@@ -16,7 +17,13 @@ namespace CoupleExpenses.Infrastructure.Tests
         public async Task Run_CreatePeriod_Command()
         {
             IServiceCollection services = new ServiceCollection();
-            var provider = services.GetAutofacProvider(a=>a.RegisterType<FakeEventStore>().As<IEventStore>().SingleInstance());
+            var provider = services.GetAutofacProvider(config
+                =>
+                {
+                    config.RegisterType<FakeEventStore>().As<IEventStore>().SingleInstance();
+                    config.RegisterType<FakeUserService>().As<IUserService>().SingleInstance();
+                });
+
             var commandBus = provider.GetService<ICommandBus>();
             await commandBus.SendAsync(new CreatePeriod(PeriodName.From(1, 2001)));
         }

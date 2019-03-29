@@ -10,11 +10,13 @@ namespace CoupleExpenses.Domain.Common.Events
     {
         private readonly IEventStore _eventStore;
         private readonly IEventDispatcher _eventDispatcher;
+        private readonly IUserService _userService;
 
-        public EventBroker(IEventStore eventStore, IEventDispatcher eventDispatcher) 
+        public EventBroker(IEventStore eventStore, IEventDispatcher eventDispatcher, IUserService userService) 
         {
             _eventStore = eventStore ?? throw new ArgumentNullException(nameof(eventStore));
             _eventDispatcher = eventDispatcher ?? throw new ArgumentNullException(nameof(eventDispatcher));
+            _userService = userService ?? throw new ArgumentNullException(nameof(userService));
         }
 
         public async Task Publish(UncommittedAggregates aggregates) 
@@ -23,7 +25,7 @@ namespace CoupleExpenses.Domain.Common.Events
         public async Task Publish(UncommittedEvents events) 
         {
             foreach (var @event in events.GetStream()) {
-                //Stamp(@event);
+                Stamp(@event);
                 await CheckSequence(@event);
                 await SaveAndDispatch(@event);
             }
@@ -39,7 +41,8 @@ namespace CoupleExpenses.Domain.Common.Events
                 await _eventDispatcher.Dispatch(@event);
             }
 
-            //void Stamp(IDomainEvent @event) => ((IEventMetadata) @event).Set(_userContextProvider.GetCurrentUser().UserId, _datetimeOffset.Now());
+            void Stamp(IDomainEvent @event) 
+                => ((IEventMetaData)@event).SetCreationInfos(_userService.GetCurrentUserName(), DateTimeOffset.Now);
         }
 
         public async Task<T> GetAggregate<T>(string aggregateId)

@@ -10,6 +10,9 @@ namespace CoupleExpenses.Infrastructure
         protected override void Load(ContainerBuilder builder)
         {
             builder.RegisterType<MediatorCommandBus>().As<ICommandBus>().SingleInstance();
+            builder.RegisterType<MediatorQueryBus>().As<IQueryBus>().SingleInstance();
+            builder.RegisterType<InMemoryDatabaseRepository>().As<IDatabaseRepository>().SingleInstance();
+            
             builder.RegisterType<EventBroker>().As<IEventBroker>().SingleInstance();
             builder.RegisterType<FileEventStoreWithCache>().As<IEventStore>().SingleInstance();
             builder.RegisterType<MediatorEventDispatcher>().As<IEventDispatcher>().SingleInstance();
