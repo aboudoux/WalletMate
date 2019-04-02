@@ -2,10 +2,19 @@ namespace CoupleExpenses.WebApp.Dtos
 {
     public class PeriodOperation 
     {
-        public string Type {get; set;}
-        public string Pair{get; set;}           
-        public double Amount{get; set;}
-        public string Label{get; set;}
-        public string OperationType{get; set;}
+        public PeriodOperation(string type, string pair, double amount, string label, string operationType)
+        {
+            Type = type;
+            Pair = pair;
+            Amount = amount;
+            Label = label;
+            OperationType = operationType;
+        }
+
+        public string Type { get; }
+        public string Pair{get; }           
+        public double Amount{get; }
+        public string Label{get; }
+        public string OperationType{get; }
     }
 }

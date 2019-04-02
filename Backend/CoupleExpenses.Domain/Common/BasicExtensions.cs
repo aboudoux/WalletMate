@@ -25,5 +25,11 @@ namespace CoupleExpenses.Domain.Common
             foreach (var element in source) 
                 await action(element);            
         }
+
+        public static string ToBase64(this string source)
+        {
+            var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(source);
+            return Convert.ToBase64String(plainTextBytes);
+        }
     }
 }

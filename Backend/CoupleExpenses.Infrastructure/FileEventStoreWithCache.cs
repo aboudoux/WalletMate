@@ -15,7 +15,7 @@ namespace CoupleExpenses.Infrastructure
         private readonly string _eventStoreFileName;
         private readonly BackGroundWriter _backgroundWriter;
 
-        private string _defaultDatabase = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "database.es");
+        private readonly string _defaultDatabase = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "database.es");
 
         private List<IDomainEvent> _cacheEvents = new List<IDomainEvent>();
 

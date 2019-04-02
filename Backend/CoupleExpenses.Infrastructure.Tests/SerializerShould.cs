@@ -21,6 +21,6 @@ namespace CoupleExpenses.Infrastructure.Tests
             var json = "{\"$type\":\"OperationId\",\"Value\":-50}";
             var operationId = _serializer.Deserialize(json) as OperationId;
             operationId.Value.Should().Be(-50);
-        }
+        }        
     }
 }

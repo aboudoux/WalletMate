@@ -1,6 +1,4 @@
-﻿// This code is under Copyright (C) 2018 of Cegid SAS all right reserved
-
-using System;
+﻿using System;
 using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Text;

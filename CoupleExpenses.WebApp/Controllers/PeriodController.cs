@@ -34,13 +34,12 @@ namespace CoupleExpenses.WebApp.Controllers
         public IEnumerable<PeriodOperation> Operations() 
         {
             return new List<PeriodOperation>() {
-                new PeriodOperation() {
-                    Type = "Dépense",
-                    Pair = "Aurélien",
-                    Amount = 18.5,
-                    Label = "My Leclerc drive " + DateTime.Now,
-                    OperationType = "Avance"
-                }
+                new PeriodOperation(
+                    "Dépense",
+                    "Aurélien",
+                    18.5,
+                    "My Leclerc drive " + DateTime.Now,
+                    "Avance")
             };
         }
 
