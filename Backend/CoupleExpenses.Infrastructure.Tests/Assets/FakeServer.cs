@@ -46,6 +46,7 @@ namespace CoupleExpenses.Infrastructure.Tests.Assets
         public async Task<HttpStatusCode> CreatePeriod(int month, int year)
         {
             var post = await Post(new Period(month, year), "/api/Period/Create");
+            await post.ThrowIfError();
             return post.GetStatusCode();
         }
 
@@ -55,19 +56,33 @@ namespace CoupleExpenses.Infrastructure.Tests.Assets
             return await result.ReadContentAs<IEnumerable<PeriodOperation>>();
         }
 
-
+        public async Task<IReadOnlyList<string>> GetAllPeriod()
+        {
+            var result = await Get("/api/Period/All");
+            return await result.ReadContentAs<IReadOnlyList<string>>();
+        }
 
         private async Task<HttpResult> Post<T>(T data, string url)
         {
             var dataToPost = new StringContent(JsonConvert.SerializeObject(data), Encoding.UTF8, "application/json");
             var response = await _testServer.Client.PostAsync(url, dataToPost);
-            return new HttpResult(response);
+            return await BuildResult(response);
         }
 
         private async Task<HttpResult> Get(string url)
         {
-            var reponse = await _testServer.Client.GetAsync(url);
-            return new HttpResult(reponse);
+            var response = await _testServer.Client.GetAsync(url);
+            return await BuildResult(response);
+        }
+
+        private static async Task<HttpResult> BuildResult(HttpResponseMessage responseMessage)
+        {
+            if (responseMessage.StatusCode == HttpStatusCode.Unauthorized)
+                throw new UnauthorizedAccessException();
+            var result = new HttpResult(responseMessage);
+            await result.ThrowIfError();
+            return result;
+
         }
 
         private class HttpResult
@@ -76,7 +91,7 @@ namespace CoupleExpenses.Infrastructure.Tests.Assets
 
             public HttpResult(HttpResponseMessage response)
             {
-                _response = response ?? throw new ArgumentNullException(nameof(response));
+                _response = response ?? throw new ArgumentNullException(nameof(response));                
             }
 
             public HttpStatusCode GetStatusCode()
@@ -87,11 +102,27 @@ namespace CoupleExpenses.Infrastructure.Tests.Assets
                 var jsonData = await _response.Content.ReadAsStringAsync();
                 return JsonConvert.DeserializeObject<T>(jsonData);
             }
+
+            public async Task ThrowIfError()
+            {
+                if (_response.StatusCode != HttpStatusCode.OK)
+                    throw new HttpServerError(_response.StatusCode, await _response.Content.ReadAsStringAsync());
+            }
         }
 
         public void Dispose()
         {
             _testServer?.Dispose();
+        }
+    }
+
+    public class HttpServerError : Exception
+    {
+        public HttpStatusCode StatusCode { get; }        
+
+        public HttpServerError(HttpStatusCode statusCode, string message) : base(message)
+        {
+            StatusCode = statusCode;
         }
     }
 }

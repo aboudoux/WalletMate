@@ -27,7 +27,7 @@ namespace CoupleExpenses.WebApp.Controllers
         [HttpGet("[action]")]
         public async Task<IReadOnlyList<string>> All()
         {
-            return await _queryBus.QueryAsync<IReadOnlyList<string>>(new GetAllPeriod());
+            return await _queryBus.QueryAsync(new GetAllPeriod());
         }
 
         [HttpGet("[action]")]
@@ -59,10 +59,8 @@ namespace CoupleExpenses.WebApp.Controllers
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                throw;
-            }
-            
+                return BadRequest(e.Message);
+            }            
         }
     }
 }
