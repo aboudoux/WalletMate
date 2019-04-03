@@ -2,9 +2,8 @@
 using System.Threading;
 using System.Threading.Tasks;
 using CoupleExpenses.Application.Core;
+using CoupleExpenses.Domain.Common.Events;
 using CoupleExpenses.Domain.Periods.Events;
-using Mediator.Net.Context;
-using Mediator.Net.Contracts;
 
 namespace CoupleExpenses.Infrastructure.Projections {
 
@@ -17,9 +16,9 @@ namespace CoupleExpenses.Infrastructure.Projections {
             _databaseRepository = databaseRepository ?? throw new ArgumentNullException(nameof(_databaseRepository));
         }
 
-        public Task Handle(IReceiveContext<PeriodCreated> context, CancellationToken cancellationToken)
+        public Task Handle(PeriodCreated @event, CancellationToken cancellationToken)
         {
-            _databaseRepository.AddPeriod(context.Message.PeriodName);
+            _databaseRepository.AddPeriod(@event.PeriodName);
             return Task.CompletedTask;
         }
     }

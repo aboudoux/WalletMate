@@ -6,9 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.4.0" />
-    <PackageReference Include="Mediator.Net" Version="2.0.3" />
-    <PackageReference Include="Mediator.Net.Autofac" Version="2.0.3" />
+    <PackageReference Include="MediatR" Version="6.0.0" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="6.0.1" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
   </ItemGroup>
 
@@ -18,6 +17,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="Microsoft.AspNetCore.Http">
+      <HintPath>..\..\..\..\Users\aurelienb\.nuget\packages\microsoft.aspnetcore.http\2.2.0\lib\netstandard2.0\Microsoft.AspNetCore.Http.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.AspNetCore.Http.Abstractions">
       <HintPath>..\..\..\..\Users\aurelienb\.nuget\packages\microsoft.aspnetcore.http.abstractions\2.2.0\lib\netstandard2.0\Microsoft.AspNetCore.Http.Abstractions.dll</HintPath>
     </Reference>

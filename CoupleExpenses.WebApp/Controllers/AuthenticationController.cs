@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using IAuthorizationService = CoupleExpenses.WebApp.Services.IAuthorizationService;
+using IAuthorizationService = CoupleExpenses.Infrastructure.Services.IAuthorizationService;
 
 namespace CoupleExpenses.WebApp.Controllers
 {
@@ -27,35 +27,6 @@ namespace CoupleExpenses.WebApp.Controllers
                 return BadRequest(new { message = "Username or password is incorrect" });
 
             return Ok(new AuthResult(userInput.Username, authKey));
-        }
-
-        [HttpGet("getinfos")]
-        public string GetInfos()
-        {
-            return "this is a secret information";
-        }
-    }
-
-    public class User
-    {
-        public User(string username, string password)
-        {
-            Username = username;
-            Password = password;
-        }
-        public string Username { get; }
-        public string Password { get; }
-    }
-
-    public class AuthResult
-    {
-        public AuthResult(string username, Guid authKey)
-        {
-            Username = username;
-            AuthKey = authKey;
-        }
-
-        public string Username { get; }
-        public Guid AuthKey { get; }
+        }        
     }
 }

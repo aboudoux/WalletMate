@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using CoupleExpenses.Application.Core;
 using CoupleExpenses.Domain.Common.Events;
 using CoupleExpenses.Domain.Common.Exceptions;
 using CoupleExpenses.Domain.Periods;
 using CoupleExpenses.Domain.Periods.Events;
-using Mediator.Net.Context;
-using Mediator.Net.Contracts;
 
 namespace CoupleExpenses.Application.Periods
 {
@@ -25,43 +24,44 @@ namespace CoupleExpenses.Application.Periods
             _eventBroker = eventBroker ?? throw new ArgumentNullException(nameof(eventBroker));
         }
 
-        public async Task Handle(ReceiveContext<CreatePeriod> context, CancellationToken cancellationToken)
+        public async Task Handle(CreatePeriod command, CancellationToken cancellationToken)
         {
-            var command = context.Message;
             PeriodCreator periodCreator;
 
-            try {
+            try
+            {
                 periodCreator = await _eventBroker.GetAggregate<PeriodCreator>(a => a is PeriodCreated);
             }
-            catch (AggregateNotFoundException) {
+            catch (AggregateNotFoundException)
+            {
                 periodCreator = new PeriodCreator(History.Empty);
             }
-            
+
             var period = periodCreator.Create(command.PeriodName);
             await _eventBroker.Publish(period.UncommittedEvents);
         }
 
-        public Task Handle(ReceiveContext<AddSpending> context, CancellationToken cancellationToken)
+        public Task Handle(AddSpending notification, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }
 
-        public Task Handle(ReceiveContext<ChangeSpending> context, CancellationToken cancellationToken)
+        public Task Handle(ChangeSpending notification, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }
 
-        public Task Handle(ReceiveContext<AddRecipe> context, CancellationToken cancellationToken)
+        public Task Handle(AddRecipe notification, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }
 
-        public Task Handle(ReceiveContext<ChangeRecipe> context, CancellationToken cancellationToken)
+        public Task Handle(ChangeRecipe notification, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }
 
-        public Task Handle(ReceiveContext<RemoveOperation> context, CancellationToken cancellationToken)
+        public Task Handle(RemoveOperation notification, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }

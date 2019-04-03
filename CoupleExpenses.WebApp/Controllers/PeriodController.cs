@@ -5,7 +5,7 @@ using CoupleExpenses.Application.Core;
 using CoupleExpenses.Application.Periods;
 using CoupleExpenses.Application.Periods.Queries;
 using CoupleExpenses.Domain.Periods.ValueObjects;
-using CoupleExpenses.WebApp.Dtos;
+using CoupleExpenses.WebApp.Dto;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -52,8 +52,17 @@ namespace CoupleExpenses.WebApp.Controllers
         [HttpPost("[action]")]
         public async Task<IActionResult> Create([FromBody]Period input)
         {
-            await _commandBus.SendAsync(new CreatePeriod(PeriodName.From(input.Month, input.Year)));
-            return Ok();
+            try
+            {
+                await _commandBus.SendAsync(new CreatePeriod(PeriodName.From(input.Month, input.Year)));
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+            
         }
     }
 }

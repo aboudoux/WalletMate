@@ -2,22 +2,21 @@
 using System.Threading;
 using System.Threading.Tasks;
 using CoupleExpenses.Application.Core;
-using Mediator.Net;
-using Mediator.Net.Contracts;
+using MediatR;
 
 namespace CoupleExpenses.Infrastructure
 {
-    public class MediatorCommandBus : ICommandBus
+    public class MediatrCommandBus : ICommandBus
     {
         private readonly IMediator _mediator;
-        public MediatorCommandBus(IMediator mediator)
+        public MediatrCommandBus(IMediator mediator)
         {
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
 
         public async Task SendAsync(ICommand command)
         {
-            await _mediator.SendAsync(command);
+            await _mediator.Publish(command);
         }
     }
 }

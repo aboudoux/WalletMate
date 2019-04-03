@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using Mediator.Net.Contracts;
+using MediatR;
 
 namespace CoupleExpenses.Application.Core
 {
@@ -7,4 +7,15 @@ namespace CoupleExpenses.Application.Core
     {
         Task SendAsync(ICommand command);
     }
+
+    public interface ICommand : INotification
+    {
+        
+    }
+
+    public interface ICommandHandler<in TCommand> : INotificationHandler<TCommand>
+        where TCommand : ICommand
+    {
+        
+    }        
 }

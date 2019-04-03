@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace CoupleExpenses.WebApp.Services
+namespace CoupleExpenses.Infrastructure.Services
 {
     public interface IAuthorizationService
     {

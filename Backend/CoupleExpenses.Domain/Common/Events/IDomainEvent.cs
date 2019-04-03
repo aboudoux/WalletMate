@@ -1,5 +1,5 @@
 ﻿using System;
-using Mediator.Net.Contracts;
+using MediatR;
 
 namespace CoupleExpenses.Domain.Common.Events
 {
@@ -10,5 +10,5 @@ namespace CoupleExpenses.Domain.Common.Events
         
         string UserName { get; }
         DateTimeOffset CreationDate { get; }
-    }
+    }   
 }

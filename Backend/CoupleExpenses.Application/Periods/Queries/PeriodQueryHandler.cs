@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using CoupleExpenses.Application.Core;
-using Mediator.Net.Context;
-using Mediator.Net.Contracts;
 
 namespace CoupleExpenses.Application.Periods.Queries {
     public class PeriodQueryHandler : 
-        IRequestHandler<GetAllPeriod, QueryResult<IReadOnlyList<string>>>
+        IQueryHandler<GetAllPeriod, IReadOnlyList<string>>
     {
         private readonly IDatabaseRepository _repository;
 
@@ -16,10 +14,10 @@ namespace CoupleExpenses.Application.Periods.Queries {
         {
             _repository = repository ?? throw new ArgumentNullException(nameof(repository));
         }
-        public async Task<QueryResult<IReadOnlyList<string>>> Handle(ReceiveContext<GetAllPeriod> context, CancellationToken cancellationToken)
+
+        public async Task<IReadOnlyList<string>> Handle(GetAllPeriod request, CancellationToken cancellationToken)
         {
-            var result = await _repository.GetAllPeriod();
-            return new QueryResult<IReadOnlyList<string>>(result);
+            return await _repository.GetAllPeriod();
         }
     }
 }

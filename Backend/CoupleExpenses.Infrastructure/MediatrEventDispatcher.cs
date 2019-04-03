@@ -1,27 +1,20 @@
 ﻿using System;
 using System.Threading.Tasks;
 using CoupleExpenses.Domain.Common.Events;
-using Mediator.Net;
-using Mediator.Net.Pipeline;
+using MediatR;
 
 namespace CoupleExpenses.Infrastructure
 {
-    public class MediatorEventDispatcher : IEventDispatcher
+    public class MediatrEventDispatcher : IEventDispatcher
     {
         private readonly IMediator _mediator;
 
-        public MediatorEventDispatcher(IMediator mediator) 
+        public MediatrEventDispatcher(IMediator mediator) 
             => _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
 
         public async Task Dispatch<TEvent>(TEvent @event) where TEvent : IDomainEvent
         {
-            try
-            {
-                await _mediator.PublishAsync(@event);
-            }
-            catch (NoHandlerFoundException)
-            {
-            }
+            await _mediator.Publish(@event);
         }
     }
 }

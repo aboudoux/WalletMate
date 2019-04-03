@@ -1,5 +1,5 @@
-﻿using CoupleExpenses.Domain.Periods.ValueObjects;
-using Mediator.Net.Contracts;
+﻿using CoupleExpenses.Application.Core;
+using CoupleExpenses.Domain.Periods.ValueObjects;
 
 namespace CoupleExpenses.Application.Periods 
 {

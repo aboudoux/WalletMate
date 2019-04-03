@@ -1,29 +1,36 @@
 ﻿using System;
-using Autofac;
-using Autofac.Extensions.DependencyInjection;
+using System.Reflection;
 using CoupleExpenses.Application.Core;
-using Mediator.Net;
-using Mediator.Net.Autofac;
+using CoupleExpenses.Domain.Common;
+using CoupleExpenses.Domain.Common.Events;
+using CoupleExpenses.Infrastructure.Services;
+using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace CoupleExpenses.Infrastructure
 {
     public static class ServiceCollectionExtensions
     {
-        public static IServiceProvider GetAutofacProvider(this IServiceCollection services, Action<ContainerBuilder> extraConfiguration = null)
+        public static void RegisterDependencies(this IServiceCollection services, Action<IServiceCollection> config = null)
         {
-            var mediaBuilder = new MediatorBuilder();            
-            mediaBuilder.RegisterHandlers(typeof(ICommandBus).Assembly, typeof(ISerializer).Assembly);
+            config?.Invoke(services);
 
-            var containerBuilder = new ContainerBuilder();
-            containerBuilder.Populate(services);            
-            containerBuilder.RegisterMediator(mediaBuilder);
-            containerBuilder.RegisterModule<DefaultAutofacModule>();
+            services.TryAddSingleton<IAuthorizationService, AuthorizationService>();
+            services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
-            extraConfiguration?.Invoke(containerBuilder);
+            services.TryAddSingleton<IEventStore, FileEventStoreWithCache>();
+            services.TryAddSingleton<ICommandBus, MediatrCommandBus>();
+            services.TryAddSingleton<IQueryBus, MediatrQueryBus>();
+            services.TryAddSingleton<IDatabaseRepository, InMemoryDatabaseRepository>();
+            services.TryAddSingleton<IEventBroker, EventBroker>();
+            services.TryAddSingleton<IEventDispatcher, MediatrEventDispatcher>();
+            services.TryAddSingleton<ISerializer, CustomJsonSerializer>();
+            services.TryAddSingleton<IUserService, UserService>();
 
-            var container = containerBuilder.Build();
-            return new AutofacServiceProvider(container);
+            services.AddMediatR(Assembly.GetAssembly(typeof(ICommand)));
+            services.AddMediatR(Assembly.GetAssembly(typeof(ISerializer)));
         }
-    }      
+    }
 }

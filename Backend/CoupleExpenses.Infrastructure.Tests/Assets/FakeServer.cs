@@ -1,25 +1,35 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using CoupleExpenses.Domain.Common;
+using CoupleExpenses.Domain.Common.Events;
 using CoupleExpenses.WebApp;
 using CoupleExpenses.WebApp.Controllers;
-using CoupleExpenses.WebApp.Dtos;
+using CoupleExpenses.WebApp.Dto;
+using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 
 namespace CoupleExpenses.Infrastructure.Tests.Assets
 {
-    public class FakeServer
+    public class FakeServer : IDisposable
     {
         private readonly TestServerBase<Startup> _testServer;
 
         public FakeServer()
         {
-            _testServer = new TestServerBase<Startup>("Development", "CoupleExpenses.WebApp");
+            _testServer = new TestServerBase<Startup>("Test", "CoupleExpenses.WebApp", s => s.AddSingleton(CreateEventStoreInstance));
+
+            IEventStore CreateEventStoreInstance(IServiceProvider provider)
+            {
+                var serializer = provider.GetService<ISerializer>();
+                var tempDatabase = Path.Combine(FileEventStoreWithCache.EventStoreDirectory, Guid.NewGuid() + ".es");
+                return new FileEventStoreWithCache(serializer, tempDatabase);
+            }
         }
 
         public async Task<bool> Authenticate(string username, string password)
@@ -77,6 +87,11 @@ namespace CoupleExpenses.Infrastructure.Tests.Assets
                 var jsonData = await _response.Content.ReadAsStringAsync();
                 return JsonConvert.DeserializeObject<T>(jsonData);
             }
-        }        
+        }
+
+        public void Dispose()
+        {
+            _testServer?.Dispose();
+        }
     }
 }

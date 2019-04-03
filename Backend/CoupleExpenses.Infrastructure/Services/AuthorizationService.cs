@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CoupleExpenses.WebApp.Controllers;
 
-namespace CoupleExpenses.WebApp.Services
+namespace CoupleExpenses.Infrastructure.Services
 {
     public class AuthorizationService : IAuthorizationService
     {

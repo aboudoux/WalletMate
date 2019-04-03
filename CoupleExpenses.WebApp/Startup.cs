@@ -1,7 +1,11 @@
 using System;
+using System.IO;
+using System.Reflection;
 using System.Threading.Tasks;
 using CoupleExpenses.Application;
 using CoupleExpenses.Application.Core;
+using CoupleExpenses.Domain.Common;
+using CoupleExpenses.Domain.Common.Events;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -9,9 +13,11 @@ using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using CoupleExpenses.Infrastructure;
-using CoupleExpenses.WebApp.Services;
+using CoupleExpenses.Infrastructure.Services;
+using MediatR;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace CoupleExpenses.WebApp
 {
@@ -24,8 +30,12 @@ namespace CoupleExpenses.WebApp
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
-        public IServiceProvider ConfigureServices(IServiceCollection services)
+        public void ConfigureServices(IServiceCollection services)
+        {
+            ConfigureCommonServices(services);
+        }      
+
+        private void ConfigureCommonServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
@@ -33,20 +43,17 @@ namespace CoupleExpenses.WebApp
             services.AddSpaStaticFiles(configuration =>
             {
                 configuration.RootPath = "clientapp/build";
-            });            
-
-            /*services.AddAuthentication("BasicAuthentication")
-                .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
-            services.AddScoped<IUserService, UserService>();*/
+            });
 
             services.AddAuthentication("GuidAuthentication")
                 .AddScheme<AuthenticationSchemeOptions, GuidAuthenticationHandler>("GuidAuthentication", null);
 
-            services.AddSingleton<IAuthorizationService, AuthorizationService>();
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
-            return services.GetAutofacProvider();
-        }        
+            services.RegisterDependencies();
+        }
+
+
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public async void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
@@ -59,7 +66,7 @@ namespace CoupleExpenses.WebApp
                 app.UseExceptionHandler("/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
-            }
+            }            
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
