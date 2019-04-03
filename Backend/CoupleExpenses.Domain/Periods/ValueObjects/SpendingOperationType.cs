@@ -1,6 +1,5 @@
 ﻿using CoupleExpenses.Domain.Common.Events;
 using CoupleExpenses.Domain.Common.ValueObjects;
-using CoupleExpenses.Domain.Periods.Events.Structures;
 using Newtonsoft.Json;
 
 namespace CoupleExpenses.Domain.Periods.ValueObjects
@@ -17,6 +16,13 @@ namespace CoupleExpenses.Domain.Periods.ValueObjects
 
         [JsonConstructor]
         private SpendingOperationType(int value, bool _ = true) : base(value, _) {
+        }
+
+        public override string ToString()
+        {
+            return Value == 1
+                ? "Commun"
+                : "Avance";
         }
     }
 }

@@ -41,9 +41,11 @@ namespace CoupleExpenses.Application.Periods
             await _eventBroker.Publish(period.UncommittedEvents);
         }
 
-        public Task Handle(AddSpending notification, CancellationToken cancellationToken)
+        public async Task Handle(AddSpending command, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            var period = await _eventBroker.GetAggregate<Period>(command.PeriodId.ToString());
+            period.AddSpending(command.Amount, command.Label, command.Pair, command.OperationType);
+            await _eventBroker.Publish(period.UncommittedEvents);
         }
 
         public Task Handle(ChangeSpending notification, CancellationToken cancellationToken)
@@ -51,9 +53,11 @@ namespace CoupleExpenses.Application.Periods
             throw new NotImplementedException();
         }
 
-        public Task Handle(AddRecipe notification, CancellationToken cancellationToken)
+        public async Task Handle(AddRecipe command, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            var period = await _eventBroker.GetAggregate<Period>(command.PeriodId.ToString());
+            period.AddRecipe(command.Amount, command.Label, command.Pair, command.OperationType);
+            await _eventBroker.Publish(period.UncommittedEvents);
         }
 
         public Task Handle(ChangeRecipe notification, CancellationToken cancellationToken)

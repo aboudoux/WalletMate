@@ -17,5 +17,12 @@ namespace CoupleExpenses.Domain.Periods.ValueObjects
         [JsonConstructor]
         private RecipeOperationType(int value, bool _ = true) : base(value, _) {
         }
+
+        public override string ToString()
+        {
+            return Value == 1
+                ? "Commun"
+                : "Individuelle";
+        }
     }
 }

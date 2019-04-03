@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using CoupleExpenses.Infrastructure.Dto;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using IAuthorizationService = CoupleExpenses.Infrastructure.Services.IAuthorizationService;

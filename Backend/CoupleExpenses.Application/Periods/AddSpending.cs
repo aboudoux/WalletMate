@@ -19,5 +19,5 @@ namespace CoupleExpenses.Application.Periods
             Pair = pair;
             OperationType = operationType;
         }
-    }
+    }   
 }

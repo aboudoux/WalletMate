@@ -15,7 +15,7 @@ namespace CoupleExpenses.Domain.Periods
         public PeriodName PeriodName => State.PeriodName;
 
         public static Period Create(PeriodName periodName) 
-            => CreateNew<Period>(PeriodId.New().Value.ToString(), new PeriodCreated(periodName));
+            => CreateNew<Period>(PeriodId.From(periodName).Value, new PeriodCreated(periodName));
 
         public OperationId AddSpending(Amount amount, Label label, Pair pair, SpendingOperationType operationType)
         {

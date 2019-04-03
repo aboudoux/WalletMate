@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using CoupleExpenses.Application.Periods.Queries;
 using CoupleExpenses.Domain.Periods.ValueObjects;
 
 namespace CoupleExpenses.Application.Core
@@ -8,5 +9,7 @@ namespace CoupleExpenses.Application.Core
     {
         void AddPeriod(PeriodName periodName);
         Task<IReadOnlyList<string>> GetAllPeriod();
+        Task<IReadOnlyList<IPeriodOperation>> GetAllOperation(PeriodId periodId);
+        void AddOperation(IPeriodOperation operation);
     }
 }

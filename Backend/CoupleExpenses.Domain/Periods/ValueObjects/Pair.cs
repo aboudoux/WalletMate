@@ -1,4 +1,5 @@
-﻿using CoupleExpenses.Domain.Common.Events;
+﻿using System;
+using CoupleExpenses.Domain.Common.Events;
 using CoupleExpenses.Domain.Common.ValueObjects;
 using Newtonsoft.Json;
 
@@ -12,6 +13,8 @@ namespace CoupleExpenses.Domain.Periods.ValueObjects
 
         private Pair(int value) : base(value)
         {
+            if(value < 1 || value > 2)
+                throw new Exception("invalid pair");
         }
 
         [JsonConstructor]

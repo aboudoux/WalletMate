@@ -101,13 +101,10 @@ this.ScenarioSetup(scenarioInfo);
 #line 6
 this.FeatureBackground();
 #line 14
- testRunner.Given("Je suis connecté à l\'application avec l\'utilisateur aurelien et le mot de passe 1" +
-                    "234", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 15
  testRunner.And("J\'ai demandé la création d\'une période pour le mois 1 et l\'année 2001", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 16
+#line 15
  testRunner.When("Je demande la création d\'une période pour le mois 1 et l\'année 2001", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 17
+#line 16
  testRunner.Then("Le serveur me retourne une erreur 400 avec le message \"La période Janvier 2001 ex" +
                     "iste déjà.\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
@@ -119,27 +116,108 @@ this.FeatureBackground();
         public virtual void AjouterUneDepenseAUnePeriode()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Ajouter une dépense à une période", ((string[])(null)));
-#line 19
+#line 18
 this.ScenarioSetup(scenarioInfo);
 #line 6
 this.FeatureBackground();
-#line 20
- testRunner.And("J\'ai demandé la création de la période pour le mois 1 et l\'année 2001", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 19
+ testRunner.And("J\'ai demandé la création d\'une période pour le mois 1 et l\'année 2001", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             TechTalk.SpecFlow.Table table1 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Type",
+                        "Periode",
                         "Montant",
                         "Libelle",
                         "Binome",
-                        "Type"});
+                        "TypeOperation"});
             table1.AddRow(new string[] {
+                        "Dépense",
+                        "2001-01",
                         "100",
                         "Test",
-                        "Aurelien",
+                        "Aurélien",
                         "Commun"});
-#line 21
- testRunner.When("J\'ajoute une dépense à la période", ((string)(null)), table1, "When ");
-#line 24
- testRunner.Then("La liste des opérations pour la période", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 20
+ testRunner.When("J\'ajoute des dépenses dans l\'application", ((string)(null)), table1, "When ");
+#line hidden
+            TechTalk.SpecFlow.Table table2 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Type",
+                        "Periode",
+                        "Montant",
+                        "Libelle",
+                        "Binome",
+                        "TypeOperation"});
+            table2.AddRow(new string[] {
+                        "Dépense",
+                        "2001-01",
+                        "100",
+                        "Test",
+                        "Aurélien",
+                        "Commun"});
+#line 23
+ testRunner.Then("La liste des opérations pour la période 2001-01 contient les elements suivants", ((string)(null)), table2, "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Ajouter une recette à une période")]
+        public virtual void AjouterUneRecetteAUnePeriode()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Ajouter une recette à une période", ((string[])(null)));
+#line 27
+this.ScenarioSetup(scenarioInfo);
+#line 6
+this.FeatureBackground();
+#line 28
+ testRunner.And("J\'ai demandé la création d\'une période pour le mois 1 et l\'année 2001", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+            TechTalk.SpecFlow.Table table3 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Type",
+                        "Periode",
+                        "Montant",
+                        "Libelle",
+                        "Binome",
+                        "TypeOperation"});
+            table3.AddRow(new string[] {
+                        "Recette",
+                        "2001-01",
+                        "200",
+                        "Test de recette",
+                        "Marie",
+                        "Commun"});
+#line 29
+ testRunner.When("J\'ajoute des recettes dans l\'application", ((string)(null)), table3, "When ");
+#line hidden
+            TechTalk.SpecFlow.Table table4 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Type",
+                        "Periode",
+                        "Montant",
+                        "Libelle",
+                        "Binome",
+                        "TypeOperation"});
+            table4.AddRow(new string[] {
+                        "Recette",
+                        "2001-01",
+                        "200",
+                        "Test de recette",
+                        "Marie",
+                        "Commun"});
+#line 32
+ testRunner.Then("La liste des opérations pour la période 2001-01 contient les elements suivants", ((string)(null)), table4, "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Ajouter plusieurs recettes et dépenses")]
+        public virtual void AjouterPlusieursRecettesEtDepenses()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Ajouter plusieurs recettes et dépenses", ((string[])(null)));
+#line 36
+this.ScenarioSetup(scenarioInfo);
+#line 6
+this.FeatureBackground();
 #line hidden
             this.ScenarioCleanup();
         }

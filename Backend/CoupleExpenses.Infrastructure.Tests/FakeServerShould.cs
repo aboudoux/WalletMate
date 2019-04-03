@@ -27,17 +27,6 @@ namespace CoupleExpenses.Infrastructure.Tests
                 var response = await server.CreatePeriod(1, 2000);
                 response.Should().Be(HttpStatusCode.OK);
             }
-        }
-
-        [Fact]
-        public async Task Get_all_operation()
-        {
-            using (var server = new FakeServer())
-            {
-                await server.Authenticate("aurelien", "0f46f2fb6f5a91c79e86acc5da7df95176b4e4c7");
-                var operations = await server.GetAllOperations();
-                operations.Should().NotBeEmpty();
-            }
-        }
+        }      
     }
 }

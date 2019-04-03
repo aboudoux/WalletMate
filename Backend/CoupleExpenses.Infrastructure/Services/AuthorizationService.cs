@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CoupleExpenses.Infrastructure.Dto;
 using CoupleExpenses.WebApp.Controllers;
 
 namespace CoupleExpenses.Infrastructure.Services

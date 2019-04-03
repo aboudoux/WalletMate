@@ -74,7 +74,7 @@ namespace CoupleExpenses.Domain.Tests
         }
 
         [Fact]
-        public void GenerateOperationIdBasedOnPreviousEvents()
+        public void Generate_operationId_based_on_previous_events()
         {
             var period = Some.Period(p =>
                 p.WithEvent(Some.SpendingAdded(OperationId.From(1)))

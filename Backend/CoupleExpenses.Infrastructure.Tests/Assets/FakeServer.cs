@@ -6,8 +6,10 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using CoupleExpenses.Application.Periods.Queries;
 using CoupleExpenses.Domain.Common;
 using CoupleExpenses.Domain.Common.Events;
+using CoupleExpenses.Infrastructure.Dto;
 using CoupleExpenses.WebApp;
 using CoupleExpenses.WebApp.Controllers;
 using CoupleExpenses.WebApp.Dto;
@@ -46,13 +48,38 @@ namespace CoupleExpenses.Infrastructure.Tests.Assets
         public async Task<HttpStatusCode> CreatePeriod(int month, int year)
         {
             var post = await Post(new Period(month, year), "/api/Period/Create");
-            await post.ThrowIfError();
             return post.GetStatusCode();
         }
 
-        public async Task<IEnumerable<PeriodOperation>> GetAllOperations()
+        public async Task<HttpStatusCode> AddSpending(string periode, double montant, string libelle, string binome, string operationType)
         {
-            var result = await Get("/api/Period/Operations");
+            var post = await Post(new Spending(
+                periode, 
+                montant,
+                libelle, 
+                binome == "Marie" ? 2 : 1,
+                operationType == "Commun" ? 1 : 2),
+                "/api/Operation/AddSpending");
+
+            return post.GetStatusCode();
+        }
+
+        public async Task<HttpStatusCode> AddRecipe(string periode, double montant, string libelle, string binome, string operationType)
+        {
+            var post = await Post(new Spending(
+                    periode,
+                    montant,
+                    libelle,
+                    binome == "Marie" ? 2 : 1,
+                    operationType == "Commun" ? 1 : 2),
+                "/api/Operation/AddRecipe");
+
+            return post.GetStatusCode();
+        }
+
+        public async Task<IEnumerable<IPeriodOperation>> GetAllOperations(string periodId)
+        {
+            var result = await Get("/api/Operation/All?PeriodId="+periodId);
             return await result.ReadContentAs<IEnumerable<PeriodOperation>>();
         }
 

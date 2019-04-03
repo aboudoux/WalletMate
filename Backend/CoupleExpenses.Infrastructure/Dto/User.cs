@@ -1,4 +1,4 @@
-﻿namespace CoupleExpenses.WebApp.Controllers
+﻿namespace CoupleExpenses.Infrastructure.Dto
 {
     public class User
     {

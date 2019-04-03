@@ -5,6 +5,7 @@ using CoupleExpenses.Application.Core;
 using CoupleExpenses.Application.Periods;
 using CoupleExpenses.Application.Periods.Queries;
 using CoupleExpenses.Domain.Periods.ValueObjects;
+using CoupleExpenses.Infrastructure.Dto;
 using CoupleExpenses.WebApp.Dto;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -30,19 +31,6 @@ namespace CoupleExpenses.WebApp.Controllers
             return await _queryBus.QueryAsync(new GetAllPeriod());
         }
 
-        [HttpGet("[action]")]
-        public IEnumerable<PeriodOperation> Operations() 
-        {
-            return new List<PeriodOperation>() {
-                new PeriodOperation(
-                    "Dépense",
-                    "Aurélien",
-                    18.5,
-                    "My Leclerc drive " + DateTime.Now,
-                    "Avance")
-            };
-        }
-
         [HttpPost("[action]")]
         public IActionResult CreateNext()
         {
@@ -62,5 +50,7 @@ namespace CoupleExpenses.WebApp.Controllers
                 return BadRequest(e.Message);
             }            
         }
+
+       
     }
 }
