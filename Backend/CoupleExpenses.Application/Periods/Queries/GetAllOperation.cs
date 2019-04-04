@@ -16,6 +16,7 @@ namespace CoupleExpenses.Application.Periods.Queries
 
     public interface IPeriodOperation
     {
+        int OperationId { get; }
         string Type { get; }
         string PeriodId { get; }
         double Amount { get; }

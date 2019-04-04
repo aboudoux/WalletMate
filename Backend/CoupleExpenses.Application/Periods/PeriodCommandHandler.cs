@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using CoupleExpenses.Application.Core;
+using CoupleExpenses.Domain.Common;
 using CoupleExpenses.Domain.Common.Events;
 using CoupleExpenses.Domain.Common.Exceptions;
 using CoupleExpenses.Domain.Periods;
@@ -43,9 +44,8 @@ namespace CoupleExpenses.Application.Periods
 
         public async Task Handle(AddSpending command, CancellationToken cancellationToken)
         {
-            var period = await _eventBroker.GetAggregate<Period>(command.PeriodId.ToString());
-            period.AddSpending(command.Amount, command.Label, command.Pair, command.OperationType);
-            await _eventBroker.Publish(period.UncommittedEvents);
+            await (await _eventBroker.LoadAggregate<Period>(command.PeriodId.ToString()))
+                .AndExecute(p => p.AddSpending(command.Amount, command.Label, command.Pair, command.OperationType));
         }
 
         public Task Handle(ChangeSpending notification, CancellationToken cancellationToken)
@@ -55,9 +55,8 @@ namespace CoupleExpenses.Application.Periods
 
         public async Task Handle(AddRecipe command, CancellationToken cancellationToken)
         {
-            var period = await _eventBroker.GetAggregate<Period>(command.PeriodId.ToString());
-            period.AddRecipe(command.Amount, command.Label, command.Pair, command.OperationType);
-            await _eventBroker.Publish(period.UncommittedEvents);
+            await (await _eventBroker.LoadAggregate<Period>(command.PeriodId.ToString()))
+                .AndExecute(p => p.AddRecipe(command.Amount, command.Label, command.Pair, command.OperationType));
         }
 
         public Task Handle(ChangeRecipe notification, CancellationToken cancellationToken)
@@ -65,9 +64,39 @@ namespace CoupleExpenses.Application.Periods
             throw new NotImplementedException();
         }
 
-        public Task Handle(RemoveOperation notification, CancellationToken cancellationToken)
+        public async Task Handle(RemoveOperation command, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            await (await _eventBroker.LoadAggregate<Period>(command.PeriodId.ToString()))
+                .AndExecute(p => p.RemoveOperation(command.OperationId));
+        }
+    }
+
+    public static class EventBrokerExtension
+    {
+        public static async Task<AggregateExecutor<T>> LoadAggregate<T>(this IEventBroker broker, string aggregateId)
+            where T : IAggregateRoot
+        {
+            var aggregate = await broker.GetAggregate<T>(aggregateId);
+            return new AggregateExecutor<T>(broker, aggregate);
+        }
+    }
+
+    public class AggregateExecutor<T>
+        where T : IAggregateRoot
+    {
+        private readonly IEventBroker _broker;
+        private readonly T _loadedAggregate;
+
+        public AggregateExecutor(IEventBroker broker, T loadedAggregate)            
+        {
+            _broker = broker ?? throw new ArgumentNullException(nameof(broker));
+            _loadedAggregate = loadedAggregate;
+        }
+
+        public async Task AndExecute(Action<T> action)
+        {
+            action(_loadedAggregate);
+            await _broker.Publish(_loadedAggregate.UncommittedEvents);
         }
     }
 }

@@ -39,7 +39,8 @@ namespace CoupleExpenses.Infrastructure.Tests.Steps
         }
 
         [When(@"J'ajoute des dépenses dans l'application")]
-        public async Task WhenJAjouteUneDepenseALaPeriode((string type, string periode, double montant, string libelle, string binome, string typeOperation)[] spendings)
+        [Given(@"J'ai ajouté des dépenses dans l'application")]
+        public async Task WhenJAjouteUneDepenseALaPeriode((string periode, double montant, string libelle, string binome, string typeOperation)[] spendings)
         {
             await spendings.ForEachAsync(async row =>
             {
@@ -48,7 +49,8 @@ namespace CoupleExpenses.Infrastructure.Tests.Steps
         }
 
         [When(@"J'ajoute des recettes dans l'application")]
-        public async Task WhenJApplication((string type, string periode, double montant, string libelle, string binome, string typeOperation)[] recipe)
+        [Given(@"J'ai ajouté des recettes dans l'application")]
+        public async Task WhenJApplication((string periode, double montant, string libelle, string binome, string typeOperation)[] recipe)
         {
             await recipe.ForEachAsync(async row =>
             {
@@ -57,12 +59,35 @@ namespace CoupleExpenses.Infrastructure.Tests.Steps
         }
 
         [Then(@"La liste des opérations pour la période (.*) contient les elements suivants")]
-        public async Task ThenLaListeDesOperationsPourLaPeriodeContientLesElementsSuivants(PeriodId periodId, PeriodOperation[] expectedOperations)
+        [Given(@"La liste des opérations pour la période (.*) contient les elements suivants")]
+        public async Task ThenLaListeDesOperationsPourLaPeriodeContientLesElementsSuivants(string periodId, PeriodOperation[] expectedOperations)
         {
-            var operations = await FakeServer.GetAllOperations(periodId.ToString());
+            var operations = await FakeServer.GetAllOperations(periodId);
 
             operations.Should().NotBeEmpty();
             expectedOperations.ForEach(e => operations.Should().ContainEquivalentOf(e));
+        }
+
+        [When(@"Je demande à supprimer l'opération (.*) de la période (.*)")]
+        public async Task WhenJeDemandeASupprimerLOperationDeLaPeriode(int operationId, string periodId)
+        {
+            await FakeServer.RemoveOperation(periodId, operationId);
+        }
+
+        [Then(@"La liste des opérations pour la période (.*) est vide")]
+        public async Task ThenLaListeDesOperationsPourLaPeriodeEstVide(string periodId)
+        {
+            var operations = await FakeServer.GetAllOperations(periodId);
+            operations.Should().BeEmpty();
+        }
+
+        [Then(@"(.*) doit la somme de (.*) euros pour la période (.*)")]
+        public async Task ThenAurelienDoitLaSommeDeEurosPourLaPeriode(string pair, double amount, string periodId)
+        {
+            var balance = await FakeServer.GetPeriodBalance(periodId);
+            balance.Should().NotBe(null);
+            balance.AmountDue.Should().Be(amount);
+            balance.By.Should().Be(pair);
         }
     }
 
@@ -70,17 +95,17 @@ namespace CoupleExpenses.Infrastructure.Tests.Steps
     public sealed class StepTransformations
     {
         [StepArgumentTransformation]
-        public static PeriodId ToPeriodId(string value)
-            => PeriodId.From(value);
-
-        [StepArgumentTransformation]
-        public static (string type, string periode, double montant, string libelle, string binome, string typeOperation)[] ToFlatOperation(Table table)
-            => table.CreateSet<(string type, string periode, double montant, string libelle, string binome, string typeOperation)>()
-                .ToArray();
+        public static (string periode, double montant, string libelle, string binome, string typeOperation)[] ToOperationInput(Table table)
+            => table
+            .CreateSet<(string periode, double montant, string libelle, string binome, string typeOperation)>()
+            .ToArray();
 
         [StepArgumentTransformation]
         public static PeriodOperation[] ToPeriodOperations(Table table)
-            => ToFlatOperation(table).Select(row =>
-                new PeriodOperation(row.periode, row.type, row.binome, row.montant, row.libelle, row.typeOperation)).ToArray();
+            => table
+            .CreateSet<(string type, int operationId, string periode, double montant, string libelle, string binome, string typeOperation)>()
+            .Select(e =>
+                new PeriodOperation(e.periode, e.operationId,e.type, e.binome, e.montant, e.libelle, e.typeOperation))
+            .ToArray();
     }
 }

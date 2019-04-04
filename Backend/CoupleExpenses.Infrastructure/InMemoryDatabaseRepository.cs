@@ -10,12 +10,13 @@ namespace CoupleExpenses.Infrastructure
 {
     public class InMemoryDatabaseRepository : IDatabaseRepository
     {
-        private readonly HashSet<string> _allPeriods = new HashSet<string>();
+        private readonly Dictionary<string,IPeriodBalance> _allPeriods = new Dictionary<string, IPeriodBalance>();
         private readonly Dictionary<string, List<IPeriodOperation>> _operations = new Dictionary<string, List<IPeriodOperation>>();
 
         public void AddPeriod(PeriodName periodName)
         {
-            _allPeriods.Add(periodName.ToString());
+            if(!_allPeriods.ContainsKey(periodName.ToString()))
+                _allPeriods.Add(periodName.ToString(), new PeriodBalance(0,""));
         }
 
         public void AddOperation(IPeriodOperation operation)
@@ -26,8 +27,24 @@ namespace CoupleExpenses.Infrastructure
             _operations[operation.PeriodId].Add(operation);
         }
 
+        public void RemoveOperation(PeriodId periodId, OperationId operationId)
+        {
+            if (_operations.ContainsKey(periodId.Value))
+                _operations[periodId.Value].RemoveAll(o => o.OperationId == operationId.Value);
+        }
+
+        public Task<IPeriodBalance> GetBalance(PeriodId requestPeriodId)
+        {
+            return Task.FromResult(_allPeriods[requestPeriodId.Value]);
+        }
+
+        public void UpdateBalance(PeriodId periodId, Amount amountDue, Pair @by)
+        {
+            _allPeriods[periodId.Value] = new PeriodBalance(amountDue.Value, by.ToString());
+        }
+
         public Task<IReadOnlyList<string>> GetAllPeriod() 
-            => Task.FromResult((IReadOnlyList<string>)_allPeriods.ToList());
+            => Task.FromResult((IReadOnlyList<string>)_allPeriods.Keys.ToList());
 
         public Task<IReadOnlyList<IPeriodOperation>> GetAllOperation(PeriodId periodId)
         {

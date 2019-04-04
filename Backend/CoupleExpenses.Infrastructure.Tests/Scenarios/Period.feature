@@ -18,19 +18,52 @@ Scenario: Intérdire la création de deux mêmes périodes
 Scenario: Ajouter une dépense à une période
 	And J'ai demandé la création d'une période pour le mois 1 et l'année 2001
 	When J'ajoute des dépenses dans l'application
-	| Type    | Periode | Montant | Libelle | Binome   | TypeOperation |
-	| Dépense | 2001-01 | 100     | Test    | Aurélien | Commun        |
+	| Periode | Montant | Libelle | Binome   | TypeOperation |
+	| 2001-01 | 100     | Test    | Aurélien | Commun        |
 	Then La liste des opérations pour la période 2001-01 contient les elements suivants
-	| Type    | Periode | Montant | Libelle | Binome   | TypeOperation |
-	| Dépense | 2001-01 | 100     | Test    | Aurélien | Commun        |
+	| Type    | operationId | Periode | Montant | Libelle | Binome   | TypeOperation |
+	| Dépense | 1           | 2001-01 | 100     | Test    | Aurélien | Commun        |
 
 Scenario: Ajouter une recette à une période
 	And J'ai demandé la création d'une période pour le mois 1 et l'année 2001
 	When J'ajoute des recettes dans l'application
-	| Type    | Periode | Montant | Libelle         | Binome | TypeOperation |
-	| Recette | 2001-01 | 200     | Test de recette | Marie  | Commun        |
+	| Periode | Montant | Libelle         | Binome | TypeOperation |
+	| 2001-01 | 200     | Test de recette | Marie  | Commun        |
 	Then La liste des opérations pour la période 2001-01 contient les elements suivants
-	| Type    | Periode | Montant | Libelle         | Binome | TypeOperation |
-	| Recette | 2001-01 | 200     | Test de recette | Marie  | Commun        |
+	| Type    | OperationId | Periode | Montant | Libelle         | Binome | TypeOperation |
+	| Recette | 1           | 2001-01 | 200     | Test de recette | Marie  | Commun        |
 
-Scenario: Ajouter plusieurs recettes et dépenses 
+Scenario: Supprimer une dépense d'une période
+And J'ai demandé la création d'une période pour le mois 1 et l'année 2001
+	And J'ai ajouté des dépenses dans l'application
+	| Periode | Montant | Libelle | Binome   | TypeOperation |
+	| 2001-01 | 100     | Test    | Aurélien | Commun        |
+	And La liste des opérations pour la période 2001-01 contient les elements suivants
+	| Type    | OperationId | Periode | Montant | Libelle | Binome   | TypeOperation |
+	| Dépense | 1           | 2001-01 | 100     | Test    | Aurélien | Commun        |
+	When Je demande à supprimer l'opération 1 de la période 2001-01
+	Then La liste des opérations pour la période 2001-01 est vide
+
+	Scenario: Supprimer une recette d'une période
+And J'ai demandé la création d'une période pour le mois 1 et l'année 2001
+	And J'ai ajouté des recettes dans l'application
+	| Periode | Montant | Libelle | Binome   | TypeOperation |
+	| 2001-01 | 100     | Test    | Aurélien | Commun        |
+	And La liste des opérations pour la période 2001-01 contient les elements suivants
+	| Type    | OperationId | Periode | Montant | Libelle | Binome   | TypeOperation |
+	| Recette | 1           | 2001-01 | 100     | Test    | Aurélien | Commun        |
+	When Je demande à supprimer l'opération 1 de la période 2001-01
+	Then La liste des opérations pour la période 2001-01 est vide
+
+Scenario: Obtenir le solde d'une période après de multiples opérations
+	And J'ai demandé la création d'une période pour le mois 1 et l'année 2001
+	When J'ajoute des dépenses dans l'application
+	| Periode | Montant | Libelle | Binome   | TypeOperation |
+	| 2001-01 | 150     | leclerc | Marie    | Commun        |
+	| 2001-01 | 200     | cadeau  | Aurelien | Commun        |
+	| 2001-01 | 55      | edf     | Aurelien | Commun        |
+	| 2001-01 | 30      | docteur | Marie    | Avance        |		
+	And J'ajoute des recettes dans l'application
+	| Periode | Montant | Libelle | Binome | TypeOperation |
+	| 2001-01 | 200     | CAF     | Marie  | Commun        |
+	Then Marie doit la somme de 122.5 euros pour la période 2001-01

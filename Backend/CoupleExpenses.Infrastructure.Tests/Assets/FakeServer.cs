@@ -83,6 +83,18 @@ namespace CoupleExpenses.Infrastructure.Tests.Assets
             return await result.ReadContentAs<IEnumerable<PeriodOperation>>();
         }
 
+        public async Task<HttpStatusCode> RemoveOperation(string periodId, int operationId)
+        {
+            var post = await Post(new OperationToRemove(periodId, operationId), "/api/Operation/Remove");
+            return post.GetStatusCode();
+        }
+
+        public async Task<PeriodBalance> GetPeriodBalance(string periodId)
+        {
+            var result = await Get("/api/Period/Balance?PeriodId="+periodId);
+            return await result.ReadContentAs<PeriodBalance>();
+        }
+
         public async Task<IReadOnlyList<string>> GetAllPeriod()
         {
             var result = await Get("/api/Period/All");

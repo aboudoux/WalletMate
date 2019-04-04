@@ -5,7 +5,6 @@ using CoupleExpenses.Application.Core;
 using CoupleExpenses.Application.Periods;
 using CoupleExpenses.Application.Periods.Queries;
 using CoupleExpenses.Domain.Periods.ValueObjects;
-using CoupleExpenses.Infrastructure.Dto;
 using CoupleExpenses.WebApp.Dto;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -14,7 +13,7 @@ namespace CoupleExpenses.WebApp.Controllers
 {
     [Route("api/[controller]")]
     [Authorize]
-    public class PeriodController : Controller
+    public class PeriodController : ControllerBase
     {
         private readonly ICommandBus _commandBus;
         private readonly IQueryBus _queryBus;
@@ -31,6 +30,12 @@ namespace CoupleExpenses.WebApp.Controllers
             return await _queryBus.QueryAsync(new GetAllPeriod());
         }
 
+        [HttpGet("[action]")]
+        public async Task<IPeriodBalance> Balance(string periodId)
+        {
+            return await _queryBus.QueryAsync(new GetPeriodBalance(PeriodId.From(periodId)));
+        }
+
         [HttpPost("[action]")]
         public IActionResult CreateNext()
         {
@@ -40,17 +45,9 @@ namespace CoupleExpenses.WebApp.Controllers
         [HttpPost("[action]")]
         public async Task<IActionResult> Create([FromBody]Period input)
         {
-            try
-            {
-                await _commandBus.SendAsync(new CreatePeriod(PeriodName.From(input.Month, input.Year)));
-                return Ok();
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }            
+            return await Handle(async () => {
+                 await _commandBus.SendAsync(new CreatePeriod(PeriodName.From(input.Month, input.Year)));
+            });
         }
-
-       
     }
 }

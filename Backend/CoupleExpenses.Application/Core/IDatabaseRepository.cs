@@ -11,5 +11,8 @@ namespace CoupleExpenses.Application.Core
         Task<IReadOnlyList<string>> GetAllPeriod();
         Task<IReadOnlyList<IPeriodOperation>> GetAllOperation(PeriodId periodId);
         void AddOperation(IPeriodOperation operation);
+        void RemoveOperation(PeriodId periodId, OperationId operationId);
+        Task<IPeriodBalance> GetBalance(PeriodId requestPeriodId);
+        void UpdateBalance(PeriodId periodId, Amount amountDue, Pair by);
     }
 }
