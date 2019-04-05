@@ -2,7 +2,6 @@
 using CoupleExpenses.Domain.Common;
 using CoupleExpenses.Domain.Periods;
 using CoupleExpenses.Domain.Periods.Events;
-using CoupleExpenses.Domain.Periods.Events.Structures;
 using CoupleExpenses.Domain.Periods.ValueObjects;
 using FluentAssertions;
 using TechTalk.SpecFlow;
@@ -21,18 +20,16 @@ namespace CoupleExpenses.Domain.Tests.Steps {
 
         [When(@"J'ajoute à la période les dépenses suivantes")]
         [Given(@"j'y ai ajouté les dépenses suivantes")]
-        public void WhenJAjouteALaPeriodeLesDepensesSuivantes(
-            (Amount amount, Label label, Pair pair, SpendingOperationType operationType)[] operations)
+        public void WhenJAjouteALaPeriodeLesDepensesSuivantes((Amount amount, Label label, Pair pair, SpendingCategory category)[] operations)
         {
-            operations.ForEach(e => _period.AddSpending(e.amount, e.label, e.pair, e.operationType));
+            operations.ForEach(e => _period.AddSpending(e.amount, e.label, e.pair, e.category));
         }
 
         [When(@"J'ajoute à la période les recettes suivantes")]
         [Given(@"j'y ai ajouté les recettes suivantes")]
-        public void WhenJAjouteALaPeriodeLesRecettesSuivantes(
-            (Amount amount, Label label, Pair pair, RecipeOperationType operationType)[] operations)
+        public void WhenJAjouteALaPeriodeLesRecettesSuivantes((Amount amount, Label label, Pair pair, RecipeCategory category)[] operations)
         {
-            operations.ForEach(e => _period.AddRecipe(e.amount, e.label, e.pair, e.operationType));
+            operations.ForEach(e => _period.AddRecipe(e.amount, e.label, e.pair, e.category));
         }
 
         [When(@"je modifie le montant de l'operation (.*) en (.*) euros")]
@@ -55,9 +52,9 @@ namespace CoupleExpenses.Domain.Tests.Steps {
 
         [When(@"je modifie le type de l'operation (.*) en (.*)")]
         public void WhenJeModifieLeTypeDeLOperationEnCommun(OperationId operationId,
-            SpendingOperationType spendingOperationType)
+            SpendingCategory spendingCategory)
         {
-            _period.ChangeSpending(operationId, operationType: spendingOperationType);
+            _period.ChangeSpending(operationId, category: spendingCategory);
         }
 
         [Then(@"le binome (.*) doit la somme de (.*) euros")]
@@ -69,22 +66,21 @@ namespace CoupleExpenses.Domain.Tests.Steps {
         }
 
         [StepArgumentTransformation]
-        private static (Amount amount, Label label, Pair pair, SpendingOperationType operationType)[]
-            ToSpendingOperations(Table table)
+        private static (Amount amount, Label label, Pair pair, SpendingCategory category)[]ToSpendingOperations(Table table)
             => table.Rows.Select(row => (
                     Amount.From(double.Parse(row["Montant"])),
                     Label.From(row["Libelle"]),
                     Pair.From(row["Binome"] == "Aurelien" ? 1 : 2),
-                    SpendingOperationType.From(row["Type"] == "Commun" ? 1 : 2)))
+                    SpendingCategory.From(row["Categorie"] == "Commun" ? 1 : 2)))
                 .ToArray();
 
         [StepArgumentTransformation]
-        private static (Amount amount, Label label, Pair pair, RecipeOperationType operationType)[] ToRecipeOperations(Table table)
+        private static (Amount amount, Label label, Pair pair, RecipeCategory category)[] ToRecipeOperations(Table table)
             => table.Rows.Select(row => (
                     Amount.From(double.Parse(row["Montant"])),
                     Label.From(row["Libelle"]),
                     Pair.From(row["Binome"] == "Aurelien" ? 1 : 2),
-                    RecipeOperationType.From(row["Type"] == "Commune" ? 1 : 2)))
+                    RecipeCategory.From(row["Categorie"] == "Commune" ? 1 : 2)))
                 .ToArray();
         
 
@@ -103,9 +99,9 @@ namespace CoupleExpenses.Domain.Tests.Steps {
             => Amount.From(double.Parse(source));
 
         [StepArgumentTransformation]
-        private static SpendingOperationType ToSpendingOperationType(string source)
+        private static SpendingCategory ToSpendingCategory(string source)
             => source == "Commun"
-                ? SpendingOperationType.Common
-                : SpendingOperationType.Advance;
+                ? SpendingCategory.Common
+                : SpendingCategory.Advance;
     }
 }

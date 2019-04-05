@@ -18,28 +18,28 @@ Scenario: Intérdire la création de deux mêmes périodes
 Scenario: Ajouter une dépense à une période
 	And J'ai demandé la création d'une période pour le mois 1 et l'année 2001
 	When J'ajoute des dépenses dans l'application
-	| Periode | Montant | Libelle | Binome   | TypeOperation |
+	| Periode | Montant | Libelle | Binome   | Categorie |
 	| 2001-01 | 100     | Test    | Aurélien | Commun        |
 	Then La liste des opérations pour la période 2001-01 contient les elements suivants
-	| Type    | operationId | Periode | Montant | Libelle | Binome   | TypeOperation |
+	| Type    | operationId | Periode | Montant | Libelle | Binome   | Categorie |
 	| Dépense | 1           | 2001-01 | 100     | Test    | Aurélien | Commun        |
 
 Scenario: Ajouter une recette à une période
 	And J'ai demandé la création d'une période pour le mois 1 et l'année 2001
 	When J'ajoute des recettes dans l'application
-	| Periode | Montant | Libelle         | Binome | TypeOperation |
-	| 2001-01 | 200     | Test de recette | Marie  | Commun        |
+	| Periode | Montant | Libelle         | Binome | Categorie |
+	| 2001-01 | 200     | Test de recette | Marie  | Commun    |
 	Then La liste des opérations pour la période 2001-01 contient les elements suivants
-	| Type    | OperationId | Periode | Montant | Libelle         | Binome | TypeOperation |
-	| Recette | 1           | 2001-01 | 200     | Test de recette | Marie  | Commun        |
+	| Type    | OperationId | Periode | Montant | Libelle         | Binome | Categorie |
+	| Recette | 1           | 2001-01 | 200     | Test de recette | Marie  | Commun    |
 
 Scenario: Supprimer une dépense d'une période
 And J'ai demandé la création d'une période pour le mois 1 et l'année 2001
 	And J'ai ajouté des dépenses dans l'application
-	| Periode | Montant | Libelle | Binome   | TypeOperation |
+	| Periode | Montant | Libelle | Binome   | Categorie |
 	| 2001-01 | 100     | Test    | Aurélien | Commun        |
 	And La liste des opérations pour la période 2001-01 contient les elements suivants
-	| Type    | OperationId | Periode | Montant | Libelle | Binome   | TypeOperation |
+	| Type    | OperationId | Periode | Montant | Libelle | Binome   | Categorie |
 	| Dépense | 1           | 2001-01 | 100     | Test    | Aurélien | Commun        |
 	When Je demande à supprimer l'opération 1 de la période 2001-01
 	Then La liste des opérations pour la période 2001-01 est vide
@@ -47,10 +47,10 @@ And J'ai demandé la création d'une période pour le mois 1 et l'année 2001
 	Scenario: Supprimer une recette d'une période
 And J'ai demandé la création d'une période pour le mois 1 et l'année 2001
 	And J'ai ajouté des recettes dans l'application
-	| Periode | Montant | Libelle | Binome   | TypeOperation |
+	| Periode | Montant | Libelle | Binome   | Categorie |
 	| 2001-01 | 100     | Test    | Aurélien | Commun        |
 	And La liste des opérations pour la période 2001-01 contient les elements suivants
-	| Type    | OperationId | Periode | Montant | Libelle | Binome   | TypeOperation |
+	| Type    | OperationId | Periode | Montant | Libelle | Binome   | Categorie |
 	| Recette | 1           | 2001-01 | 100     | Test    | Aurélien | Commun        |
 	When Je demande à supprimer l'opération 1 de la période 2001-01
 	Then La liste des opérations pour la période 2001-01 est vide
@@ -58,10 +58,10 @@ And J'ai demandé la création d'une période pour le mois 1 et l'année 2001
 Scenario: Modifier le montant d'une opération de recette
 And J'ai demandé la création d'une période pour le mois 1 et l'année 2001
 	And J'ai ajouté des recettes dans l'application
-	| Periode | Montant | Libelle | Binome   | TypeOperation |
+	| Periode | Montant | Libelle | Binome   | Categorie |
 	| 2001-01 | 100     | Test    | Marie | Commun        |
 	And La liste des opérations pour la période 2001-01 contient les elements suivants
-	| Type    | OperationId | Periode | Montant | Libelle | Binome   | TypeOperation |
+	| Type    | OperationId | Periode | Montant | Libelle | Binome   | Categorie |
 	| Recette | 1           | 2001-01 | 100     | Test    | Marie | Commun        |
 	When je demande à modifier le montant de la recette numéro 1 en 200 euros pour la période 2001-01
 	Then L'opération 1 de la période 2001-01 à un montant de 200 euros
@@ -70,10 +70,10 @@ And J'ai demandé la création d'une période pour le mois 1 et l'année 2001
 Scenario: Modifier le libellé d'une opération de recette
 And J'ai demandé la création d'une période pour le mois 1 et l'année 2001
 	And J'ai ajouté des recettes dans l'application
-	| Periode | Montant | Libelle | Binome   | TypeOperation |
+	| Periode | Montant | Libelle | Binome   | Categorie |
 	| 2001-01 | 100     | Test    | Marie | Commun        |
 	And La liste des opérations pour la période 2001-01 contient les elements suivants
-	| Type    | OperationId | Periode | Montant | Libelle | Binome   | TypeOperation |
+	| Type    | OperationId | Periode | Montant | Libelle | Binome   | Categorie |
 	| Recette | 1           | 2001-01 | 100     | Test    | Marie | Commun        |
 	When je demande à modifier le libellé de la recette numéro 1 en "essai" pour la période 2001-01
 	Then L'opération 1 de la période 2001-01 à pour libellé "essai"
@@ -82,10 +82,10 @@ And J'ai demandé la création d'une période pour le mois 1 et l'année 2001
 Scenario: Modifier le binôme d'une opération de recette
 And J'ai demandé la création d'une période pour le mois 1 et l'année 2001
 	And J'ai ajouté des recettes dans l'application
-	| Periode | Montant | Libelle | Binome   | TypeOperation |
+	| Periode | Montant | Libelle | Binome   | Categorie |
 	| 2001-01 | 100     | Test    | Marie | Commun        |
 	And La liste des opérations pour la période 2001-01 contient les elements suivants
-	| Type    | OperationId | Periode | Montant | Libelle | Binome   | TypeOperation |
+	| Type    | OperationId | Periode | Montant | Libelle | Binome   | Categorie |
 	| Recette | 1           | 2001-01 | 100     | Test    | Marie | Commun        |
 	When je demande à modifier le binôme de la recette numéro 1 par Aurélien pour la période 2001-01
 	Then L'opération 1 de la période 2001-01 à pour binôme Aurélien
@@ -94,10 +94,10 @@ And J'ai demandé la création d'une période pour le mois 1 et l'année 2001
 Scenario: Modifier le type d'une opération de recette
 And J'ai demandé la création d'une période pour le mois 1 et l'année 2001
 	And J'ai ajouté des recettes dans l'application
-	| Periode | Montant | Libelle | Binome | TypeOperation |
+	| Periode | Montant | Libelle | Binome | Categorie |
 	| 2001-01 | 100     | Test    | Marie  | Commun        |
 	And La liste des opérations pour la période 2001-01 contient les elements suivants
-	| Type    | OperationId | Periode | Montant | Libelle | Binome | TypeOperation |
+	| Type    | OperationId | Periode | Montant | Libelle | Binome | Categorie |
 	| Recette | 1           | 2001-01 | 100     | Test    | Marie  | Commun        |
 	When je demande à modifier le type de la recette numéro 1 en "Individuelle" pour la période 2001-01
 	Then L'opération 1 de la période 2001-01 à pour type "Individuelle"
@@ -106,10 +106,10 @@ And J'ai demandé la création d'une période pour le mois 1 et l'année 2001
 Scenario: Modifier le montant d'une opération de dépense
 And J'ai demandé la création d'une période pour le mois 1 et l'année 2001
 	And J'ai ajouté des dépenses dans l'application
-	| Periode | Montant | Libelle | Binome | TypeOperation |
+	| Periode | Montant | Libelle | Binome | Categorie |
 	| 2001-01 | 100     | Test    | Marie  | Commun        |
 	And La liste des opérations pour la période 2001-01 contient les elements suivants
-	| Type    | OperationId | Periode | Montant | Libelle | Binome | TypeOperation |
+	| Type    | OperationId | Periode | Montant | Libelle | Binome | Categorie |
 	| Dépense | 1           | 2001-01 | 100     | Test    | Marie  | Commun        |
 	When je demande à modifier le montant de la dépense numéro 1 en 200 euros pour la période 2001-01
 	Then L'opération 1 de la période 2001-01 à un montant de 200 euros
@@ -118,10 +118,10 @@ And J'ai demandé la création d'une période pour le mois 1 et l'année 2001
 Scenario: Modifier le libellé d'une opération de dépense
 And J'ai demandé la création d'une période pour le mois 1 et l'année 2001
 	And J'ai ajouté des dépenses dans l'application
-	| Periode | Montant | Libelle | Binome | TypeOperation |
+	| Periode | Montant | Libelle | Binome | Categorie |
 	| 2001-01 | 100     | Test    | Marie  | Commun        |
 	And La liste des opérations pour la période 2001-01 contient les elements suivants
-	| Type    | OperationId | Periode | Montant | Libelle | Binome | TypeOperation |
+	| Type    | OperationId | Periode | Montant | Libelle | Binome | Categorie |
 	| Dépense | 1           | 2001-01 | 100     | Test    | Marie  | Commun        |
 	When je demande à modifier le libellé de la dépense numéro 1 en "essai" pour la période 2001-01
 	Then L'opération 1 de la période 2001-01 à pour libellé "essai"
@@ -130,10 +130,10 @@ And J'ai demandé la création d'une période pour le mois 1 et l'année 2001
 Scenario: Modifier le binôme d'une opération de dépense
 And J'ai demandé la création d'une période pour le mois 1 et l'année 2001
 	And J'ai ajouté des dépenses dans l'application
-	| Periode | Montant | Libelle | Binome | TypeOperation |
+	| Periode | Montant | Libelle | Binome | Categorie |
 	| 2001-01 | 100     | Test    | Marie  | Commun        |
 	And La liste des opérations pour la période 2001-01 contient les elements suivants
-	| Type    | OperationId | Periode | Montant | Libelle | Binome | TypeOperation |
+	| Type    | OperationId | Periode | Montant | Libelle | Binome | Categorie |
 	| Dépense | 1           | 2001-01 | 100     | Test    | Marie  | Commun        |
 	When je demande à modifier le binôme de la dépense numéro 1 par Aurélien pour la période 2001-01
 	Then L'opération 1 de la période 2001-01 à pour binôme Aurélien
@@ -142,10 +142,10 @@ And J'ai demandé la création d'une période pour le mois 1 et l'année 2001
 Scenario: Modifier le type d'une opération de dépense
 And J'ai demandé la création d'une période pour le mois 1 et l'année 2001
 	And J'ai ajouté des dépenses dans l'application
-	| Periode | Montant | Libelle | Binome | TypeOperation |
+	| Periode | Montant | Libelle | Binome | Categorie |
 	| 2001-01 | 100     | Test    | Marie  | Commun        |
 	And La liste des opérations pour la période 2001-01 contient les elements suivants
-	| Type    | OperationId | Periode | Montant | Libelle | Binome | TypeOperation |
+	| Type    | OperationId | Periode | Montant | Libelle | Binome | Categorie |
 	| Dépense | 1           | 2001-01 | 100     | Test    | Marie  | Commun        |
 	When je demande à modifier le type de la dépense numéro 1 en "Avance" pour la période 2001-01
 	Then L'opération 1 de la période 2001-01 à pour type "Avance"
@@ -154,13 +154,13 @@ And J'ai demandé la création d'une période pour le mois 1 et l'année 2001
 Scenario: Obtenir le solde d'une période après de multiples opérations
 	And J'ai demandé la création d'une période pour le mois 1 et l'année 2001
 	When J'ajoute des dépenses dans l'application
-	| Periode | Montant | Libelle | Binome   | TypeOperation |
+	| Periode | Montant | Libelle | Binome   | Categorie |
 	| 2001-01 | 150     | leclerc | Marie    | Commun        |
 	| 2001-01 | 200     | cadeau  | Aurelien | Commun        |
 	| 2001-01 | 55      | edf     | Aurelien | Commun        |
 	| 2001-01 | 30      | docteur | Marie    | Avance        |		
 	And J'ajoute des recettes dans l'application
-	| Periode | Montant | Libelle | Binome | TypeOperation |
+	| Periode | Montant | Libelle | Binome | Categorie |
 	| 2001-01 | 200     | CAF     | Marie  | Commun        |
 	Then Marie doit la somme de 122.5 euros pour la période 2001-01
 

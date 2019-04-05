@@ -19,8 +19,8 @@ namespace CoupleExpenses.Infrastructure.Projections {
         IEventHandler<PeriodBalanceChanged>,
         IEventHandler<LabelChanged>,
         IEventHandler<PairChanged>,
-        IEventHandler<RecipeOperationTypeChanged>,
-        IEventHandler<SpendingOperationTypeChanged>
+        IEventHandler<RecipeCategoryChanged>,
+        IEventHandler<SpendingCategoryChanged>
     {
         private readonly IDatabaseRepository _databaseRepository;
 
@@ -91,15 +91,15 @@ namespace CoupleExpenses.Infrastructure.Projections {
             return Task.CompletedTask;
         }
 
-        public Task Handle(RecipeOperationTypeChanged @event, CancellationToken cancellationToken)
+        public Task Handle(RecipeCategoryChanged @event, CancellationToken cancellationToken)
         {
-            _databaseRepository.UpdateOperation(PeriodId.From(@event.AggregateId), @event.OperationId, recipeOperationType : @event.OperationType);
+            _databaseRepository.UpdateOperation(PeriodId.From(@event.AggregateId), @event.OperationId, recipeCategory : @event.Category);
             return Task.CompletedTask;
         }
 
-        public Task Handle(SpendingOperationTypeChanged @event, CancellationToken cancellationToken)
+        public Task Handle(SpendingCategoryChanged @event, CancellationToken cancellationToken)
         {
-            _databaseRepository.UpdateOperation(PeriodId.From(@event.AggregateId), @event.OperationId, spendingOperationType: @event.OperationType);
+            _databaseRepository.UpdateOperation(PeriodId.From(@event.AggregateId), @event.OperationId, spendingCategory: @event.Category);
             return Task.CompletedTask;
         }
     }

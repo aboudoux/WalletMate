@@ -7,12 +7,12 @@ namespace CoupleExpenses.Domain.Periods.Events
     [SerializableTypeIdentifier("SpendingAdded")]
     public sealed class SpendingAdded : DomainEvent, IOperation
     {
-        public SpendingAdded(OperationId operationId, Amount amount, Label label, Pair pair, SpendingOperationType type)
+        public SpendingAdded(OperationId operationId, Amount amount, Label label, Pair pair, SpendingCategory category)
         {
             Pair = pair;
             Label = label;
             Amount = amount;
-            Type = type;
+            Category = category;
             OperationId = operationId;
         }
 
@@ -20,6 +20,6 @@ namespace CoupleExpenses.Domain.Periods.Events
         public Pair Pair { get;  } 
         public Label Label { get;  }
         public Amount Amount { get;  }
-        public SpendingOperationType Type { get;  } 
+        public SpendingCategory Category { get;  } 
     }
 }

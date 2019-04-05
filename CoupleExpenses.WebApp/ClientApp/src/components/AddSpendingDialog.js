@@ -1,4 +1,4 @@
-﻿import React from 'react'
+﻿import React, { useState } from 'react'
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -8,9 +8,14 @@ import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import Input from '@material-ui/core/Input';
 import InputAdornment from '@material-ui/core/InputAdornment';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 
 const AddSpendingDialog = ({ openState, setOpenState }) => {
+
+    
     return (
         <Dialog
             open={openState}
@@ -29,6 +34,20 @@ const AddSpendingDialog = ({ openState, setOpenState }) => {
                     <Input
                         id="adornment-libelle"
                     />
+                    <RadioGroup
+                        row
+                        aria-label="Par"
+                        name="pair">
+                            <FormControlLabel value="1" control={<Radio />} label="Aurélien" />
+                            <FormControlLabel value="2" control={<Radio />} label="Marie" />
+                    </RadioGroup>
+                    <RadioGroup
+                        row
+                        aria-label="Destination"
+                        name="destination">
+                        <FormControlLabel value="1" control={<Radio />} label="Commun" />
+                        <FormControlLabel value="2" control={<Radio />} label="Avance" />
+                    </RadioGroup>
                 </FormControl>
 
             </DialogContent>

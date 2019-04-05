@@ -10,16 +10,16 @@ namespace CoupleExpenses.Application.Periods
         public Amount Amount { get; }
         public Label Label { get; }
         public Pair Pair { get; }
-        public SpendingOperationType OperationType { get; }
+        public SpendingCategory Category { get; }
 
-        public ChangeSpending(PeriodId periodId, OperationId operationId, Amount amount = null, Label label = null, Pair pair = null, SpendingOperationType operationType = null)
+        public ChangeSpending(PeriodId periodId, OperationId operationId, Amount amount = null, Label label = null, Pair pair = null, SpendingCategory category = null)
         {
             PeriodId = periodId;
             OperationId = operationId;
             Amount = amount;
             Label = label;
             Pair = pair;
-            OperationType = operationType;
+            Category = category;
         }
     }
 }

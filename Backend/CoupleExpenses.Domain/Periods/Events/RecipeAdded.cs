@@ -7,12 +7,12 @@ namespace CoupleExpenses.Domain.Periods.Events
     [SerializableTypeIdentifier("RecipeAdded")]
     public sealed class RecipeAdded : DomainEvent, IOperation 
     {
-        public RecipeAdded(OperationId operationId, Amount amount, Label label, Pair pair, RecipeOperationType type)
+        public RecipeAdded(OperationId operationId, Amount amount, Label label, Pair pair, RecipeCategory category)
         {
             Pair = pair;
             Label = label;
             Amount = amount;
-            Type = type;
+            Category = category;
             OperationId = operationId;
         }
 
@@ -20,6 +20,6 @@ namespace CoupleExpenses.Domain.Periods.Events
         public Pair Pair { get; }
         public Label Label { get; }
         public Amount Amount { get; }
-        public RecipeOperationType Type { get; }
+        public RecipeCategory Category { get; }
     }
 }

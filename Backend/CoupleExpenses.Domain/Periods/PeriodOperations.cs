@@ -14,8 +14,8 @@ namespace CoupleExpenses.Domain.Periods
         internal void Process(AmountChanged @event) => _allOperations[@event.OperationId.Value].Amount = @event.Amount.Value;
         internal void Process(LabelChanged @event) => _allOperations[@event.OperationId.Value].Label = @event.Label;
         internal void Process(PairChanged @event) => _allOperations[@event.OperationId.Value].Pair = @event.Pair.Value;
-        internal void Process(SpendingOperationTypeChanged @event) => _allOperations[@event.OperationId.Value].OperationType = @event.OperationType.Value;
-        internal void Process(RecipeOperationTypeChanged @event) => _allOperations[@event.OperationId.Value].OperationType = @event.OperationType.Value;
+        internal void Process(SpendingCategoryChanged @event) => _allOperations[@event.OperationId.Value].Category = @event.Category.Value;
+        internal void Process(RecipeCategoryChanged @event) => _allOperations[@event.OperationId.Value].Category = @event.Category.Value;
 
         internal void Process(RecipeAdded @event) => _allOperations.Add(@event.OperationId.Value, new OperationDto(@event));
 
@@ -25,7 +25,7 @@ namespace CoupleExpenses.Domain.Periods
         internal bool LabelNotEquals(int operationId, string newLabel) => _allOperations[operationId].Label != newLabel;
         internal bool AmountNotEquals(int operationId, double newAmount) => Math.Abs(_allOperations[operationId].Amount - newAmount) > double.Epsilon;
         internal bool PairNotEquals(int operationId, Pair pairInfo) => _allOperations[operationId].Pair != pairInfo.Value;
-        internal bool OperationTypeNotEquals(int operationId, int operationType) => _allOperations[operationId].OperationType != operationType;
+        internal bool CategoryNotEquals(int operationId, int category) => _allOperations[operationId].Category != category;
 
         internal bool Exists(int operationId) => _allOperations.ContainsKey(operationId);
 
@@ -35,7 +35,7 @@ namespace CoupleExpenses.Domain.Periods
                 .Where(a => a.IsSpending)
                 .Select(a => new
                 {
-                    Amount = a.OperationType == SpendingOperationType.Advance.Value
+                    Amount = a.Category == SpendingCategory.Advance.Value
                         ? a.Amount
                         : a.Amount / 2,
                     By = a.Pair
@@ -48,7 +48,7 @@ namespace CoupleExpenses.Domain.Periods
                 .Where(a => !a.IsSpending)
                 .Select(a => new
                 {
-                    Amount = a.OperationType == RecipeOperationType.Individual.Value
+                    Amount = a.Category == RecipeCategory.Individual.Value
                         ? a.Amount
                         : a.Amount / 2,
                     By = a.Pair
@@ -80,7 +80,7 @@ namespace CoupleExpenses.Domain.Periods
             Label = @event.Label.Value;
             Amount = @event.Amount.Value;
             Pair = @event.Pair.Value;
-            OperationType = @event.Type.Value;
+            Category = @event.Category.Value;
             IsSpending = true;
         }
 
@@ -89,7 +89,7 @@ namespace CoupleExpenses.Domain.Periods
             Label = @event.Label;
             Amount = @event.Amount.Value;
             Pair = @event.Pair.Value;
-            OperationType = @event.Type.Value;
+            Category = @event.Category.Value;
             IsSpending = false;
         }
 
@@ -99,6 +99,6 @@ namespace CoupleExpenses.Domain.Periods
         public string Label { get; set; }
         public double Amount { get; set; }
         public int Pair { get; set; }
-        public int OperationType { get; set; }        
+        public int Category { get; set; }        
     }
 }

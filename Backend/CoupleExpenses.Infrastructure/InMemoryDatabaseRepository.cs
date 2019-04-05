@@ -33,7 +33,7 @@ namespace CoupleExpenses.Infrastructure
                 _operations[periodId.Value].RemoveAll(o => o.OperationId == operationId.Value);
         }
 
-        public void UpdateOperation(PeriodId periodId, OperationId operationId, Amount amount = null, Label label = null, Pair pair = null, RecipeOperationType recipeOperationType = null, SpendingOperationType spendingOperationType = null)
+        public void UpdateOperation(PeriodId periodId, OperationId operationId, Amount amount = null, Label label = null, Pair pair = null, RecipeCategory recipeCategory = null, SpendingCategory spendingCategory = null)
         {
             if (!_operations.ContainsKey(periodId.Value))
                 return;
@@ -48,10 +48,10 @@ namespace CoupleExpenses.Infrastructure
                 operation.Label = label.Value;
             if (pair != null)
                 operation.Pair = pair.ToString();
-            if (recipeOperationType != null)
-                operation.OperationType = recipeOperationType.ToString();
-            if (spendingOperationType != null)
-                operation.OperationType = spendingOperationType.ToString();
+            if (recipeCategory != null)
+                operation.Category = recipeCategory.ToString();
+            if (spendingCategory != null)
+                operation.Category = spendingCategory.ToString();
         }
 
         public Task<IPeriodBalance> GetBalance(PeriodId requestPeriodId)

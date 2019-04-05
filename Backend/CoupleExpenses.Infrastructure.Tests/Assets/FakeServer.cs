@@ -49,27 +49,27 @@ namespace CoupleExpenses.Infrastructure.Tests.Assets
             return post.GetStatusCode();
         }
 
-        public async Task<HttpStatusCode> AddSpending(string periode, double montant, string libelle, string binome, string operationType)
+        public async Task<HttpStatusCode> AddSpending(string periodId, double amount, string label, string pair, string category)
         {
             var post = await Post(new Spending(
-                periode, 
-                montant,
-                libelle, 
-                binome == "Marie" ? 2 : 1,
-                operationType == "Commun" ? 1 : 2),
+                periodId, 
+                amount,
+                label, 
+                pair == "Marie" ? 2 : 1,
+                category == "Commun" ? 1 : 2),
                 "/api/Operation/AddSpending");
 
             return post.GetStatusCode();
         }
 
-        public async Task<HttpStatusCode> AddRecipe(string periode, double montant, string libelle, string binome, string operationType)
+        public async Task<HttpStatusCode> AddRecipe(string periodId, double amount, string label, string pair, string category)
         {
             var post = await Post(new Spending(
-                    periode,
-                    montant,
-                    libelle,
-                    binome == "Marie" ? 2 : 1,
-                    operationType == "Commun" ? 1 : 2),
+                    periodId,
+                    amount,
+                    label,
+                    pair == "Marie" ? 2 : 1,
+                    category == "Commun" ? 1 : 2),
                 "/api/Operation/AddRecipe");
 
             return post.GetStatusCode();
@@ -87,15 +87,15 @@ namespace CoupleExpenses.Infrastructure.Tests.Assets
             return post.GetStatusCode();
         }
 
-        public async Task<HttpStatusCode> ChangeRecipe(string periodId, int operationId, double amount, string label, int pair, int operationType)
+        public async Task<HttpStatusCode> ChangeRecipe(string periodId, int operationId, double amount, string label, int pair, int category)
         {
-            var post = await Post(new UpdateRecipe(periodId, operationId, amount, label, pair, operationType), "/api/Operation/ChangeRecipe");
+            var post = await Post(new UpdateRecipe(periodId, operationId, amount, label, pair, category), "/api/Operation/ChangeRecipe");
             return post.GetStatusCode();
         }
 
-        public async Task<HttpStatusCode> ChangeSpending(string periodId, int operationId, double amount, string label, int pair, int operationType)
+        public async Task<HttpStatusCode> ChangeSpending(string periodId, int operationId, double amount, string label, int pair, int category)
         {
-            var post = await Post(new UpdateSpending(periodId, operationId, amount, label, pair, operationType), "/api/Operation/ChangeSpending");
+            var post = await Post(new UpdateSpending(periodId, operationId, amount, label, pair, category), "/api/Operation/ChangeSpending");
             return post.GetStatusCode();
         }
 

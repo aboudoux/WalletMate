@@ -45,25 +45,25 @@ namespace CoupleExpenses.Application.Periods
         public async Task Handle(AddSpending command, CancellationToken cancellationToken)
         {
             await (await LoadAggregate<Period>(command.PeriodId.ToString()))
-                .AndExecute(p => p.AddSpending(command.Amount, command.Label, command.Pair, command.OperationType));
+                .AndExecute(p => p.AddSpending(command.Amount, command.Label, command.Pair, command.Category));
         }
 
         public async Task Handle(ChangeSpending command, CancellationToken cancellationToken)
         {
             await (await LoadAggregate<Period>(command.PeriodId.ToString()))
-                .AndExecute(p => p.ChangeSpending(command.OperationId, command.Amount, command.Label, command.Pair, command.OperationType));
+                .AndExecute(p => p.ChangeSpending(command.OperationId, command.Amount, command.Label, command.Pair, command.Category));
         }
 
         public async Task Handle(AddRecipe command, CancellationToken cancellationToken)
         {
             await (await LoadAggregate<Period>(command.PeriodId.ToString()))
-                .AndExecute(p => p.AddRecipe(command.Amount, command.Label, command.Pair, command.OperationType));
+                .AndExecute(p => p.AddRecipe(command.Amount, command.Label, command.Pair, command.Category));
         }
 
         public async Task Handle(ChangeRecipe command, CancellationToken cancellationToken)
         {
             await (await LoadAggregate<Period>(command.PeriodId.ToString()))
-                .AndExecute(p => p.ChangeRecipe(command.OperationId, command.Amount, command.Label, command.Pair, command.OperationType));
+                .AndExecute(p => p.ChangeRecipe(command.OperationId, command.Amount, command.Label, command.Pair, command.Category));
         }
 
         public async Task Handle(RemoveOperation command, CancellationToken cancellationToken)

@@ -146,7 +146,7 @@ this.FeatureBackground();
                         "Montant",
                         "Libelle",
                         "Binome",
-                        "TypeOperation"});
+                        "Categorie"});
             table1.AddRow(new string[] {
                         "2001-01",
                         "100",
@@ -163,7 +163,7 @@ this.FeatureBackground();
                         "Montant",
                         "Libelle",
                         "Binome",
-                        "TypeOperation"});
+                        "Categorie"});
             table2.AddRow(new string[] {
                         "Dépense",
                         "1",
@@ -197,7 +197,7 @@ this.FeatureBackground();
                         "Montant",
                         "Libelle",
                         "Binome",
-                        "TypeOperation"});
+                        "Categorie"});
             table3.AddRow(new string[] {
                         "2001-01",
                         "200",
@@ -214,7 +214,7 @@ this.FeatureBackground();
                         "Montant",
                         "Libelle",
                         "Binome",
-                        "TypeOperation"});
+                        "Categorie"});
             table4.AddRow(new string[] {
                         "Recette",
                         "1",
@@ -248,7 +248,7 @@ testRunner.And("J\'ai demandé la création d\'une période pour le mois 1 et l\
                         "Montant",
                         "Libelle",
                         "Binome",
-                        "TypeOperation"});
+                        "Categorie"});
             table5.AddRow(new string[] {
                         "2001-01",
                         "100",
@@ -265,7 +265,7 @@ testRunner.And("J\'ai demandé la création d\'une période pour le mois 1 et l\
                         "Montant",
                         "Libelle",
                         "Binome",
-                        "TypeOperation"});
+                        "Categorie"});
             table6.AddRow(new string[] {
                         "Dépense",
                         "1",
@@ -303,7 +303,7 @@ testRunner.And("J\'ai demandé la création d\'une période pour le mois 1 et l\
                         "Montant",
                         "Libelle",
                         "Binome",
-                        "TypeOperation"});
+                        "Categorie"});
             table7.AddRow(new string[] {
                         "2001-01",
                         "100",
@@ -320,7 +320,7 @@ testRunner.And("J\'ai demandé la création d\'une période pour le mois 1 et l\
                         "Montant",
                         "Libelle",
                         "Binome",
-                        "TypeOperation"});
+                        "Categorie"});
             table8.AddRow(new string[] {
                         "Recette",
                         "1",
@@ -358,7 +358,7 @@ testRunner.And("J\'ai demandé la création d\'une période pour le mois 1 et l\
                         "Montant",
                         "Libelle",
                         "Binome",
-                        "TypeOperation"});
+                        "Categorie"});
             table9.AddRow(new string[] {
                         "2001-01",
                         "100",
@@ -375,7 +375,7 @@ testRunner.And("J\'ai demandé la création d\'une période pour le mois 1 et l\
                         "Montant",
                         "Libelle",
                         "Binome",
-                        "TypeOperation"});
+                        "Categorie"});
             table10.AddRow(new string[] {
                         "Recette",
                         "1",
@@ -416,7 +416,7 @@ testRunner.And("J\'ai demandé la création d\'une période pour le mois 1 et l\
                         "Montant",
                         "Libelle",
                         "Binome",
-                        "TypeOperation"});
+                        "Categorie"});
             table11.AddRow(new string[] {
                         "2001-01",
                         "100",
@@ -433,7 +433,7 @@ testRunner.And("J\'ai demandé la création d\'une période pour le mois 1 et l\
                         "Montant",
                         "Libelle",
                         "Binome",
-                        "TypeOperation"});
+                        "Categorie"});
             table12.AddRow(new string[] {
                         "Recette",
                         "1",
@@ -474,7 +474,7 @@ testRunner.And("J\'ai demandé la création d\'une période pour le mois 1 et l\
                         "Montant",
                         "Libelle",
                         "Binome",
-                        "TypeOperation"});
+                        "Categorie"});
             table13.AddRow(new string[] {
                         "2001-01",
                         "100",
@@ -491,7 +491,7 @@ testRunner.And("J\'ai demandé la création d\'une période pour le mois 1 et l\
                         "Montant",
                         "Libelle",
                         "Binome",
-                        "TypeOperation"});
+                        "Categorie"});
             table14.AddRow(new string[] {
                         "Recette",
                         "1",
@@ -532,7 +532,7 @@ testRunner.And("J\'ai demandé la création d\'une période pour le mois 1 et l\
                         "Montant",
                         "Libelle",
                         "Binome",
-                        "TypeOperation"});
+                        "Categorie"});
             table15.AddRow(new string[] {
                         "2001-01",
                         "100",
@@ -549,7 +549,7 @@ testRunner.And("J\'ai demandé la création d\'une période pour le mois 1 et l\
                         "Montant",
                         "Libelle",
                         "Binome",
-                        "TypeOperation"});
+                        "Categorie"});
             table16.AddRow(new string[] {
                         "Recette",
                         "1",
@@ -590,7 +590,7 @@ testRunner.And("J\'ai demandé la création d\'une période pour le mois 1 et l\
                         "Montant",
                         "Libelle",
                         "Binome",
-                        "TypeOperation"});
+                        "Categorie"});
             table17.AddRow(new string[] {
                         "2001-01",
                         "100",
@@ -607,7 +607,7 @@ testRunner.And("J\'ai demandé la création d\'une période pour le mois 1 et l\
                         "Montant",
                         "Libelle",
                         "Binome",
-                        "TypeOperation"});
+                        "Categorie"});
             table18.AddRow(new string[] {
                         "Dépense",
                         "1",
@@ -648,7 +648,7 @@ testRunner.And("J\'ai demandé la création d\'une période pour le mois 1 et l\
                         "Montant",
                         "Libelle",
                         "Binome",
-                        "TypeOperation"});
+                        "Categorie"});
             table19.AddRow(new string[] {
                         "2001-01",
                         "100",
@@ -665,7 +665,7 @@ testRunner.And("J\'ai demandé la création d\'une période pour le mois 1 et l\
                         "Montant",
                         "Libelle",
                         "Binome",
-                        "TypeOperation"});
+                        "Categorie"});
             table20.AddRow(new string[] {
                         "Dépense",
                         "1",
@@ -706,7 +706,7 @@ testRunner.And("J\'ai demandé la création d\'une période pour le mois 1 et l\
                         "Montant",
                         "Libelle",
                         "Binome",
-                        "TypeOperation"});
+                        "Categorie"});
             table21.AddRow(new string[] {
                         "2001-01",
                         "100",
@@ -723,7 +723,7 @@ testRunner.And("J\'ai demandé la création d\'une période pour le mois 1 et l\
                         "Montant",
                         "Libelle",
                         "Binome",
-                        "TypeOperation"});
+                        "Categorie"});
             table22.AddRow(new string[] {
                         "Dépense",
                         "1",
@@ -764,7 +764,7 @@ testRunner.And("J\'ai demandé la création d\'une période pour le mois 1 et l\
                         "Montant",
                         "Libelle",
                         "Binome",
-                        "TypeOperation"});
+                        "Categorie"});
             table23.AddRow(new string[] {
                         "2001-01",
                         "100",
@@ -781,7 +781,7 @@ testRunner.And("J\'ai demandé la création d\'une période pour le mois 1 et l\
                         "Montant",
                         "Libelle",
                         "Binome",
-                        "TypeOperation"});
+                        "Categorie"});
             table24.AddRow(new string[] {
                         "Dépense",
                         "1",
@@ -822,7 +822,7 @@ this.FeatureBackground();
                         "Montant",
                         "Libelle",
                         "Binome",
-                        "TypeOperation"});
+                        "Categorie"});
             table25.AddRow(new string[] {
                         "2001-01",
                         "150",
@@ -855,7 +855,7 @@ this.FeatureBackground();
                         "Montant",
                         "Libelle",
                         "Binome",
-                        "TypeOperation"});
+                        "Categorie"});
             table26.AddRow(new string[] {
                         "2001-01",
                         "200",

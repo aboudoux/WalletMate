@@ -7,7 +7,7 @@ namespace CoupleExpenses.Infrastructure.Dto
     public class PeriodOperation : IPeriodOperation
     {
         [JsonConstructor]
-        public PeriodOperation(string periodId, int operationId, string type, string pair, double amount, string label, string operationType)
+        public PeriodOperation(string periodId, int operationId, string type, string pair, double amount, string label, string category)
         {
             PeriodId = periodId;
             OperationId = operationId;
@@ -15,7 +15,7 @@ namespace CoupleExpenses.Infrastructure.Dto
             Pair = pair;
             Amount = amount;
             Label = label;
-            OperationType = operationType;
+            Category = category;
         }
 
         public PeriodOperation(SpendingAdded @event)
@@ -26,7 +26,7 @@ namespace CoupleExpenses.Infrastructure.Dto
             Pair = @event.Pair.ToString();
             Amount = @event.Amount.Value;
             Label = @event.Label.Value;
-            OperationType = @event.Type.ToString();
+            Category = @event.Category.ToString();
         }
 
         public PeriodOperation(RecipeAdded @event)
@@ -37,7 +37,7 @@ namespace CoupleExpenses.Infrastructure.Dto
             Pair = @event.Pair.ToString();
             Amount = @event.Amount.Value;
             Label = @event.Label.Value;
-            OperationType = @event.Type.ToString();
+            Category = @event.Category.ToString();
         }
 
         public string PeriodId { get; }
@@ -46,6 +46,6 @@ namespace CoupleExpenses.Infrastructure.Dto
         public string Pair{get; set; }           
         public double Amount{get; set; }
         public string Label{get; set; }
-        public string OperationType{get; set; }
+        public string Category{get; set; }
     }
 }

@@ -41,21 +41,21 @@ namespace CoupleExpenses.Infrastructure.Tests.Steps
 
         [When(@"J'ajoute des dépenses dans l'application")]
         [Given(@"J'ai ajouté des dépenses dans l'application")]
-        public async Task WhenJAjouteUneDepenseALaPeriode((string periode, double montant, string libelle, string binome, string typeOperation)[] spendings)
+        public async Task WhenJAjouteUneDepenseALaPeriode((string periodId, double amount, string label, string pair, string category)[] spendings)
         {
             await spendings.ForEachAsync(async row =>
             {
-                await FakeServer.AddSpending(row.periode, row.montant, row.libelle, row.binome, row.typeOperation);
+                await FakeServer.AddSpending(row.periodId, row.amount, row.label, row.pair, row.category);
             });
         }
 
         [When(@"J'ajoute des recettes dans l'application")]
         [Given(@"J'ai ajouté des recettes dans l'application")]
-        public async Task WhenJApplication((string periode, double montant, string libelle, string binome, string typeOperation)[] recipe)
+        public async Task WhenJApplication((string periodId, double amount, string label, string pair, string category)[] recipe)
         {
             await recipe.ForEachAsync(async row =>
             {
-                await FakeServer.AddRecipe(row.periode, row.montant, row.libelle, row.binome, row.typeOperation);
+                await FakeServer.AddRecipe(row.periodId, row.amount, row.label, row.pair, row.category);
             });
         }
 
@@ -112,7 +112,7 @@ namespace CoupleExpenses.Infrastructure.Tests.Steps
         [When(@"je demande à modifier le type de la recette numéro (.*) en ""(.*)"" pour la période (.*)")]
         public async Task WhenJeDemandeAModifierLeTypeDeLaRecetteNumeroEnPourLaPeriode(int operationId, string newType, string periodId)
         {
-            await UpdateRecipe(periodId, operationId, newOperationType:newType);
+            await UpdateRecipe(periodId, operationId, newCategory:newType);
         }
 
         [When(@"je demande à modifier le montant de la dépense numéro (.*) en (.*) euros pour la période (.*)")]
@@ -134,15 +134,15 @@ namespace CoupleExpenses.Infrastructure.Tests.Steps
         }
 
         [When(@"je demande à modifier le type de la dépense numéro (.*) en ""(.*)"" pour la période (.*)")]
-        public async  Task WhenJeDemandeAModifierLeTypeDeLaDepenseNumeroEnPourLaPeriode(int operationId, string newOperationType, string periodId)
+        public async  Task WhenJeDemandeAModifierLeTypeDeLaDepenseNumeroEnPourLaPeriode(int operationId, string newCategory, string periodId)
         {
-            await UpdateSpending(periodId, operationId, newOperationType: newOperationType);
+            await UpdateSpending(periodId, operationId, newCategory: newCategory);
         }
 
         [Then(@"L'opération (.*) de la période (.*) à pour type ""(.*)""")]
-        public async Task ThenLOperationDeLaPeriodeAPourType(int operationId, string periodId, string operationType)
+        public async Task ThenLOperationDeLaPeriodeAPourType(int operationId, string periodId, string category)
         {
-            await AssertOperation(operationId, periodId, o => o.OperationType.Should().Be(operationType));
+            await AssertOperation(operationId, periodId, o => o.Category.Should().Be(category));
         }
 
         [Then(@"L'opération (.*) de la période (.*) à pour binôme (.*)")]
@@ -170,7 +170,7 @@ namespace CoupleExpenses.Infrastructure.Tests.Steps
             assertion(recipe);
         }
 
-        private async Task UpdateRecipe(string periodId, int operationId, double? amount = null, string label = null, string newPair = null, string newOperationType = null)
+        private async Task UpdateRecipe(string periodId, int operationId, double? amount = null, string label = null, string newPair = null, string newCategory = null)
         {
             var operations = await FakeServer.GetAllOperations(periodId);
             var recipeToChange = operations.First(a => a.OperationId == operationId);
@@ -180,15 +180,15 @@ namespace CoupleExpenses.Infrastructure.Tests.Steps
                 amount ?? recipeToChange.Amount,
                 label ?? recipeToChange.Label,
                 TransformPair(newPair ?? recipeToChange.Pair),
-                TransformOperationType(newOperationType ?? recipeToChange.OperationType));
+                TransformCategory(newCategory ?? recipeToChange.Category));
 
             result.Should().Be(HttpStatusCode.OK);
 
             int TransformPair(string pair) => pair == "Marie" ? 2 : 1;
-            int TransformOperationType(string operationType) => operationType == "Commun" ? 1 : 2;
+            int TransformCategory(string category) => category == "Commun" ? 1 : 2;
         }
 
-        private async Task UpdateSpending(string periodId, int operationId, double? amount = null, string label = null, string newPair = null, string newOperationType = null)
+        private async Task UpdateSpending(string periodId, int operationId, double? amount = null, string label = null, string newPair = null, string newCategory = null)
         {
             var operations = await FakeServer.GetAllOperations(periodId);
             var recipeToChange = operations.First(a => a.OperationId == operationId);
@@ -198,12 +198,12 @@ namespace CoupleExpenses.Infrastructure.Tests.Steps
                 amount ?? recipeToChange.Amount,
                 label ?? recipeToChange.Label,
                 TransformPair(newPair ?? recipeToChange.Pair),
-                TransformOperationType(newOperationType ?? recipeToChange.OperationType));
+                TransformCategory(newCategory ?? recipeToChange.Category));
 
             result.Should().Be(HttpStatusCode.OK);
 
             int TransformPair(string pair) => pair == "Marie" ? 2 : 1;
-            int TransformOperationType(string operationType) => operationType == "Commun" ? 1 : 2;
+            int TransformCategory(string category) => category == "Commun" ? 1 : 2;
         }
     }
 }

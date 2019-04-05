@@ -12,7 +12,7 @@ namespace CoupleExpenses.Application.Core
         Task<IReadOnlyList<IPeriodOperation>> GetAllOperation(PeriodId periodId);
         void AddOperation(IPeriodOperation operation);
         void RemoveOperation(PeriodId periodId, OperationId operationId);
-        void UpdateOperation(PeriodId periodId, OperationId operationId, Amount amount = null, Label label = null, Pair pair = null, RecipeOperationType recipeOperationType = null, SpendingOperationType spendingOperationType = null);
+        void UpdateOperation(PeriodId periodId, OperationId operationId, Amount amount = null, Label label = null, Pair pair = null, RecipeCategory recipeCategory = null, SpendingCategory spendingCategory = null);
         Task<IPeriodBalance> GetBalance(PeriodId requestPeriodId);
         void UpdateBalance(PeriodId periodId, Amount amountDue, Pair by);
     }

@@ -31,7 +31,7 @@ namespace CoupleExpenses.Infrastructure.Tests
             await Make.TestFile("SpendingAdded.es").AndExecute(async env =>
             {
                 var store = new FileEventStoreWithCache(new CustomJsonSerializer(), env.FilePath);
-                await store.Save(new SpendingAdded(OperationId.From(5), Amount.From(15.2), Label.From("this is a test"), Pair.Aurelien, SpendingOperationType.Advance));
+                await store.Save(new SpendingAdded(OperationId.From(5), Amount.From(15.2), Label.From("this is a test"), Pair.Aurelien, SpendingCategory.Advance));
                 var @event = await store.GetEvents(a => true);
                 @event.Last().Should().BeOfType<SpendingAdded>().Which.OperationId.Should().Be(OperationId.From(5));
             });
@@ -45,10 +45,10 @@ namespace CoupleExpenses.Infrastructure.Tests
                 var store = new FileEventStoreWithCache(new CustomJsonSerializer(), env.FilePath);
                 
                 var period = Period.Create(PeriodName.From(1, 2007));
-                period.AddSpending(Amount.From(5), Label.From("test"), Pair.Aurelien, SpendingOperationType.Common);
-                period.AddSpending(Amount.From(5), Label.From("test2"), Pair.Aurelien, SpendingOperationType.Common);
-                period.AddSpending(Amount.From(5), Label.From("test3"), Pair.Aurelien, SpendingOperationType.Common);
-                period.AddSpending(Amount.From(5), Label.From("test4"), Pair.Aurelien, SpendingOperationType.Common);
+                period.AddSpending(Amount.From(5), Label.From("test"), Pair.Aurelien, SpendingCategory.Common);
+                period.AddSpending(Amount.From(5), Label.From("test2"), Pair.Aurelien, SpendingCategory.Common);
+                period.AddSpending(Amount.From(5), Label.From("test3"), Pair.Aurelien, SpendingCategory.Common);
+                period.AddSpending(Amount.From(5), Label.From("test4"), Pair.Aurelien, SpendingCategory.Common);
 
                 await store.Save(period.UncommittedEvents.GetStream());
 
@@ -65,10 +65,10 @@ namespace CoupleExpenses.Infrastructure.Tests
                 var store = new FileEventStoreWithCache(new CustomJsonSerializer(), env.FilePath);
                 
                 var period = Period.Create(PeriodName.From(1, 2007));
-                period.AddSpending(Amount.From(5), Label.From("test"), Pair.Aurelien, SpendingOperationType.Common);
-                period.AddSpending(Amount.From(5), Label.From("test2"), Pair.Aurelien, SpendingOperationType.Common);
-                period.AddSpending(Amount.From(5), Label.From("test3"), Pair.Aurelien, SpendingOperationType.Common);
-                period.AddSpending(Amount.From(5), Label.From("test4"), Pair.Aurelien, SpendingOperationType.Common);
+                period.AddSpending(Amount.From(5), Label.From("test"), Pair.Aurelien, SpendingCategory.Common);
+                period.AddSpending(Amount.From(5), Label.From("test2"), Pair.Aurelien, SpendingCategory.Common);
+                period.AddSpending(Amount.From(5), Label.From("test3"), Pair.Aurelien, SpendingCategory.Common);
+                period.AddSpending(Amount.From(5), Label.From("test4"), Pair.Aurelien, SpendingCategory.Common);
 
                 var t1 = Task.Run(() => store.Save(period.UncommittedEvents.GetStream()));
                 var t2 = Task.Run(() => store.Save(period.UncommittedEvents.GetStream()));

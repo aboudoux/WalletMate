@@ -6,18 +6,18 @@
 Scenario: Calcul de la somme due en fonction des dépenses
 	Given Une période est créée	
 	When J'ajoute à la période les dépenses suivantes
-    | Montant | Libelle | Binome   | Type   |
-    | 100     | Courses | Aurelien | Commun |
-    | 200     | Pret    | Aurelien | Avance |
-    | 50      | Cadeaux | Marie    | Avance |
-    | 300     | Leclerc | Marie    | Commun |
-    | 700     | Nounou  | Marie    | Commun |
+    | Montant | Libelle | Binome   | Categorie |
+    | 100     | Courses | Aurelien | Commun    |
+    | 200     | Pret    | Aurelien | Avance    |
+    | 50      | Cadeaux | Marie    | Avance    |
+    | 300     | Leclerc | Marie    | Commun    |
+    | 700     | Nounou  | Marie    | Commun    |
 	Then le binome Aurelien doit la somme de 300 euros
 
 Scenario: Calcul de la somme due en fonction des recettes
 	Given Une période est créée	
 	When J'ajoute à la période les recettes suivantes
-    | Montant | Libelle | Binome   | Type         |
+    | Montant | Libelle | Binome   | Categorie    |
     | 100     | Courses | Aurelien | Commune      |
     | 200     | Pret    | Aurelien | Individuelle |
     | 50      | Cadeaux | Marie    | Individuelle |
@@ -28,12 +28,12 @@ Scenario: Calcul de la somme due en fonction des recettes
 Scenario: Calcul de la somme due en fonction des dépenses et recettes
 	Given Une période est créée	
 	When J'ajoute à la période les dépenses suivantes
-    | Montant | Libelle | Binome   | Type   |
-    | 200     | Pret    | Aurelien | Avance |
-    | 50      | Cadeaux | Marie    | Avance |
-    | 300     | Leclerc | Marie    | Commun |
+    | Montant | Libelle | Binome   | Categorie |
+    | 200     | Pret    | Aurelien | Avance    |
+    | 50      | Cadeaux | Marie    | Avance    |
+    | 300     | Leclerc | Marie    | Commun    |
 	And J'ajoute à la période les recettes suivantes
-    | Montant | Libelle | Binome   | Type         |
+    | Montant | Libelle | Binome   | Categorie    |
     | 100     | Courses | Aurelien | Commune      |
     | 200     | Pret    | Aurelien | Individuelle |
     | 50      | Cadeaux | Marie    | Individuelle |
@@ -42,15 +42,15 @@ Scenario: Calcul de la somme due en fonction des dépenses et recettes
  Scenario: Somme due à 0
 	Given Une période est créée	
 	When J'ajoute à la période les dépenses suivantes
-    | Montant | Libelle | Binome   | Type   |
-    | 200     | Pret    | Aurelien | Avance |
-    | 50      | Cadeaux | Marie    | Avance |
-    | 50      | Cadeaux | Aurelien | Avance |
-    | 300     | Leclerc | Marie    | Commun |
-    | 100     | Leclerc | Aurelien | Avance |
-    | 100     | Leclerc | Aurelien | Commun |
+    | Montant | Libelle | Binome   | Categorie |
+    | 200     | Pret    | Aurelien | Avance    |
+    | 50      | Cadeaux | Marie    | Avance    |
+    | 50      | Cadeaux | Aurelien | Avance    |
+    | 300     | Leclerc | Marie    | Commun    |
+    | 100     | Leclerc | Aurelien | Avance    |
+    | 100     | Leclerc | Aurelien | Commun    |
 	And J'ajoute à la période les recettes suivantes
-    | Montant | Libelle | Binome   | Type         |
+    | Montant | Libelle | Binome   | Categorie    |
     | 100     | Courses | Aurelien | Commune      |
     | 200     | Pret    | Aurelien | Individuelle |
     | 50      | Cadeaux | Marie    | Individuelle |
@@ -59,12 +59,12 @@ Scenario: Calcul de la somme due en fonction des dépenses et recettes
 Scenario: Recalcul de la somme due lors d'une modification de montant
 	Given Une période est créée	
 	And j'y ai ajouté les dépenses suivantes
-	| Montant | Libelle | Binome   | Type   |
-    | 200     | Pret    | Aurelien | Avance |
-    | 50      | Cadeaux | Marie    | Avance |
-    | 300     | Leclerc | Marie    | Commun |
+	| Montant | Libelle | Binome   | Categorie |
+	| 200     | Pret    | Aurelien | Avance    |
+	| 50      | Cadeaux | Marie    | Avance    |
+	| 300     | Leclerc | Marie    | Commun    |
 	And j'y ai ajouté les recettes suivantes
-	| Montant | Libelle | Binome   | Type         |
+	| Montant | Libelle | Binome   | Categorie    |
 	| 100     | Courses | Aurelien | Commune      |
 	| 200     | Pret    | Aurelien | Individuelle |
 	| 50      | Cadeaux | Marie    | Individuelle |
@@ -74,12 +74,12 @@ Scenario: Recalcul de la somme due lors d'une modification de montant
 Scenario: Recalcul de la somme due lors d'une modification de binome
 	Given Une période est créée	
 	And j'y ai ajouté les dépenses suivantes
-	| Montant | Libelle | Binome   | Type   |
-    | 200     | Pret    | Aurelien | Avance |
-    | 50      | Cadeaux | Marie    | Avance |
-    | 300     | Leclerc | Marie    | Commun |
+	| Montant | Libelle | Binome   | Categorie |
+	| 200     | Pret    | Aurelien | Avance    |
+	| 50      | Cadeaux | Marie    | Avance    |
+	| 300     | Leclerc | Marie    | Commun    |
 	And j'y ai ajouté les recettes suivantes
-	| Montant | Libelle | Binome   | Type         |
+	| Montant | Libelle | Binome   | Categorie    |
 	| 100     | Courses | Aurelien | Commune      |
 	| 200     | Pret    | Aurelien | Individuelle |
 	| 50      | Cadeaux | Marie    | Individuelle |
@@ -89,12 +89,12 @@ Scenario: Recalcul de la somme due lors d'une modification de binome
 Scenario: Recalcul de la somme due lors d'une modification de type
 	Given Une période est créée	
 	And j'y ai ajouté les dépenses suivantes
-	| Montant | Libelle | Binome   | Type   |
-    | 200     | Pret    | Aurelien | Avance |
-    | 50      | Cadeaux | Marie    | Avance |
-    | 300     | Leclerc | Marie    | Commun |
+	| Montant | Libelle | Binome   | Categorie |
+	| 200     | Pret    | Aurelien | Avance    |
+	| 50      | Cadeaux | Marie    | Avance    |
+	| 300     | Leclerc | Marie    | Commun    |
 	And j'y ai ajouté les recettes suivantes
-	| Montant | Libelle | Binome   | Type         |
+	| Montant | Libelle | Binome   | Categorie    |
 	| 100     | Courses | Aurelien | Commune      |
 	| 200     | Pret    | Aurelien | Individuelle |
 	| 50      | Cadeaux | Marie    | Individuelle |
@@ -104,12 +104,12 @@ Scenario: Recalcul de la somme due lors d'une modification de type
 Scenario: Recalcul de la somme due lors de la suppression d'une dépense
 	Given Une période est créée	
 	And j'y ai ajouté les dépenses suivantes
-	| Montant | Libelle | Binome   | Type   |
-    | 200     | Pret    | Aurelien | Avance |
-    | 50      | Cadeaux | Marie    | Avance |
-    | 300     | Leclerc | Marie    | Commun |
+	| Montant | Libelle | Binome   | Categorie |
+	| 200     | Pret    | Aurelien | Avance    |
+	| 50      | Cadeaux | Marie    | Avance    |
+	| 300     | Leclerc | Marie    | Commun    |
 	And j'y ai ajouté les recettes suivantes
-	| Montant | Libelle | Binome   | Type         |
+	| Montant | Libelle | Binome   | Categorie    |
 	| 100     | Courses | Aurelien | Commune      |
 	| 200     | Pret    | Aurelien | Individuelle |
 	| 50      | Cadeaux | Marie    | Individuelle |
@@ -119,12 +119,12 @@ Scenario: Recalcul de la somme due lors de la suppression d'une dépense
 Scenario: Recalcul de la somme due lors de la suppression d'une recette
 Given Une période est créée	
 	And j'y ai ajouté les dépenses suivantes
-	| Montant | Libelle | Binome   | Type   |
-    | 200     | Pret    | Aurelien | Avance |
-    | 50      | Cadeaux | Marie    | Avance |
-    | 300     | Leclerc | Marie    | Commun |
+	| Montant | Libelle | Binome   | Categorie |
+	| 200     | Pret    | Aurelien | Avance    |
+	| 50      | Cadeaux | Marie    | Avance    |
+	| 300     | Leclerc | Marie    | Commun    |
 	And j'y ai ajouté les recettes suivantes
-	| Montant | Libelle | Binome   | Type         |
+	| Montant | Libelle | Binome   | Categorie    |
 	| 100     | Courses | Aurelien | Commune      |
 	| 200     | Pret    | Aurelien | Individuelle |
 	| 50      | Cadeaux | Marie    | Individuelle |

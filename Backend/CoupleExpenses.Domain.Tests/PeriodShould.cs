@@ -24,11 +24,11 @@ namespace CoupleExpenses.Domain.Tests
         {
             var period = Some.Period();
 
-            period.AddSpending(Amount.From(10), Label.From("Test spending"), Pair.Aurelien, SpendingOperationType.Common);
+            period.AddSpending(Amount.From(10), Label.From("Test spending"), Pair.Aurelien, SpendingCategory.Common);
 
             period.UncommittedEvents.GetStream().Should()
                 .ContainEquivalentOf(
-                    new SpendingAdded(OperationId.From(1), Amount.From(10), Label.From("Test spending"), Pair.Aurelien, SpendingOperationType.Common), 
+                    new SpendingAdded(OperationId.From(1), Amount.From(10), Label.From("Test spending"), Pair.Aurelien, SpendingCategory.Common), 
                     e => e.Excluding(a=>a.AggregateId).Excluding(a=>a.Sequence));
         }
 
@@ -64,7 +64,7 @@ namespace CoupleExpenses.Domain.Tests
             var period = Some.Period();
 
             for(var i = 1; i < 10; i++)
-                period.AddSpending(Amount.From(i), Label.From("Test spending"), Pair.Aurelien, SpendingOperationType.Common);
+                period.AddSpending(Amount.From(i), Label.From("Test spending"), Pair.Aurelien, SpendingCategory.Common);
 
             period.UncommittedEvents.GetStream()
                 .OfType<SpendingAdded>()
@@ -82,10 +82,10 @@ namespace CoupleExpenses.Domain.Tests
                  .WithEvent(Some.SpendingAdded(OperationId.From(3)))
                  .WithEvent(Some.SpendingAdded(OperationId.From(4))));
 
-            period.AddSpending(Amount.From(10),Label.From("test"), Pair.Aurelien, SpendingOperationType.Advance);
+            period.AddSpending(Amount.From(10),Label.From("test"), Pair.Aurelien, SpendingCategory.Advance);
 
             period.UncommittedEvents.GetStream().Should()
-                .ContainEquivalentOf(new SpendingAdded(OperationId.From(5), Amount.From(10), Label.From("test"), Pair.Aurelien, SpendingOperationType.Advance),
+                .ContainEquivalentOf(new SpendingAdded(OperationId.From(5), Amount.From(10), Label.From("test"), Pair.Aurelien, SpendingCategory.Advance),
                     e=>e.Excluding(a=>a.AggregateId).Excluding(a=>a.Sequence) );
         }
 
@@ -120,19 +120,19 @@ namespace CoupleExpenses.Domain.Tests
         }
 
         [Fact]
-        public void RaiseOperationTypeChangedIfJustChangingOperationType()
+        public void Raise_CategoryChanged_if_just_changing_category()
         {
-            var period = ChangeSpendingInfo(operationType:SpendingOperationType.Common);
+            var period = ChangeSpendingInfo(category:SpendingCategory.Common);
 
             period.UncommittedEvents.GetStream().Should().HaveCount(2).And
-                .ContainEquivalentOf(new SpendingOperationTypeChanged(OperationId.From(1), SpendingOperationType.Common),
+                .ContainEquivalentOf(new SpendingCategoryChanged(OperationId.From(1), SpendingCategory.Common),
                     e => e.Excluding(a => a.AggregateId).Excluding(a => a.Sequence));
         }
 
         [Fact]
         public void RaiseMultipleChange()
         {
-            var period = ChangeSpendingInfo(Amount.From(25), Label.From("well"), Pair.Marie, SpendingOperationType.Common);
+            var period = ChangeSpendingInfo(Amount.From(25), Label.From("well"), Pair.Marie, SpendingCategory.Common);
             period.UncommittedEvents.GetStream().Should().HaveCount(5);
         }
 
@@ -140,12 +140,12 @@ namespace CoupleExpenses.Domain.Tests
         public void NotRaiseChangedEventIfDataChangedTwice()
         {
             var period = Some.Period();
-            var id = period.AddSpending(Amount.From(10), Label.From("test"), Pair.Aurelien, SpendingOperationType.Advance);
-            period.ChangeSpending(id, Amount.From(5), Label.From("test"), Pair.Aurelien, SpendingOperationType.Advance);
-            period.ChangeSpending(id, Amount.From(5), Label.From("test2"), Pair.Aurelien, SpendingOperationType.Advance);
-            period.ChangeSpending(id, Amount.From(5), Label.From("test2"), Pair.Marie, SpendingOperationType.Advance);
-            period.ChangeSpending(id, Amount.From(5), Label.From("test2"), Pair.Marie, SpendingOperationType.Common);
-            period.ChangeSpending(id, Amount.From(5), Label.From("test2"), Pair.Marie, SpendingOperationType.Common);
+            var id = period.AddSpending(Amount.From(10), Label.From("test"), Pair.Aurelien, SpendingCategory.Advance);
+            period.ChangeSpending(id, Amount.From(5), Label.From("test"), Pair.Aurelien, SpendingCategory.Advance);
+            period.ChangeSpending(id, Amount.From(5), Label.From("test2"), Pair.Aurelien, SpendingCategory.Advance);
+            period.ChangeSpending(id, Amount.From(5), Label.From("test2"), Pair.Marie, SpendingCategory.Advance);
+            period.ChangeSpending(id, Amount.From(5), Label.From("test2"), Pair.Marie, SpendingCategory.Common);
+            period.ChangeSpending(id, Amount.From(5), Label.From("test2"), Pair.Marie, SpendingCategory.Common);
 
             period.UncommittedEvents.GetStream().Should().HaveCount(12);
         }
@@ -154,10 +154,10 @@ namespace CoupleExpenses.Domain.Tests
         public void RaiseRecipeAddedWhenAddingRecipe()
         {
             var period = Some.Period();
-            period.AddRecipe(Amount.From(100), Label.From("test"), Pair.Aurelien, RecipeOperationType.Common);
+            period.AddRecipe(Amount.From(100), Label.From("test"), Pair.Aurelien, RecipeCategory.Common);
 
             period.UncommittedEvents.GetStream().Should().HaveCount(3).And
-                .ContainEquivalentOf(new RecipeAdded(OperationId.From(1), Amount.From(100), Label.From("test"), Pair.Aurelien, RecipeOperationType.Common),
+                .ContainEquivalentOf(new RecipeAdded(OperationId.From(1), Amount.From(100), Label.From("test"), Pair.Aurelien, RecipeCategory.Common),
                     e => e.Excluding(a => a.AggregateId).Excluding(a => a.Sequence));
         }
 
@@ -176,20 +176,20 @@ namespace CoupleExpenses.Domain.Tests
         }
                 
         
-        private static Period ChangeSpendingInfo(Amount amount = null, Label label = null, Pair pair = null, SpendingOperationType operationType = null)
+        private static Period ChangeSpendingInfo(Amount amount = null, Label label = null, Pair pair = null, SpendingCategory category = null)
         {
-            var period = Some.Period(p => p.WithEvent(new SpendingAdded(OperationId.From(1), Amount.From(10), Label.From("test"), Pair.Aurelien, SpendingOperationType.Advance)));
-            MakeChanges(period, amount, label, pair, operationType);
+            var period = Some.Period(p => p.WithEvent(new SpendingAdded(OperationId.From(1), Amount.From(10), Label.From("test"), Pair.Aurelien, SpendingCategory.Advance)));
+            MakeChanges(period, amount, label, pair, category);
             return period;
         }
 
-        private static void MakeChanges(Period period, Amount amount = null, Label label = null, Pair pair = null, SpendingOperationType operationType = null)
+        private static void MakeChanges(Period period, Amount amount = null, Label label = null, Pair pair = null, SpendingCategory category = null)
         {
             period.ChangeSpending(OperationId.From(1),
                 amount ?? Amount.From(10),
                 label ?? Label.From("test"),
                 pair ?? Pair.Aurelien,
-                operationType ?? SpendingOperationType.Advance);
+                category ?? SpendingCategory.Advance);
         }
     }
 }

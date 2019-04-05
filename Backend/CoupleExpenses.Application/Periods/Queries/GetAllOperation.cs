@@ -22,6 +22,6 @@ namespace CoupleExpenses.Application.Periods.Queries
         double Amount { get; set; }
         string Label { get; set; }
         string Pair { get; set; }
-        string OperationType { get; set; }
+        string Category { get; set; }
     }
 }

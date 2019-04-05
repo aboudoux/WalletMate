@@ -30,7 +30,7 @@ namespace CoupleExpenses.WebApp.Controllers
                 Amount.From(input.Amount),
                 Label.From(input.Label),
                 Pair.From(input.Pair),
-                SpendingOperationType.From(input.OperationType)));
+                SpendingCategory.From(input.Category)));
         }
 
         [HttpPost("[action]")]
@@ -41,7 +41,7 @@ namespace CoupleExpenses.WebApp.Controllers
                     Amount.From(input.Amount),
                     Label.From(input.Label),
                     Pair.From(input.Pair),
-                    RecipeOperationType.From(input.OperationType)));            
+                    RecipeCategory.From(input.Category)));            
         }
 
         [HttpPost("[action]")]
@@ -53,7 +53,7 @@ namespace CoupleExpenses.WebApp.Controllers
                     Amount.From(input.Amount),
                     Label.From(input.Label),
                     Pair.From(input.Pair),
-                    RecipeOperationType.From(input.OperationType)));
+                    RecipeCategory.From(input.Category)));
         }
 
         [HttpPost("[action]")]
@@ -65,7 +65,7 @@ namespace CoupleExpenses.WebApp.Controllers
                 Amount.From(input.Amount),
                 Label.From(input.Label),
                 Pair.From(input.Pair),
-                SpendingOperationType.From(input.OperationType)));
+                SpendingCategory.From(input.Category)));
         }
 
         [HttpGet("[action]")]

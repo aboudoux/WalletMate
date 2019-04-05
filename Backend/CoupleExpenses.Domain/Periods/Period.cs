@@ -17,32 +17,32 @@ namespace CoupleExpenses.Domain.Periods
         public static Period Create(PeriodName periodName) 
             => CreateNew<Period>(PeriodId.From(periodName).Value, new PeriodCreated(periodName));
 
-        public OperationId AddSpending(Amount amount, Label label, Pair pair, SpendingOperationType operationType)
+        public OperationId AddSpending(Amount amount, Label label, Pair pair, SpendingCategory category)
         {
             var operationId = OperationId.From(State.GetNextOperationId());
-            RaiseEvent(new SpendingAdded(operationId, amount, label, pair, operationType));
+            RaiseEvent(new SpendingAdded(operationId, amount, label, pair, category));
             RaiseBalanceChanged();
             return operationId;
         }
 
-        public void ChangeSpending(OperationId operationId, Amount amount = null, Label label = null, Pair pair = null, SpendingOperationType operationType = null)
+        public void ChangeSpending(OperationId operationId, Amount amount = null, Label label = null, Pair pair = null, SpendingCategory category = null)
         {
-            ChangeOperation(operationId, amount, label, pair, operationType);
+            ChangeOperation(operationId, amount, label, pair, category);
             if (UncommitedEventsHaveDifferentEventThatLabelChanged())
                 RaiseBalanceChanged();
         }
       
-        public OperationId AddRecipe(Amount amount, Label label, Pair pair, RecipeOperationType operationType)
+        public OperationId AddRecipe(Amount amount, Label label, Pair pair, RecipeCategory category)
         {
             var operationId = OperationId.From(State.GetNextOperationId());
-            RaiseEvent(new RecipeAdded(operationId, amount, label, pair, operationType));
+            RaiseEvent(new RecipeAdded(operationId, amount, label, pair, category));
             RaiseBalanceChanged();
             return operationId;
         }
 
-        public void ChangeRecipe(OperationId operationId, Amount amount = null, Label label = null, Pair pair = null, RecipeOperationType operationType = null)
+        public void ChangeRecipe(OperationId operationId, Amount amount = null, Label label = null, Pair pair = null, RecipeCategory category = null)
         {
-            ChangeOperation(operationId, amount, label, pair, operationType);
+            ChangeOperation(operationId, amount, label, pair, category);
 
             if(UncommitedEventsHaveDifferentEventThatLabelChanged())
                 RaiseBalanceChanged();            
@@ -63,18 +63,18 @@ namespace CoupleExpenses.Domain.Periods
         private bool UncommitedEventsHaveDifferentEventThatLabelChanged()
             => UncommittedEvents.GetStream().Any(a => a.GetType() != typeof(LabelChanged));
 
-        private void ChangeOperation(OperationId operationId, Amount amount, Label label, Pair pair, SpendingOperationType operationType)
+        private void ChangeOperation(OperationId operationId, Amount amount, Label label, Pair pair, SpendingCategory category)
         {
             ChangeOperation(operationId, amount, label, pair);
-            if (State.OperationTypeNotEquals(operationId, operationType))
-                RaiseEvent(new SpendingOperationTypeChanged(operationId, operationType));
+            if (State.CategoryNotEquals(operationId, category))
+                RaiseEvent(new SpendingCategoryChanged(operationId, category));
         }
 
-        private void ChangeOperation(OperationId operationId, Amount amount, Label label, Pair pair, RecipeOperationType operationType)
+        private void ChangeOperation(OperationId operationId, Amount amount, Label label, Pair pair, RecipeCategory category)
         {
             ChangeOperation(operationId, amount, label, pair);
-            if (State.OperationTypeNotEquals(operationId, operationType))
-                RaiseEvent(new RecipeOperationTypeChanged(operationId, operationType));
+            if (State.CategoryNotEquals(operationId, category))
+                RaiseEvent(new RecipeCategoryChanged(operationId, category));
         }
 
         private void ChangeOperation(OperationId operationId, Amount amount, Label label, Pair pair)

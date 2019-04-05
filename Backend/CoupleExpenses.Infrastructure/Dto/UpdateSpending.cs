@@ -7,16 +7,16 @@ namespace CoupleExpenses.Infrastructure.Dto
         public double Amount { get; }
         public string Label { get; }
         public int Pair { get; }
-        public int OperationType { get; }
+        public int Category { get; }
 
-        public UpdateSpending(string periodId, int operationId, double amount, string label, int pair, int operationType)
+        public UpdateSpending(string periodId, int operationId, double amount, string label, int pair, int category)
         {
             PeriodId = periodId;
             OperationId = operationId;
             Amount = amount;
             Label = label;
             Pair = pair;
-            OperationType = operationType;
+            Category = category;
         }
     }
 }

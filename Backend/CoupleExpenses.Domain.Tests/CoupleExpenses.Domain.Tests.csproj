@@ -39,6 +39,7 @@
   <ItemGroup>
     <SpecFlowFeatureFiles Update="Features\PeriodBalance.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>PeriodBalance.feature.cs</LastGenOutput>
     </SpecFlowFeatureFiles>
   </ItemGroup>
 

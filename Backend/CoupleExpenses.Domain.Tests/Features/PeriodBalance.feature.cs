@@ -94,7 +94,7 @@ this.ScenarioInitialize(scenarioInfo);
                         "Montant",
                         "Libelle",
                         "Binome",
-                        "Type"});
+                        "Categorie"});
             table1.AddRow(new string[] {
                         "100",
                         "Courses",
@@ -144,7 +144,7 @@ this.ScenarioInitialize(scenarioInfo);
                         "Montant",
                         "Libelle",
                         "Binome",
-                        "Type"});
+                        "Categorie"});
             table2.AddRow(new string[] {
                         "100",
                         "Courses",
@@ -194,7 +194,7 @@ this.ScenarioInitialize(scenarioInfo);
                         "Montant",
                         "Libelle",
                         "Binome",
-                        "Type"});
+                        "Categorie"});
             table3.AddRow(new string[] {
                         "200",
                         "Pret",
@@ -217,7 +217,7 @@ this.ScenarioInitialize(scenarioInfo);
                         "Montant",
                         "Libelle",
                         "Binome",
-                        "Type"});
+                        "Categorie"});
             table4.AddRow(new string[] {
                         "100",
                         "Courses",
@@ -257,7 +257,7 @@ this.ScenarioInitialize(scenarioInfo);
                         "Montant",
                         "Libelle",
                         "Binome",
-                        "Type"});
+                        "Categorie"});
             table5.AddRow(new string[] {
                         "200",
                         "Pret",
@@ -295,7 +295,7 @@ this.ScenarioInitialize(scenarioInfo);
                         "Montant",
                         "Libelle",
                         "Binome",
-                        "Type"});
+                        "Categorie"});
             table6.AddRow(new string[] {
                         "100",
                         "Courses",
@@ -335,7 +335,7 @@ this.ScenarioInitialize(scenarioInfo);
                         "Montant",
                         "Libelle",
                         "Binome",
-                        "Type"});
+                        "Categorie"});
             table7.AddRow(new string[] {
                         "200",
                         "Pret",
@@ -358,7 +358,7 @@ this.ScenarioInitialize(scenarioInfo);
                         "Montant",
                         "Libelle",
                         "Binome",
-                        "Type"});
+                        "Categorie"});
             table8.AddRow(new string[] {
                         "100",
                         "Courses",
@@ -400,7 +400,7 @@ this.ScenarioInitialize(scenarioInfo);
                         "Montant",
                         "Libelle",
                         "Binome",
-                        "Type"});
+                        "Categorie"});
             table9.AddRow(new string[] {
                         "200",
                         "Pret",
@@ -423,7 +423,7 @@ this.ScenarioInitialize(scenarioInfo);
                         "Montant",
                         "Libelle",
                         "Binome",
-                        "Type"});
+                        "Categorie"});
             table10.AddRow(new string[] {
                         "100",
                         "Courses",
@@ -465,7 +465,7 @@ this.ScenarioInitialize(scenarioInfo);
                         "Montant",
                         "Libelle",
                         "Binome",
-                        "Type"});
+                        "Categorie"});
             table11.AddRow(new string[] {
                         "200",
                         "Pret",
@@ -488,7 +488,7 @@ this.ScenarioInitialize(scenarioInfo);
                         "Montant",
                         "Libelle",
                         "Binome",
-                        "Type"});
+                        "Categorie"});
             table12.AddRow(new string[] {
                         "100",
                         "Courses",
@@ -530,7 +530,7 @@ this.ScenarioInitialize(scenarioInfo);
                         "Montant",
                         "Libelle",
                         "Binome",
-                        "Type"});
+                        "Categorie"});
             table13.AddRow(new string[] {
                         "200",
                         "Pret",
@@ -553,7 +553,7 @@ this.ScenarioInitialize(scenarioInfo);
                         "Montant",
                         "Libelle",
                         "Binome",
-                        "Type"});
+                        "Categorie"});
             table14.AddRow(new string[] {
                         "100",
                         "Courses",
@@ -595,7 +595,7 @@ testRunner.Given("Une période est créée", ((string)(null)), ((TechTalk.SpecFl
                         "Montant",
                         "Libelle",
                         "Binome",
-                        "Type"});
+                        "Categorie"});
             table15.AddRow(new string[] {
                         "200",
                         "Pret",
@@ -618,7 +618,7 @@ testRunner.Given("Une période est créée", ((string)(null)), ((TechTalk.SpecFl
                         "Montant",
                         "Libelle",
                         "Binome",
-                        "Type"});
+                        "Categorie"});
             table16.AddRow(new string[] {
                         "100",
                         "Courses",
