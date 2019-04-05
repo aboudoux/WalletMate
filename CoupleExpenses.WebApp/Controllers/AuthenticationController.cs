@@ -28,6 +28,14 @@ namespace CoupleExpenses.WebApp.Controllers
                 return BadRequest(new { message = "Username or password is incorrect" });
 
             return Ok(new AuthResult(userInput.Username, authKey));
-        }        
+        }
+
+        [HttpPost("[action]")]
+
+        public async Task<IActionResult> Logout(Guid authKey)
+        {
+            await _authorizationService.Logoff(authKey);
+            return Ok();
+        }
     }
 }

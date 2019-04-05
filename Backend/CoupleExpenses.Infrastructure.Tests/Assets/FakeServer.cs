@@ -11,8 +11,6 @@ using CoupleExpenses.Domain.Common;
 using CoupleExpenses.Domain.Common.Events;
 using CoupleExpenses.Infrastructure.Dto;
 using CoupleExpenses.WebApp;
-using CoupleExpenses.WebApp.Controllers;
-using CoupleExpenses.WebAPeriodp.Dto;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 

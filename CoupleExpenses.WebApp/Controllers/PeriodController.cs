@@ -5,7 +5,7 @@ using CoupleExpenses.Application.Core;
 using CoupleExpenses.Application.Periods;
 using CoupleExpenses.Application.Periods.Queries;
 using CoupleExpenses.Domain.Periods.ValueObjects;
-using CoupleExpenses.WebAPeriodp.Dto;
+using CoupleExpenses.Infrastructure.Dto;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

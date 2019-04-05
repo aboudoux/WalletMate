@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CoupleExpenses.WebApp.Controllers
+namespace CoupleExpenses.Infrastructure.Dto
 {
     public class AuthResult
     {

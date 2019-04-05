@@ -1,14 +1,10 @@
-using System;
-using System.Reflection;
 using System.Threading.Tasks;
-using Autofac;
 using CoupleExpenses.Application.Core;
 using CoupleExpenses.Application.Periods;
 using CoupleExpenses.Domain.Common;
 using CoupleExpenses.Domain.Common.Events;
 using CoupleExpenses.Domain.Periods.ValueObjects;
 using CoupleExpenses.Infrastructure.Tests.Fakes;
-using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 

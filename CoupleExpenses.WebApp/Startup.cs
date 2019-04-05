@@ -1,11 +1,3 @@
-using System;
-using System.IO;
-using System.Reflection;
-using System.Threading.Tasks;
-using CoupleExpenses.Application;
-using CoupleExpenses.Application.Core;
-using CoupleExpenses.Domain.Common;
-using CoupleExpenses.Domain.Common.Events;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -13,8 +5,6 @@ using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using CoupleExpenses.Infrastructure;
-using CoupleExpenses.Infrastructure.Services;
-using MediatR;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -32,11 +22,6 @@ namespace CoupleExpenses.WebApp
 
         public void ConfigureServices(IServiceCollection services)
         {
-            ConfigureCommonServices(services);
-        }      
-
-        private void ConfigureCommonServices(IServiceCollection services)
-        {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             // In production, the React files will be served from this directory
@@ -51,8 +36,7 @@ namespace CoupleExpenses.WebApp
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             services.RegisterDependencies();
-        }
-
+        }      
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public async void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -90,14 +74,8 @@ namespace CoupleExpenses.WebApp
                     spa.UseReactDevelopmentServer(npmScript: "start");
                 }
             });
-
-            await ReplayAllEvent(app);
         }
 
-        private async Task ReplayAllEvent(IApplicationBuilder app)
-        {
-            var commandBus = app.ApplicationServices.GetService<ICommandBus>();
-            await commandBus.SendAsync(new ReplayAllEvents());
-        }
+       
     }       
 }

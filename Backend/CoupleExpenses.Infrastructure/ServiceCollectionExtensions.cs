@@ -17,20 +17,19 @@ namespace CoupleExpenses.Infrastructure
         {
             config?.Invoke(services);
 
+            services.AddMediatR(Assembly.GetAssembly(typeof(ICommand)), Assembly.GetAssembly(typeof(ISerializer)));
+
             services.TryAddSingleton<IAuthorizationService, AuthorizationService>();
-            services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-
             services.TryAddSingleton<IEventStore, FileEventStoreWithCache>();
-            services.TryAddSingleton<ICommandBus, MediatrCommandBus>();
-            services.TryAddSingleton<IQueryBus, MediatrQueryBus>();
             services.TryAddSingleton<IDatabaseRepository, InMemoryDatabaseRepository>();
-            services.TryAddSingleton<IEventBroker, EventBroker>();
-            services.TryAddSingleton<IEventDispatcher, MediatrEventDispatcher>();
             services.TryAddSingleton<ISerializer, CustomJsonSerializer>();
-            services.TryAddSingleton<IUserService, UserService>();
 
-            services.AddMediatR(Assembly.GetAssembly(typeof(ICommand)));
-            services.AddMediatR(Assembly.GetAssembly(typeof(ISerializer)));
+            services.TryAddScoped<IHttpContextAccessor, HttpContextAccessor>();
+            services.TryAddScoped<ICommandBus, MediatrCommandBus>();
+            services.TryAddScoped<IQueryBus, MediatrQueryBus>();
+            services.TryAddScoped<IEventBroker, EventBroker>();
+            services.TryAddScoped<IEventDispatcher, MediatrEventDispatcher>();
+            services.TryAddScoped<IUserService, UserService>();
         }
     }
 }
