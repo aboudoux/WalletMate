@@ -48,9 +48,10 @@ namespace CoupleExpenses.Application.Periods
                 .AndExecute(p => p.AddSpending(command.Amount, command.Label, command.Pair, command.OperationType));
         }
 
-        public Task Handle(ChangeSpending notification, CancellationToken cancellationToken)
+        public async Task Handle(ChangeSpending command, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            await (await LoadAggregate<Period>(command.PeriodId.ToString()))
+                .AndExecute(p => p.ChangeSpending(command.OperationId, command.Amount, command.Label, command.Pair, command.OperationType));
         }
 
         public async Task Handle(AddRecipe command, CancellationToken cancellationToken)

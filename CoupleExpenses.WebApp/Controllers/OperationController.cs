@@ -56,6 +56,18 @@ namespace CoupleExpenses.WebApp.Controllers
                     RecipeOperationType.From(input.OperationType)));
         }
 
+        [HttpPost("[action]")]
+        public async Task<IActionResult> ChangeSpending([FromBody]UpdateSpending input)
+        {
+            return await SendCommandAsync(new ChangeSpending(
+                PeriodId.From(input.PeriodId),
+                OperationId.From(input.OperationId),
+                Amount.From(input.Amount),
+                Label.From(input.Label),
+                Pair.From(input.Pair),
+                SpendingOperationType.From(input.OperationType)));
+        }
+
         [HttpGet("[action]")]
         public async Task<IReadOnlyList<IPeriodOperation>> All(string periodId)
         {

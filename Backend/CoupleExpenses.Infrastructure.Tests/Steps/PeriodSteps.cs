@@ -1,8 +1,9 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using CoupleExpenses.Application.Periods.Queries;
 using CoupleExpenses.Domain.Common;
-using CoupleExpenses.Domain.Periods.ValueObjects;
 using CoupleExpenses.Infrastructure.Dto;
 using CoupleExpenses.Infrastructure.Tests.Assets;
 using FluentAssertions;
@@ -93,21 +94,116 @@ namespace CoupleExpenses.Infrastructure.Tests.Steps
         [When(@"je demande à modifier le montant de la recette numéro (.*) en (.*) euros pour la période (.*)")]
         public async Task WhenJeDemandeAModifierLeMontantDeLaRecetteNumeroEnEurosPourLaPeriode(int operationId, double amount, string periodId)
         {
+            await UpdateRecipe(periodId, operationId, amount);
+        }
+
+        [When(@"je demande à modifier le libellé de la recette numéro (.*) en ""(.*)"" pour la période (.*)")]
+        public async Task WhenJeDemandeAModifierLeLibelleDeLaRecetteNumeroEnPourLaPeriode(int operationId, string label, string periodId)
+        {
+            await UpdateRecipe(periodId, operationId, label:label);
+        }
+
+        [When(@"je demande à modifier le binôme de la recette numéro (.*) par (.*) pour la période (.*)")]
+        public async Task WhenJeDemandeAModifierLeBinomeDeLaRecetteNumeroParAurelienPourLaPeriode(int operationId, string newPair, string periodId)
+        {
+            await UpdateRecipe(periodId, operationId, newPair: newPair);
+        }
+
+        [When(@"je demande à modifier le type de la recette numéro (.*) en ""(.*)"" pour la période (.*)")]
+        public async Task WhenJeDemandeAModifierLeTypeDeLaRecetteNumeroEnPourLaPeriode(int operationId, string newType, string periodId)
+        {
+            await UpdateRecipe(periodId, operationId, newOperationType:newType);
+        }
+
+        [When(@"je demande à modifier le montant de la dépense numéro (.*) en (.*) euros pour la période (.*)")]
+        public async Task WhenJeDemandeAModifierLeMontantDeLaDepenseNumeroEnEurosPourLaPeriode(int operationId, double amount, string periodId)
+        {
+            await UpdateSpending(periodId, operationId, amount);
+        }
+
+        [When(@"je demande à modifier le libellé de la dépense numéro (.*) en ""(.*)"" pour la période (.*)")]
+        public async Task WhenJeDemandeAModifierLeLibelleDeLaDepenseNumeroEnPourLaPeriode(int operationId, string label, string periodId)
+        {
+            await UpdateSpending(periodId, operationId, label:label);
+        }
+
+        [When(@"je demande à modifier le binôme de la dépense numéro (.*) par (.*) pour la période (.*)")]
+        public async Task WhenJeDemandeAModifierLeBinomeDeLaDepenseNumeroParAurelienPourLaPeriode(int operationId, string newPair, string periodId)
+        {
+            await UpdateSpending(periodId, operationId, newPair: newPair);
+        }
+
+        [When(@"je demande à modifier le type de la dépense numéro (.*) en ""(.*)"" pour la période (.*)")]
+        public async  Task WhenJeDemandeAModifierLeTypeDeLaDepenseNumeroEnPourLaPeriode(int operationId, string newOperationType, string periodId)
+        {
+            await UpdateSpending(periodId, operationId, newOperationType: newOperationType);
+        }
+
+        [Then(@"L'opération (.*) de la période (.*) à pour type ""(.*)""")]
+        public async Task ThenLOperationDeLaPeriodeAPourType(int operationId, string periodId, string operationType)
+        {
+            await AssertOperation(operationId, periodId, o => o.OperationType.Should().Be(operationType));
+        }
+
+        [Then(@"L'opération (.*) de la période (.*) à pour binôme (.*)")]
+        public async Task ThenLOperationDeLaPeriodeAPourBinomeAurelien(int operationId, string periodId, string pair)
+        {
+            await AssertOperation(operationId, periodId, o => o.Pair.Should().Be(pair));
+        }
+
+        [Then(@"L'opération (.*) de la période (.*) à un montant de (.*) euros")]
+        public async Task ThenLOperationDeLaPeriodeAUnMontantDeEuros(int operationId, string periodId, double amount)
+        {
+            await AssertOperation(operationId, periodId, o => o.Amount.Should().Be(amount));
+        }
+
+        [Then(@"L'opération (.*) de la période (.*) à pour libellé ""(.*)""")]
+        public async Task ThenLOperationDeLaPeriodeAPourLibelle(int operationId, string periodId, string label)
+        {
+            await AssertOperation(operationId, periodId, o => o.Label.Should().Be(label));
+        }
+
+        private async Task AssertOperation(int operationId, string periodId, Action<IPeriodOperation> assertion)
+        {
+            var operations = await FakeServer.GetAllOperations(periodId);
+            var recipe = operations.First(a => a.OperationId == operationId);
+            assertion(recipe);
+        }
+
+        private async Task UpdateRecipe(string periodId, int operationId, double? amount = null, string label = null, string newPair = null, string newOperationType = null)
+        {
             var operations = await FakeServer.GetAllOperations(periodId);
             var recipeToChange = operations.First(a => a.OperationId == operationId);
-            var result = await FakeServer.ChangeRecipe(recipeToChange.PeriodId, recipeToChange.OperationId, amount, recipeToChange.Label, TransformPair(recipeToChange.Pair), TransformOperationType(recipeToChange.OperationType));
+            var result = await FakeServer.ChangeRecipe(
+                recipeToChange.PeriodId, 
+                recipeToChange.OperationId,
+                amount ?? recipeToChange.Amount,
+                label ?? recipeToChange.Label,
+                TransformPair(newPair ?? recipeToChange.Pair),
+                TransformOperationType(newOperationType ?? recipeToChange.OperationType));
+
             result.Should().Be(HttpStatusCode.OK);
 
             int TransformPair(string pair) => pair == "Marie" ? 2 : 1;
             int TransformOperationType(string operationType) => operationType == "Commun" ? 1 : 2;
         }
 
-        [Then(@"L'opération (.*) de la période (.*) à un montant de (.*) euros")]
-        public async Task ThenLOperationDeLaPeriodeAUnMontantDeEuros(int operationId, string periodId, double amount)
+        private async Task UpdateSpending(string periodId, int operationId, double? amount = null, string label = null, string newPair = null, string newOperationType = null)
         {
             var operations = await FakeServer.GetAllOperations(periodId);
-            var recipe = operations.First(a => a.OperationId == operationId);
-            recipe.Amount.Should().Be(amount);
+            var recipeToChange = operations.First(a => a.OperationId == operationId);
+            var result = await FakeServer.ChangeSpending(
+                recipeToChange.PeriodId,
+                recipeToChange.OperationId,
+                amount ?? recipeToChange.Amount,
+                label ?? recipeToChange.Label,
+                TransformPair(newPair ?? recipeToChange.Pair),
+                TransformOperationType(newOperationType ?? recipeToChange.OperationType));
+
+            result.Should().Be(HttpStatusCode.OK);
+
+            int TransformPair(string pair) => pair == "Marie" ? 2 : 1;
+            int TransformOperationType(string operationType) => operationType == "Commun" ? 1 : 2;
         }
     }
 }

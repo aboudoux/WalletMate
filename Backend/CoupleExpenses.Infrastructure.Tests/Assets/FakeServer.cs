@@ -95,6 +95,12 @@ namespace CoupleExpenses.Infrastructure.Tests.Assets
             return post.GetStatusCode();
         }
 
+        public async Task<HttpStatusCode> ChangeSpending(string periodId, int operationId, double amount, string label, int pair, int operationType)
+        {
+            var post = await Post(new UpdateSpending(periodId, operationId, amount, label, pair, operationType), "/api/Operation/ChangeSpending");
+            return post.GetStatusCode();
+        }
+
         public async Task<PeriodBalance> GetPeriodBalance(string periodId)
         {
             var result = await Get("/api/Period/Balance?PeriodId="+periodId);

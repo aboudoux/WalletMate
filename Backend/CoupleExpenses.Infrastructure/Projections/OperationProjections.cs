@@ -16,7 +16,11 @@ namespace CoupleExpenses.Infrastructure.Projections {
         IEventHandler<AmountChanged>,
         IEventHandler<SpendingRemoved>,
         IEventHandler<RecipeRemoved>,
-        IEventHandler<PeriodBalanceChanged>
+        IEventHandler<PeriodBalanceChanged>,
+        IEventHandler<LabelChanged>,
+        IEventHandler<PairChanged>,
+        IEventHandler<RecipeOperationTypeChanged>,
+        IEventHandler<SpendingOperationTypeChanged>
     {
         private readonly IDatabaseRepository _databaseRepository;
 
@@ -72,6 +76,30 @@ namespace CoupleExpenses.Infrastructure.Projections {
         public Task Handle(AmountChanged @event, CancellationToken cancellationToken)
         {
             _databaseRepository.UpdateOperation(PeriodId.From(@event.AggregateId), @event.OperationId, @event.Amount);
+            return Task.CompletedTask;
+        }
+
+        public Task Handle(LabelChanged @event, CancellationToken cancellationToken)
+        {
+            _databaseRepository.UpdateOperation(PeriodId.From(@event.AggregateId), @event.OperationId, label: @event.Label);
+            return Task.CompletedTask;
+        }
+
+        public Task Handle(PairChanged @event, CancellationToken cancellationToken)
+        {
+            _databaseRepository.UpdateOperation(PeriodId.From(@event.AggregateId), @event.OperationId, pair: @event.Pair);
+            return Task.CompletedTask;
+        }
+
+        public Task Handle(RecipeOperationTypeChanged @event, CancellationToken cancellationToken)
+        {
+            _databaseRepository.UpdateOperation(PeriodId.From(@event.AggregateId), @event.OperationId, recipeOperationType : @event.OperationType);
+            return Task.CompletedTask;
+        }
+
+        public Task Handle(SpendingOperationTypeChanged @event, CancellationToken cancellationToken)
+        {
+            _databaseRepository.UpdateOperation(PeriodId.From(@event.AggregateId), @event.OperationId, spendingOperationType: @event.OperationType);
             return Task.CompletedTask;
         }
     }
