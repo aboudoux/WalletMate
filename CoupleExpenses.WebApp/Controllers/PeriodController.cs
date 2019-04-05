@@ -5,7 +5,7 @@ using CoupleExpenses.Application.Core;
 using CoupleExpenses.Application.Periods;
 using CoupleExpenses.Application.Periods.Queries;
 using CoupleExpenses.Domain.Periods.ValueObjects;
-using CoupleExpenses.WebApp.Dto;
+using CoupleExpenses.WebAPeriodp.Dto;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,12 +15,10 @@ namespace CoupleExpenses.WebApp.Controllers
     [Authorize]
     public class PeriodController : ControllerBase
     {
-        private readonly ICommandBus _commandBus;
         private readonly IQueryBus _queryBus;
 
-        public PeriodController(ICommandBus commandBus, IQueryBus queryBus)
+        public PeriodController(ICommandBus commandBus, IQueryBus queryBus) : base(commandBus)
         {
-            _commandBus = commandBus ?? throw new ArgumentNullException(nameof(commandBus));
             _queryBus = queryBus ?? throw new ArgumentNullException(nameof(queryBus));
         }
 
@@ -45,9 +43,7 @@ namespace CoupleExpenses.WebApp.Controllers
         [HttpPost("[action]")]
         public async Task<IActionResult> Create([FromBody]Period input)
         {
-            return await Handle(async () => {
-                 await _commandBus.SendAsync(new CreatePeriod(PeriodName.From(input.Month, input.Year)));
-            });
+            return await SendCommandAsync(new CreatePeriod(PeriodName.From(input.Month, input.Year)));
         }
     }
 }

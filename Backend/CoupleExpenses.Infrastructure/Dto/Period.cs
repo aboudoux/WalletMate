@@ -1,4 +1,4 @@
-namespace CoupleExpenses.WebApp.Dto
+namespace CoupleExpenses.WebAPeriodp.Dto
 {
     public class Period
     {

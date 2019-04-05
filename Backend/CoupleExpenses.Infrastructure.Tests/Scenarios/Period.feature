@@ -55,6 +55,18 @@ And J'ai demandé la création d'une période pour le mois 1 et l'année 2001
 	When Je demande à supprimer l'opération 1 de la période 2001-01
 	Then La liste des opérations pour la période 2001-01 est vide
 
+Scenario: Modifier le montant d'une opération de recette
+And J'ai demandé la création d'une période pour le mois 1 et l'année 2001
+	And J'ai ajouté des recettes dans l'application
+	| Periode | Montant | Libelle | Binome   | TypeOperation |
+	| 2001-01 | 100     | Test    | Aurélien | Commun        |
+	And La liste des opérations pour la période 2001-01 contient les elements suivants
+	| Type    | OperationId | Periode | Montant | Libelle | Binome   | TypeOperation |
+	| Recette | 1           | 2001-01 | 100     | Test    | Aurélien | Commun        |
+	When je demande à modifier le montant de la recette numéro 1 en 200 euros pour la période 2001-01
+	Then L'opération 1 de la période 2001-01 à un montant de 200 euros
+
+
 Scenario: Obtenir le solde d'une période après de multiples opérations
 	And J'ai demandé la création d'une période pour le mois 1 et l'année 2001
 	When J'ajoute des dépenses dans l'application
@@ -67,3 +79,4 @@ Scenario: Obtenir le solde d'une période après de multiples opérations
 	| Periode | Montant | Libelle | Binome | TypeOperation |
 	| 2001-01 | 200     | CAF     | Marie  | Commun        |
 	Then Marie doit la somme de 122.5 euros pour la période 2001-01
+

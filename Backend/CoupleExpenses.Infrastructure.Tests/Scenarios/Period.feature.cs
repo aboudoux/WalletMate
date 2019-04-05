@@ -339,19 +339,19 @@ testRunner.And("J\'ai demandé la création d\'une période pour le mois 1 et l\
             this.ScenarioCleanup();
         }
         
-        [Xunit.FactAttribute(DisplayName="Obtenir le solde d\'une période après de multiples opérations")]
+        [Xunit.FactAttribute(DisplayName="Modifier le montant d\'une opération de recette")]
         [Xunit.TraitAttribute("FeatureTitle", "Period")]
-        [Xunit.TraitAttribute("Description", "Obtenir le solde d\'une période après de multiples opérations")]
-        public virtual void ObtenirLeSoldeDunePeriodeApresDeMultiplesOperations()
+        [Xunit.TraitAttribute("Description", "Modifier le montant d\'une opération de recette")]
+        public virtual void ModifierLeMontantDuneOperationDeRecette()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Obtenir le solde d\'une période après de multiples opérations", null, ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Modifier le montant d\'une opération de recette", null, ((string[])(null)));
 #line 58
 this.ScenarioInitialize(scenarioInfo);
             this.ScenarioStart();
 #line 6
 this.FeatureBackground();
 #line 59
- testRunner.And("J\'ai demandé la création d\'une période pour le mois 1 et l\'année 2001", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+testRunner.And("J\'ai demandé la création d\'une période pour le mois 1 et l\'année 2001", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             TechTalk.SpecFlow.Table table9 = new TechTalk.SpecFlow.Table(new string[] {
                         "Periode",
@@ -361,46 +361,102 @@ this.FeatureBackground();
                         "TypeOperation"});
             table9.AddRow(new string[] {
                         "2001-01",
-                        "150",
-                        "leclerc",
-                        "Marie",
+                        "100",
+                        "Test",
+                        "Aurélien",
                         "Commun"});
-            table9.AddRow(new string[] {
-                        "2001-01",
-                        "200",
-                        "cadeau",
-                        "Aurelien",
-                        "Commun"});
-            table9.AddRow(new string[] {
-                        "2001-01",
-                        "55",
-                        "edf",
-                        "Aurelien",
-                        "Commun"});
-            table9.AddRow(new string[] {
-                        "2001-01",
-                        "30",
-                        "docteur",
-                        "Marie",
-                        "Avance"});
 #line 60
- testRunner.When("J\'ajoute des dépenses dans l\'application", ((string)(null)), table9, "When ");
+ testRunner.And("J\'ai ajouté des recettes dans l\'application", ((string)(null)), table9, "And ");
 #line hidden
             TechTalk.SpecFlow.Table table10 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Type",
+                        "OperationId",
                         "Periode",
                         "Montant",
                         "Libelle",
                         "Binome",
                         "TypeOperation"});
             table10.AddRow(new string[] {
+                        "Recette",
+                        "1",
+                        "2001-01",
+                        "100",
+                        "Test",
+                        "Aurélien",
+                        "Commun"});
+#line 63
+ testRunner.And("La liste des opérations pour la période 2001-01 contient les elements suivants", ((string)(null)), table10, "And ");
+#line 66
+ testRunner.When("je demande à modifier le montant de la recette numéro 1 en 200 euros pour la péri" +
+                    "ode 2001-01", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 67
+ testRunner.Then("L\'opération 1 de la période 2001-01 à un montant de 200 euros", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [Xunit.FactAttribute(DisplayName="Obtenir le solde d\'une période après de multiples opérations")]
+        [Xunit.TraitAttribute("FeatureTitle", "Period")]
+        [Xunit.TraitAttribute("Description", "Obtenir le solde d\'une période après de multiples opérations")]
+        public virtual void ObtenirLeSoldeDunePeriodeApresDeMultiplesOperations()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Obtenir le solde d\'une période après de multiples opérations", null, ((string[])(null)));
+#line 70
+this.ScenarioInitialize(scenarioInfo);
+            this.ScenarioStart();
+#line 6
+this.FeatureBackground();
+#line 71
+ testRunner.And("J\'ai demandé la création d\'une période pour le mois 1 et l\'année 2001", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+            TechTalk.SpecFlow.Table table11 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Periode",
+                        "Montant",
+                        "Libelle",
+                        "Binome",
+                        "TypeOperation"});
+            table11.AddRow(new string[] {
+                        "2001-01",
+                        "150",
+                        "leclerc",
+                        "Marie",
+                        "Commun"});
+            table11.AddRow(new string[] {
+                        "2001-01",
+                        "200",
+                        "cadeau",
+                        "Aurelien",
+                        "Commun"});
+            table11.AddRow(new string[] {
+                        "2001-01",
+                        "55",
+                        "edf",
+                        "Aurelien",
+                        "Commun"});
+            table11.AddRow(new string[] {
+                        "2001-01",
+                        "30",
+                        "docteur",
+                        "Marie",
+                        "Avance"});
+#line 72
+ testRunner.When("J\'ajoute des dépenses dans l\'application", ((string)(null)), table11, "When ");
+#line hidden
+            TechTalk.SpecFlow.Table table12 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Periode",
+                        "Montant",
+                        "Libelle",
+                        "Binome",
+                        "TypeOperation"});
+            table12.AddRow(new string[] {
                         "2001-01",
                         "200",
                         "CAF",
                         "Marie",
                         "Commun"});
-#line 66
- testRunner.And("J\'ajoute des recettes dans l\'application", ((string)(null)), table10, "And ");
-#line 69
+#line 78
+ testRunner.And("J\'ajoute des recettes dans l\'application", ((string)(null)), table12, "And ");
+#line 81
  testRunner.Then("Marie doit la somme de 122.5 euros pour la période 2001-01", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();

@@ -9,7 +9,7 @@ namespace CoupleExpenses.WebApp.Controllers
 {
     [Route("api/[controller]")]    
     [Authorize]
-    public class AuthenticationController : ControllerBase
+    public class AuthenticationController : Controller
     {
         private readonly IAuthorizationService _authorizationService;
 

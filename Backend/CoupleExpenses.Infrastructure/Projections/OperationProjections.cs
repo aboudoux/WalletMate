@@ -13,6 +13,7 @@ namespace CoupleExpenses.Infrastructure.Projections {
         IEventHandler<PeriodCreated>,
         IEventHandler<SpendingAdded>,
         IEventHandler<RecipeAdded>,
+        IEventHandler<AmountChanged>,
         IEventHandler<SpendingRemoved>,
         IEventHandler<RecipeRemoved>,
         IEventHandler<PeriodBalanceChanged>
@@ -65,6 +66,12 @@ namespace CoupleExpenses.Infrastructure.Projections {
         public Task Handle(PeriodBalanceChanged @event, CancellationToken cancellationToken)
         {
             _databaseRepository.UpdateBalance(PeriodId.From(@event.AggregateId), @event.AmountDue, @event.By);
+            return Task.CompletedTask;
+        }
+
+        public Task Handle(AmountChanged @event, CancellationToken cancellationToken)
+        {
+            _databaseRepository.UpdateOperation(PeriodId.From(@event.AggregateId), @event.OperationId, @event.Amount);
             return Task.CompletedTask;
         }
     }

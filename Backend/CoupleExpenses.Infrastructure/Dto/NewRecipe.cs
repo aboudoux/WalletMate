@@ -1,8 +1,8 @@
 namespace CoupleExpenses.Infrastructure.Dto
 {
-    public class Recipe
+    public class NewRecipe
     {
-        public Recipe(string periodId, double amount, string label, int pair, int operationType)
+        public NewRecipe(string periodId, double amount, string label, int pair, int operationType)
         {
             PeriodId = periodId;
             Amount = amount;

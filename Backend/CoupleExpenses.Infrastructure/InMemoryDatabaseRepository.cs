@@ -33,6 +33,23 @@ namespace CoupleExpenses.Infrastructure
                 _operations[periodId.Value].RemoveAll(o => o.OperationId == operationId.Value);
         }
 
+        public void UpdateOperation(PeriodId periodId, OperationId operationId, Amount amount = null, Label label = null, Pair pair = null)
+        {
+            if (!_operations.ContainsKey(periodId.Value))
+                return;
+
+            var operation = _operations[periodId.Value].FirstOrDefault(a => a.OperationId == operationId.Value);
+            if(operation == null)
+                return;
+
+            if (amount != null)
+                operation.Amount = amount.Value;
+            if (label != null)
+                operation.Label = label.Value;
+            if (pair != null)
+                operation.Pair = pair.ToString();
+        }
+
         public Task<IPeriodBalance> GetBalance(PeriodId requestPeriodId)
         {
             return Task.FromResult(_allPeriods[requestPeriodId.Value]);

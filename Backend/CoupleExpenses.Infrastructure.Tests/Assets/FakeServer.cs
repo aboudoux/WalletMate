@@ -12,7 +12,7 @@ using CoupleExpenses.Domain.Common.Events;
 using CoupleExpenses.Infrastructure.Dto;
 using CoupleExpenses.WebApp;
 using CoupleExpenses.WebApp.Controllers;
-using CoupleExpenses.WebApp.Dto;
+using CoupleExpenses.WebAPeriodp.Dto;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 
@@ -86,6 +86,12 @@ namespace CoupleExpenses.Infrastructure.Tests.Assets
         public async Task<HttpStatusCode> RemoveOperation(string periodId, int operationId)
         {
             var post = await Post(new OperationToRemove(periodId, operationId), "/api/Operation/Remove");
+            return post.GetStatusCode();
+        }
+
+        public async Task<HttpStatusCode> ChangeRecipe(string periodId, int operationId, double amount, string label, int pair, int operationType)
+        {
+            var post = await Post(new UpdateRecipe(periodId, operationId, amount, label, pair, operationType), "/api/Operation/ChangeRecipe");
             return post.GetStatusCode();
         }
 

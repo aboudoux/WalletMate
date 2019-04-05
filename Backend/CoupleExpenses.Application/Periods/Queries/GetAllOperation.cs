@@ -19,9 +19,9 @@ namespace CoupleExpenses.Application.Periods.Queries
         int OperationId { get; }
         string Type { get; }
         string PeriodId { get; }
-        double Amount { get; }
-        string Label { get; }
-        string Pair { get; }
-        string OperationType { get; }
+        double Amount { get; set; }
+        string Label { get; set; }
+        string Pair { get; set; }
+        string OperationType { get; set; }
     }
 }

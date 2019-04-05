@@ -43,9 +43,9 @@ namespace CoupleExpenses.Infrastructure.Dto
         public string PeriodId { get; }
         public int OperationId { get; }
         public string Type { get; }        
-        public string Pair{get; }           
-        public double Amount{get; }
-        public string Label{get; }
-        public string OperationType{get; }
+        public string Pair{get; set; }           
+        public double Amount{get; set; }
+        public string Label{get; set; }
+        public string OperationType{get; set; }
     }
 }

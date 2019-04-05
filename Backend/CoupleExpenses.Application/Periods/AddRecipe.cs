@@ -18,6 +18,6 @@ namespace CoupleExpenses.Application.Periods
             Label = label;
             Pair = pair;
             OperationType = operationType;
-        }
+        }        
     }
 }

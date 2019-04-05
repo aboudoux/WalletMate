@@ -44,7 +44,7 @@ namespace CoupleExpenses.Application.Periods
 
         public async Task Handle(AddSpending command, CancellationToken cancellationToken)
         {
-            await (await _eventBroker.LoadAggregate<Period>(command.PeriodId.ToString()))
+            await (await LoadAggregate<Period>(command.PeriodId.ToString()))
                 .AndExecute(p => p.AddSpending(command.Amount, command.Label, command.Pair, command.OperationType));
         }
 
@@ -55,32 +55,31 @@ namespace CoupleExpenses.Application.Periods
 
         public async Task Handle(AddRecipe command, CancellationToken cancellationToken)
         {
-            await (await _eventBroker.LoadAggregate<Period>(command.PeriodId.ToString()))
+            await (await LoadAggregate<Period>(command.PeriodId.ToString()))
                 .AndExecute(p => p.AddRecipe(command.Amount, command.Label, command.Pair, command.OperationType));
         }
 
-        public Task Handle(ChangeRecipe notification, CancellationToken cancellationToken)
+        public async Task Handle(ChangeRecipe command, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            await (await LoadAggregate<Period>(command.PeriodId.ToString()))
+                .AndExecute(p => p.ChangeRecipe(command.OperationId, command.Amount, command.Label, command.Pair, command.OperationType));
         }
 
         public async Task Handle(RemoveOperation command, CancellationToken cancellationToken)
         {
-            await (await _eventBroker.LoadAggregate<Period>(command.PeriodId.ToString()))
+            await (await LoadAggregate<Period>(command.PeriodId.ToString()))
                 .AndExecute(p => p.RemoveOperation(command.OperationId));
         }
-    }
 
-    public static class EventBrokerExtension
-    {
-        public static async Task<AggregateExecutor<T>> LoadAggregate<T>(this IEventBroker broker, string aggregateId)
+        private async Task<AggregateExecutor<T>> LoadAggregate<T>(string aggregateId)
             where T : IAggregateRoot
         {
-            var aggregate = await broker.GetAggregate<T>(aggregateId);
-            return new AggregateExecutor<T>(broker, aggregate);
+            var aggregate = await _eventBroker.GetAggregate<T>(aggregateId);
+            return new AggregateExecutor<T>(_eventBroker, aggregate);
         }
     }
 
+   
     public class AggregateExecutor<T>
         where T : IAggregateRoot
     {
