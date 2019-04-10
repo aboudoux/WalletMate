@@ -100,7 +100,7 @@ this.FeatureBackground();
 #line 10
  testRunner.When("Je demande la création d\'une période pour le mois 1 et l\'année 2001", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 11
- testRunner.Then("La liste des périodes contient \"Janvier 2001\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("La liste des périodes contient \"Janvier 2001\" avec l\'identifiant 2001-01", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }

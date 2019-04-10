@@ -23,7 +23,7 @@ namespace CoupleExpenses.WebApp.Controllers
         }
 
         [HttpGet("[action]")]
-        public async Task<IReadOnlyList<string>> All()
+        public async Task<IReadOnlyList<IPeriodResult>> All()
         {
             return await _queryBus.QueryAsync(new GetAllPeriod());
         }

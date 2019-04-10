@@ -1,7 +1,7 @@
 ﻿import React, { useState } from 'react';
 import { Get } from './Call';
 import MainMenu from './MainMenu';
-import PeriodPanel from './PeriodPanel';
+import PanelPeriod from './PanelPeriod';
 
 const Dashboard = ({ dispatch }) => {
 
@@ -22,7 +22,7 @@ const Dashboard = ({ dispatch }) => {
     return (
         <div>
             <MainMenu dispatch={dispatch} refreshDashboard={setInitialized} />
-            {state.map((p) => <PeriodPanel periodName={p} isExpanded={false} dispatch={dispatch} />)}
+            {state.map((p) => <PanelPeriod periodName={p.periodName} periodId={p.periodId} isExpanded={false} dispatch={dispatch} />)}
 
         </div>);
 }

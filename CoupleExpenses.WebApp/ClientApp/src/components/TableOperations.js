@@ -7,14 +7,14 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { Get } from './Call';
 
-const PeriodOperations = ({ expended, dispatch }) => {
+const TableOperations = ({periodId, expended, dispatch }) => {
     const [rows, updateRows] = useState([]);
     const [initialised, setInitialized] = useState(false);
 
     if (!expended && initialised) {
         setInitialized(false);
     } else if (expended && !initialised) {
-        Get("/api/Operation/All?periodId=2019-05")
+        Get("/api/Operation/All?periodId=" + periodId)
             .then(response => updateRows(response.data))
             .catch((error) => {
                 if (error.response.status === 401) {
@@ -54,4 +54,4 @@ const PeriodOperations = ({ expended, dispatch }) => {
     );
 };
 
-export default PeriodOperations;
+export default TableOperations;

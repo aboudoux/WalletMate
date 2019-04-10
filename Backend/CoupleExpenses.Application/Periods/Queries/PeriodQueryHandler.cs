@@ -6,7 +6,7 @@ using CoupleExpenses.Application.Core;
 
 namespace CoupleExpenses.Application.Periods.Queries {
     public class PeriodQueryHandler : 
-        IQueryHandler<GetAllPeriod, IReadOnlyList<string>>,
+        IQueryHandler<GetAllPeriod, IReadOnlyList<IPeriodResult>>,
         IQueryHandler<GetAllOperation, IReadOnlyList<IPeriodOperation>>,
         IQueryHandler<GetPeriodBalance, IPeriodBalance>
     {
@@ -17,7 +17,7 @@ namespace CoupleExpenses.Application.Periods.Queries {
             _repository = repository ?? throw new ArgumentNullException(nameof(repository));
         }
 
-        public async Task<IReadOnlyList<string>> Handle(GetAllPeriod request, CancellationToken cancellationToken)
+        public async Task<IReadOnlyList<IPeriodResult>> Handle(GetAllPeriod request, CancellationToken cancellationToken)
         {
             return await _repository.GetAllPeriod();
         }

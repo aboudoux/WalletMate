@@ -8,7 +8,7 @@ Background:
 
 Scenario: Création d'une nouvelle période
 	When Je demande la création d'une période pour le mois 1 et l'année 2001
-	Then La liste des périodes contient "Janvier 2001"
+	Then La liste des périodes contient "Janvier 2001" avec l'identifiant 2001-01
 
 Scenario: Intérdire la création de deux mêmes périodes
 	And J'ai demandé la création d'une période pour le mois 1 et l'année 2001

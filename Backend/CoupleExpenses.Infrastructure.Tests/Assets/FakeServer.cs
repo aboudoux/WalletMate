@@ -105,10 +105,10 @@ namespace CoupleExpenses.Infrastructure.Tests.Assets
             return await result.ReadContentAs<PeriodBalance>();
         }
 
-        public async Task<IReadOnlyList<string>> GetAllPeriod()
+        public async Task<IReadOnlyList<PeriodResult>> GetAllPeriod()
         {
             var result = await Get("/api/Period/All");
-            return await result.ReadContentAs<IReadOnlyList<string>>();
+            return await result.ReadContentAs<IReadOnlyList<PeriodResult>>();
         }
 
         private async Task<HttpResult> Post<T>(T data, string url)

@@ -51,5 +51,13 @@ namespace CoupleExpenses.Domain.Periods.ValueObjects
 
         public static PeriodId From(string id)
             => new PeriodId(id);
+
+        public PeriodName ToPeriodName()
+        {
+            var splittedValue = Value.Split('-');
+            var year = int.Parse(splittedValue[0]);
+            var month= int.Parse(splittedValue[1]);
+            return PeriodName.From(month, year);
+        }
     }
 }

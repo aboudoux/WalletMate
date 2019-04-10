@@ -32,11 +32,11 @@ namespace CoupleExpenses.Infrastructure.Tests.Steps
             }
         }
 
-        [Then(@"La liste des périodes contient ""(.*)""")]
-        public async Task ThenLaListeDesPeriodesContient(string expectedPeriodName)
+        [Then(@"La liste des périodes contient ""(.*)"" avec l'identifiant (.*)")]
+        public async Task ThenLaListeDesPeriodesContient(string expectedPeriodName, string expectedPeriodId)
         {
             var periods = await FakeServer.GetAllPeriod();
-            periods.Should().Contain(expectedPeriodName);
+            periods.Should().ContainEquivalentOf(new PeriodResult(expectedPeriodName, expectedPeriodId));
         }
 
         [When(@"J'ajoute des dépenses dans l'application")]

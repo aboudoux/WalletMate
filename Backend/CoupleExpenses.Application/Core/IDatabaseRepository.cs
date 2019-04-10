@@ -8,7 +8,7 @@ namespace CoupleExpenses.Application.Core
     public interface IDatabaseRepository
     {
         void AddPeriod(PeriodName periodName);
-        Task<IReadOnlyList<string>> GetAllPeriod();
+        Task<IReadOnlyList<IPeriodResult>> GetAllPeriod();
         Task<IReadOnlyList<IPeriodOperation>> GetAllOperation(PeriodId periodId);
         void AddOperation(IPeriodOperation operation);
         void RemoveOperation(PeriodId periodId, OperationId operationId);

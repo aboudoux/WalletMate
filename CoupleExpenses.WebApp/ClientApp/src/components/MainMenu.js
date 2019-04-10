@@ -87,7 +87,6 @@ const MainMenu = ({ dispatch, refreshDashboard }) => {
                         <MenuItem onClick={handleClose}>Ajouter la prochaine période</MenuItem>
                     </Menu>
 
-
                     <Typography variant="h6" color="inherit" className="grow">
                         Gestion des dépenses
                     </Typography>

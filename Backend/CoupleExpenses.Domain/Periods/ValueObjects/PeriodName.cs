@@ -65,5 +65,8 @@ namespace CoupleExpenses.Domain.Periods.ValueObjects
 
             bool IsDecember() => Month == 12;
         }
+
+        public PeriodId ToPeriodId()
+            => PeriodId.From(this);
     }
 }
