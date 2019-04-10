@@ -14,7 +14,7 @@ const PeriodOperations = ({ expended, dispatch }) => {
     if (!expended && initialised) {
         setInitialized(false);
     } else if (expended && !initialised) {
-        Get("/api/Period/Operations")
+        Get("/api/Operations/All")
             .then(response => updateRows(response.data))
             .catch((error) => {
                 if (error.response.status === 401) {
@@ -38,14 +38,14 @@ const PeriodOperations = ({ expended, dispatch }) => {
                 </TableHead>
                 <TableBody>
                     {rows.map(row => (
-                        <TableRow key={row.id}>
+                        <TableRow key={row.operationId}>
                             <TableCell component="th" scope="row">
                                 {row.type}
                             </TableCell>
                             <TableCell align="right">{row.pair}</TableCell>
                             <TableCell align="right">{row.amount} €</TableCell>
                             <TableCell align="right">{row.label}</TableCell>
-                            <TableCell align="right">{row.operationType}</TableCell>
+                            <TableCell align="right">{row.category}</TableCell>
                         </TableRow>
                     ))}
                 </TableBody>

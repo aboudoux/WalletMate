@@ -1,5 +1,6 @@
 using System.Linq;
 using System.Threading.Tasks;
+using CoupleExpenses.Domain.Common;
 using CoupleExpenses.Domain.Periods;
 using CoupleExpenses.Domain.Periods.Events;
 using CoupleExpenses.Domain.Periods.ValueObjects;
@@ -88,6 +89,24 @@ namespace CoupleExpenses.Infrastructure.Tests
 
                 var lastSequence = await store.GetLastSequence("test");
                 lastSequence.Should().Be(-1);
+            });
+        }
+
+        [Fact]
+        public async Task Reload_all_events_with_their_domainEvent_infos()
+        {
+            await Make.TestFile("reload.es").AndExecute(async env =>
+            {
+                var store = new FileEventStoreWithCache(new CustomJsonSerializer(), env.FilePath);
+
+                var period = Period.Create(PeriodName.From(1, 2007));
+                period.AddSpending(Amount.From(5), Label.From("test"), Pair.Aurelien, SpendingCategory.Common);
+                await store.Save(period.UncommittedEvents.GetStream());
+
+                var store2 = new FileEventStoreWithCache(new CustomJsonSerializer(), env.FilePath);
+
+                var allEvents = await store2.GetEvents(a=> true);
+                allEvents.Any(a => a.AggregateId.IsEmpty()).Should().BeFalse();
             });
         }
     }

@@ -8,7 +8,7 @@ import './dashboard.css';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import CreatePeriodDialog from './CreatePeriodDialog';
+import DialogCreatePeriod from './DialogCreatePeriod';
 
 
 const MainMenu = ({ dispatch, refreshDashboard }) => {
@@ -65,7 +65,7 @@ const MainMenu = ({ dispatch, refreshDashboard }) => {
     return (
         <div className="root">
 
-            <CreatePeriodDialog openState={dashboardState.createPeriodOpen} doAction={doAction} refreshDashboard={refreshDashboard} />
+            <DialogCreatePeriod openState={dashboardState.createPeriodOpen} doAction={doAction} refreshDashboard={refreshDashboard} />
 
             <AppBar position="static">
                 <Toolbar>

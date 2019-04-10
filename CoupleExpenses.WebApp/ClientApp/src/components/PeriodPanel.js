@@ -1,5 +1,5 @@
 ﻿import React, { useReducer, useState } from 'react';
-import AddSpendingDialog from './AddSpendingDialog';
+import DialogAddSpending from './DialogAddSpending';
 import PeriodOperations from './PeriodOperations';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
@@ -17,7 +17,7 @@ const PeriodPanel = ({ periodName, isExpanded, dispatch }) => {
 
     return (
         <div>
-            <AddSpendingDialog openState={isSpendingDialogOpen} setOpenState={openSpendingDialog} />
+            <DialogAddSpending openState={isSpendingDialogOpen} setOpenState={openSpendingDialog} />
             <ExpansionPanel expanded={expandState} >
                 <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />} className="period-title" onClick={onExpend} >
                     <Grid container direction="row" spacing={16}>

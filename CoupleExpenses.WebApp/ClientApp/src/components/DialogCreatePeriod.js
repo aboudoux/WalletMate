@@ -9,7 +9,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
 
-const CreatePeriodDialog = ({ openState, doAction, refreshDashboard }) => {
+const DialogCreatePeriod = ({ openState, doAction, refreshDashboard }) => {
     const months = [
         "Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Aout", "Septembre", "Octobre", "Novembre", "Décembre"
     ];
@@ -74,4 +74,4 @@ const CreatePeriodDialog = ({ openState, doAction, refreshDashboard }) => {
     );
 }
 
-export default CreatePeriodDialog;
+export default DialogCreatePeriod;

@@ -10,7 +10,7 @@ namespace CoupleExpenses.Infrastructure
 {
     public class InMemoryDatabaseRepository : IDatabaseRepository
     {
-        private readonly Dictionary<string,IPeriodBalance> _allPeriods = new Dictionary<string, IPeriodBalance>();
+        private readonly Dictionary<string, IPeriodBalance> _allPeriods = new Dictionary<string, IPeriodBalance>();
         private readonly Dictionary<string, List<IPeriodOperation>> _operations = new Dictionary<string, List<IPeriodOperation>>();
 
         public void AddPeriod(PeriodName periodName)
