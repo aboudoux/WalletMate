@@ -14,7 +14,7 @@ const PeriodOperations = ({ expended, dispatch }) => {
     if (!expended && initialised) {
         setInitialized(false);
     } else if (expended && !initialised) {
-        Get("/api/Operations/All")
+        Get("/api/Operation/All?periodId=2019-05")
             .then(response => updateRows(response.data))
             .catch((error) => {
                 if (error.response.status === 401) {
@@ -30,10 +30,10 @@ const PeriodOperations = ({ expended, dispatch }) => {
                 <TableHead>
                     <TableRow>
                         <TableCell>Type</TableCell>
-                        <TableCell align="right">Binôme</TableCell>
-                        <TableCell align="right">Montant</TableCell>
+                        <TableCell>Binôme</TableCell>
+                        <TableCell>Montant</TableCell>
                         <TableCell>Libelle</TableCell>
-                        <TableCell align="right">Opération</TableCell>
+                        <TableCell>Opération</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -42,10 +42,10 @@ const PeriodOperations = ({ expended, dispatch }) => {
                             <TableCell component="th" scope="row">
                                 {row.type}
                             </TableCell>
-                            <TableCell align="right">{row.pair}</TableCell>
-                            <TableCell align="right">{row.amount} €</TableCell>
-                            <TableCell align="right">{row.label}</TableCell>
-                            <TableCell align="right">{row.category}</TableCell>
+                            <TableCell>{row.pair}</TableCell>
+                            <TableCell>{row.amount} €</TableCell>
+                            <TableCell>{row.label}</TableCell>
+                            <TableCell>{row.category}</TableCell>
                         </TableRow>
                     ))}
                 </TableBody>
