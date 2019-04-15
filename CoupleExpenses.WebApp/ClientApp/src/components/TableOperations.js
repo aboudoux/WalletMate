@@ -5,25 +5,13 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import { Get } from './Call';
+import DeleteIcon from '@material-ui/icons/Delete';
+import EditIcon from '@material-ui/icons/Edit';
+import Tooltip from '@material-ui/core/Tooltip';
+import IconButton from '@material-ui/core/IconButton';
 
-const TableOperations = ({periodId, expended, dispatch }) => {
-    const [rows, updateRows] = useState([]);
-    const [initialised, setInitialized] = useState(false);
-
-    if (!expended && initialised) {
-        setInitialized(false);
-    } else if (expended && !initialised) {
-        Get("/api/Operation/All?periodId=" + periodId)
-            .then(response => updateRows(response.data))
-            .catch((error) => {
-                if (error.response.status === 401) {
-                    dispatch(null);
-                }
-            });
-        setInitialized(true);
-    }
-
+const TableOperations = ({ rows }) =>
+{
     return (
         <Paper >
             <Table>
@@ -34,6 +22,7 @@ const TableOperations = ({periodId, expended, dispatch }) => {
                         <TableCell>Montant</TableCell>
                         <TableCell>Libelle</TableCell>
                         <TableCell>Opération</TableCell>
+                        <TableCell align="center">Actions</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -46,6 +35,18 @@ const TableOperations = ({periodId, expended, dispatch }) => {
                             <TableCell>{row.amount} €</TableCell>
                             <TableCell>{row.label}</TableCell>
                             <TableCell>{row.category}</TableCell>
+                            <TableCell>
+                                <Tooltip title="Editer cette opération">
+                                    <IconButton>
+                                        <EditIcon />
+                                    </IconButton>
+                                </Tooltip>
+                                <Tooltip title="Supprimer cette opération">
+                                    <IconButton>
+                                        <DeleteIcon />
+                                    </IconButton>
+                                </Tooltip>
+                            </TableCell>
                         </TableRow>
                     ))}
                 </TableBody>

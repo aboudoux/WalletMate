@@ -1,5 +1,6 @@
 ﻿import React, { useReducer, useState } from 'react';
 import DialogAddSpending from './DialogAddSpending';
+import DialogAddRecipe from './DialogAddRecipe';
 import TableOperations from './TableOperations';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
@@ -10,16 +11,21 @@ import Grid from '@material-ui/core/Grid';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import LocalAtmIcon from '@material-ui/icons/LocalAtm';
+import { Get } from './Call';
 
-const PanelPeriod = ({ periodName, periodId, isExpanded, dispatch }) => {
-    const [expandState, onExpend] = useReducer((state) => !state, isExpanded);
+const PanelPeriod = ({ periodName, periodId, isExpanded, dispatch }) =>
+{   
+    const [expandState, onExpend] = useReducer(reducer, isExpanded);
     const [isSpendingDialogOpen, openSpendingDialog] = useState(false);
+    const [isRecipeDialogOpen, openRecipeDialog] = useState(false);
+    const [operations, setOperations] = useState([]);
 
     return (
         <div>
             <DialogAddSpending openState={isSpendingDialogOpen} setOpenState={openSpendingDialog} periodId={periodId} />
+            <DialogAddRecipe openState={isRecipeDialogOpen} setOpenState={openRecipeDialog} periodId={periodId} />
             <ExpansionPanel expanded={expandState} >
-                <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />} className="period-title" onClick={onExpend} >
+                <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />} className="period-title" onClick={() => onExpend({ periodId: periodId, setOperations: setOperations })}>
                     <Grid container direction="row" spacing={16}>
                         <Grid item>
                             <AlarmOn />
@@ -30,18 +36,28 @@ const PanelPeriod = ({ periodName, periodId, isExpanded, dispatch }) => {
                     </Grid>
                 </ExpansionPanelSummary>
                 <ExpansionPanelDetails>
-                    <TableOperations periodId={periodId} expended={expandState} dispatch={dispatch} />
+                    <TableOperations rows={operations} />
                 </ExpansionPanelDetails>
 
                 <BottomNavigation
                     showLabels
                 >
                     <BottomNavigationAction label="Ajouter une dépense" icon={<LocalAtmIcon color="secondary" />} onClick={() => { openSpendingDialog(true); }} />
-                    <BottomNavigationAction label="Ajouter une recette" icon={<LocalAtmIcon color="primary" />} />
+                    <BottomNavigationAction label="Ajouter une recette" icon={<LocalAtmIcon color="primary" />} onClick={() => { openRecipeDialog(true); }} />
                 </BottomNavigation>
             </ExpansionPanel>
         </div>
-    );
+    );       
+}
+
+const reducer = (state, action) =>
+{
+    const newState = !state;
+    if (newState === true) {
+        Get("/api/Operation/All?periodId=" + action.periodId)
+            .then(response => action.setOperations(response.data));
+    }
+    return newState;
 }
 
 export default PanelPeriod;
