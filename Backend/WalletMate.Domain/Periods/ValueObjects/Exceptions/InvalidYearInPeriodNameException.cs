@@ -2,7 +2,7 @@
 
 namespace WalletMate.Domain.Periods.ValueObjects.Exceptions
 {
-    public class InvalidYearInPeriodNameException : CoupleExpensesException 
+    public class InvalidYearInPeriodNameException : WalletMateException 
     {
         public InvalidYearInPeriodNameException(int year)
             : base($"The year {year} is invalid")

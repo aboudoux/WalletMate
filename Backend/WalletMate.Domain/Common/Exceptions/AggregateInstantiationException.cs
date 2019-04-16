@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace WalletMate.Domain.Common.Exceptions
 {
     [Serializable]
-    public class AggregateInstantiationException : CoupleExpensesException {
+    public class AggregateInstantiationException : WalletMateException {
         public AggregateInstantiationException(Type aggregateType)
             : base($"Cannot instantiate a new aggregate of type {aggregateType.Name}") {
         }

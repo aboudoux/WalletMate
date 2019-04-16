@@ -22,7 +22,7 @@ namespace WalletMate.Infrastructure.Tests.Assets
 
         public FakeServer()
         {
-            _testServer = new TestServerBase<Startup>("Test", "CoupleExpenses.WebApp", s => s.AddSingleton(CreateEventStoreInstance));
+            _testServer = new TestServerBase<Startup>("Test", "WalletMate.WebApp", s => s.AddSingleton(CreateEventStoreInstance));
 
             IEventStore CreateEventStoreInstance(IServiceProvider provider)
             {

@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace WalletMate.Domain.Common.Exceptions
 {
     [Serializable]
-    public class NoPlayersFoundException : CoupleExpensesException {
+    public class NoPlayersFoundException : WalletMateException {
         public NoPlayersFoundException() {
         }
 

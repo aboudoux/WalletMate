@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace WalletMate.Domain.Common.Exceptions
 {
     [Serializable]
-    public class AggregateNotFoundException : CoupleExpensesException {
+    public class AggregateNotFoundException : WalletMateException {
         public AggregateNotFoundException(Type aggregateType)
             : base($"Aggregate {aggregateType.Name} not found.") {
         }

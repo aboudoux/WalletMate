@@ -5,7 +5,7 @@ using WalletMate.Domain.Common.Exceptions;
 namespace WalletMate.Domain.Common.ValueObjects.Exceptions
 {
     [Serializable]
-    public class EmptyStringException : CoupleExpensesException {
+    public class EmptyStringException : WalletMateException {
         public EmptyStringException(Type valueObjectType)
             : base($"A '{valueObjectType.Name}' cannot be an empty string.") {
         }
