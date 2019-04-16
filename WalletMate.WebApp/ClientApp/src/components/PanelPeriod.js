@@ -39,7 +39,7 @@ const PanelPeriod = ({ periodName, periodId, isExpanded, dispatch }) =>
                     </Grid>
                 </ExpansionPanelSummary>
                 <ExpansionPanelDetails>
-                    <TableOperations rows={operations} />
+                    <TableOperations rows={operations} refresh={refresh} />
                 </ExpansionPanelDetails>
 
                 <BottomNavigation
