@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CoupleExpenses.Infrastructure.Dto
+namespace WalletMate.Infrastructure.Dto
 {
     public class AuthResult
     {

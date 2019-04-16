@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace CoupleExpenses.Domain.Common.Events
+namespace WalletMate.Domain.Common.Events
 {
     public abstract class EventStream {
         private readonly List<IDomainEvent> _events = new List<IDomainEvent>();

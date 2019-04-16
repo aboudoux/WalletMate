@@ -1,7 +1,7 @@
-﻿using CoupleExpenses.Domain.Common.Events;
-using CoupleExpenses.Domain.Periods.ValueObjects;
+﻿using WalletMate.Domain.Common.Events;
+using WalletMate.Domain.Periods.ValueObjects;
 
-namespace CoupleExpenses.Domain.Periods.Events
+namespace WalletMate.Domain.Periods.Events
 {
     [SerializableTypeIdentifier("RecipeCategoryChanged")]
     public sealed class RecipeCategoryChanged : DomainEvent 

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace CoupleExpenses.Domain.Common.Events
+namespace WalletMate.Domain.Common.Events
 {
     public class EventPlayer {
         private readonly Dictionary<Type, Action<object>> _handlers = new Dictionary<Type, Action<object>>();

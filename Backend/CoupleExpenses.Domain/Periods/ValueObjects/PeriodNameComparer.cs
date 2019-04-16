@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace CoupleExpenses.Domain.Periods.ValueObjects
+namespace WalletMate.Domain.Periods.ValueObjects
 {
     public sealed  class PeriodNameComparer : IComparer<PeriodName>
     {

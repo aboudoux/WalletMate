@@ -10,7 +10,7 @@
 // ------------------------------------------------------------------------------
 #region Designer generated code
 #pragma warning disable
-namespace CoupleExpenses.Infrastructure.Tests.Scenarios
+namespace WalletMate.Infrastructure.Tests.Scenarios
 {
     using TechTalk.SpecFlow;
     

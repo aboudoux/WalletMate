@@ -1,6 +1,6 @@
-using CoupleExpenses.Application.Periods.Queries;
+using WalletMate.Application.Periods.Queries;
 
-namespace CoupleExpenses.Infrastructure.Dto
+namespace WalletMate.Infrastructure.Dto
 {
     public class PeriodBalance : IPeriodBalance
     {

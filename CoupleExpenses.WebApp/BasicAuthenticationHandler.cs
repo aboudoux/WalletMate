@@ -4,12 +4,11 @@ using System.Security.Claims;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
-using CoupleExpenses.WebApp.Controllers;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace CoupleExpenses.WebApp
+namespace WalletMate.WebApp
 {
     public class BasicAuthenticationHandler : AuthenticationHandler<AuthenticationSchemeOptions> {
 

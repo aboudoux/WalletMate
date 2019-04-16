@@ -1,10 +1,10 @@
 using System;
-using CoupleExpenses.Domain.Periods.ValueObjects;
-using CoupleExpenses.Domain.Periods.ValueObjects.Exceptions;
 using FluentAssertions;
+using WalletMate.Domain.Periods.ValueObjects;
+using WalletMate.Domain.Periods.ValueObjects.Exceptions;
 using Xunit;
 
-namespace CoupleExpenses.Domain.Tests
+namespace WalletMate.Domain.Tests
 {
     public class PeriodNameShould
     {

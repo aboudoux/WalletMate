@@ -3,13 +3,13 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Reflection;
-using CoupleExpenses.Domain.Common;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using WalletMate.Domain.Common;
 
-namespace CoupleExpenses.Infrastructure.Tests.Assets
+namespace WalletMate.Infrastructure.Tests.Assets
 {
     public class TestServerBase<TStartup> : IDisposable where TStartup : class
     {

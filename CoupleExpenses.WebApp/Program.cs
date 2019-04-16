@@ -1,11 +1,11 @@
 using System.Threading.Tasks;
-using CoupleExpenses.Application;
-using CoupleExpenses.Application.Core;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using WalletMate.Application;
+using WalletMate.Application.Core;
 
-namespace CoupleExpenses.WebApp
+namespace WalletMate.WebApp
 {
     public class Program
     {

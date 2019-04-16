@@ -1,7 +1,6 @@
-﻿using CoupleExpenses.Domain.Common.ValueObjects.Exceptions;
-using Newtonsoft.Json;
+﻿using WalletMate.Domain.Common.ValueObjects.Exceptions;
 
-namespace CoupleExpenses.Domain.Common.ValueObjects
+namespace WalletMate.Domain.Common.ValueObjects
 {
     public abstract class PositiveNumberValueObject<T> : ValueObject<int>
         where T : class    

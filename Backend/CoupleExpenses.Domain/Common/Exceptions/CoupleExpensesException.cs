@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace CoupleExpenses.Domain.Common.Exceptions
+namespace WalletMate.Domain.Common.Exceptions
 {
     public abstract class CoupleExpensesException : Exception {
         protected CoupleExpensesException() {

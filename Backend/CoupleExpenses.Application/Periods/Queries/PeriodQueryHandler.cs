@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using CoupleExpenses.Application.Core;
+using WalletMate.Application.Core;
 
-namespace CoupleExpenses.Application.Periods.Queries {
+namespace WalletMate.Application.Periods.Queries {
     public class PeriodQueryHandler : 
         IQueryHandler<GetAllPeriod, IReadOnlyList<IPeriodResult>>,
         IQueryHandler<GetAllOperation, IReadOnlyList<IPeriodOperation>>,

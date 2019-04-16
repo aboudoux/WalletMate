@@ -1,4 +1,4 @@
-﻿namespace CoupleExpenses.Domain.Common.Exceptions
+﻿namespace WalletMate.Domain.Common.Exceptions
 {
     public sealed class ConcurrencyException : CoupleExpensesException
     {

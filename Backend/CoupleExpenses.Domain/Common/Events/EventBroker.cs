@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CoupleExpenses.Domain.Common.Exceptions;
+using WalletMate.Domain.Common.Exceptions;
 
-namespace CoupleExpenses.Domain.Common.Events
+namespace WalletMate.Domain.Common.Events
 {
     public class EventBroker : IEventBroker 
     {

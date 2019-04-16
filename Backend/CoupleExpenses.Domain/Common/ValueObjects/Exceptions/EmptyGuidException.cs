@@ -1,7 +1,7 @@
 ﻿using System;
-using CoupleExpenses.Domain.Common.Exceptions;
+using WalletMate.Domain.Common.Exceptions;
 
-namespace CoupleExpenses.Domain.Common.ValueObjects.Exceptions
+namespace WalletMate.Domain.Common.ValueObjects.Exceptions
 {
     public class EmptyGuidException : CoupleExpensesException {
         public EmptyGuidException(Type valueObjectType)

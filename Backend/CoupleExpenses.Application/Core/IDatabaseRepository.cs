@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using CoupleExpenses.Application.Periods.Queries;
-using CoupleExpenses.Domain.Periods.ValueObjects;
+using WalletMate.Application.Periods.Queries;
+using WalletMate.Domain.Periods.ValueObjects;
 
-namespace CoupleExpenses.Application.Core
+namespace WalletMate.Application.Core
 {
     public interface IDatabaseRepository
     {

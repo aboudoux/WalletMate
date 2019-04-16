@@ -1,6 +1,6 @@
-﻿using CoupleExpenses.Domain.Common.Exceptions;
+﻿using WalletMate.Domain.Common.Exceptions;
 
-namespace CoupleExpenses.Domain.Periods.ValueObjects.Exceptions
+namespace WalletMate.Domain.Periods.ValueObjects.Exceptions
 {
     public class InvalidYearInPeriodNameException : CoupleExpensesException 
     {

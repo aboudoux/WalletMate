@@ -1,8 +1,8 @@
 ﻿using System;
-using CoupleExpenses.Domain.Common;
 using Microsoft.AspNetCore.Http;
+using WalletMate.Domain.Common;
 
-namespace CoupleExpenses.Infrastructure
+namespace WalletMate.Infrastructure
 {
     public class UserService : IUserService
     {

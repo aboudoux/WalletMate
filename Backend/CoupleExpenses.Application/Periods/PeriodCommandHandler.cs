@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using CoupleExpenses.Application.Core;
-using CoupleExpenses.Domain.Common;
-using CoupleExpenses.Domain.Common.Events;
-using CoupleExpenses.Domain.Common.Exceptions;
-using CoupleExpenses.Domain.Periods;
-using CoupleExpenses.Domain.Periods.Events;
+using WalletMate.Application.Core;
+using WalletMate.Domain.Common;
+using WalletMate.Domain.Common.Events;
+using WalletMate.Domain.Common.Exceptions;
+using WalletMate.Domain.Periods;
+using WalletMate.Domain.Periods.Events;
 
-namespace CoupleExpenses.Application.Periods
+namespace WalletMate.Application.Periods
 {
     public class PeriodCommandHandler : 
         ICommandHandler<CreatePeriod>, 

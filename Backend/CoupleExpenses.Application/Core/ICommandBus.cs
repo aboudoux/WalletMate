@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using MediatR;
 
-namespace CoupleExpenses.Application.Core
+namespace WalletMate.Application.Core
 {
     public interface ICommandBus
     {

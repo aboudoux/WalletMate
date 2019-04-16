@@ -1,7 +1,6 @@
 ﻿using System;
-using MediatR;
 
-namespace CoupleExpenses.Domain.Common.Events
+namespace WalletMate.Domain.Common.Events
 {
     public interface IDomainEvent : IEvent
     {

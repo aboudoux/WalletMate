@@ -3,7 +3,7 @@ using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
 
-namespace CoupleExpenses.Infrastructure.Tests.Tools
+namespace WalletMate.Infrastructure.Tests.Tools
 {
     public class TestEnvironment
     {

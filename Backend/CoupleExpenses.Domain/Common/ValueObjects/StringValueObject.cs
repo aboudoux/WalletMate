@@ -1,4 +1,4 @@
-﻿namespace CoupleExpenses.Domain.Common.ValueObjects
+﻿namespace WalletMate.Domain.Common.ValueObjects
 {
     public abstract class StringValueObject<T> : ValueObject<string>
         where T : class {

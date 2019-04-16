@@ -1,11 +1,11 @@
 using System.Linq;
-using CoupleExpenses.Domain.Periods;
-using CoupleExpenses.Domain.Periods.Events;
-using CoupleExpenses.Domain.Periods.ValueObjects;
 using FluentAssertions;
+using WalletMate.Domain.Periods;
+using WalletMate.Domain.Periods.Events;
+using WalletMate.Domain.Periods.ValueObjects;
 using Xunit;
 
-namespace CoupleExpenses.Domain.Tests
+namespace WalletMate.Domain.Tests
 {
     public sealed class PeriodShould 
     {

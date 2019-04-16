@@ -1,4 +1,4 @@
-﻿namespace CoupleExpenses.Infrastructure.Tests.Assets
+﻿namespace WalletMate.Infrastructure.Tests.Assets
 {
     public class TestContext
     {

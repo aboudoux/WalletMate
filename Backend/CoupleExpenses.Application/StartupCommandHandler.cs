@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using CoupleExpenses.Application.Core;
-using CoupleExpenses.Domain.Common;
-using CoupleExpenses.Domain.Common.Events;
+using WalletMate.Application.Core;
+using WalletMate.Domain.Common;
+using WalletMate.Domain.Common.Events;
 
-namespace CoupleExpenses.Application
+namespace WalletMate.Application
 {
     public class StartupCommandHandler : ICommandHandler<ReplayAllEvents>
     {

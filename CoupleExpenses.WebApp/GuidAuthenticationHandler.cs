@@ -4,13 +4,12 @@ using System.Security.Claims;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
-using CoupleExpenses.Infrastructure.Services;
-using CoupleExpenses.WebApp.Controllers;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using WalletMate.Infrastructure.Services;
 
-namespace CoupleExpenses.WebApp
+namespace WalletMate.WebApp
 {
     public class GuidAuthenticationHandler : AuthenticationHandler<AuthenticationSchemeOptions> {
         private readonly IAuthorizationService _authorizationService;

@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CoupleExpenses.Application.Core;
-using CoupleExpenses.Application.Periods.Queries;
-using CoupleExpenses.Domain.Periods.ValueObjects;
-using CoupleExpenses.Infrastructure.Dto;
+using WalletMate.Application.Core;
+using WalletMate.Application.Periods.Queries;
+using WalletMate.Domain.Periods.ValueObjects;
+using WalletMate.Infrastructure.Dto;
 
-namespace CoupleExpenses.Infrastructure
+namespace WalletMate.Infrastructure
 {
     public class InMemoryDatabaseRepository : IDatabaseRepository
     {

@@ -1,9 +1,9 @@
 ﻿using System.Linq;
-using CoupleExpenses.Infrastructure.Dto;
 using TechTalk.SpecFlow;
 using TechTalk.SpecFlow.Assist;
+using WalletMate.Infrastructure.Dto;
 
-namespace CoupleExpenses.Infrastructure.Tests.Steps
+namespace WalletMate.Infrastructure.Tests.Steps
 {
     [Binding]
     public sealed class StepTransformations

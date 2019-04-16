@@ -1,7 +1,7 @@
-﻿using CoupleExpenses.Application.Core;
-using CoupleExpenses.Domain.Periods.ValueObjects;
+﻿using WalletMate.Application.Core;
+using WalletMate.Domain.Periods.ValueObjects;
 
-namespace CoupleExpenses.Application.Periods
+namespace WalletMate.Application.Periods
 {
     public sealed class ChangeRecipe : ICommand
     {

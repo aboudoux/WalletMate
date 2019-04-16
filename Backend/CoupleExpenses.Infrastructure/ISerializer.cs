@@ -1,4 +1,4 @@
-﻿namespace CoupleExpenses.Infrastructure
+﻿namespace WalletMate.Infrastructure
 {
     public interface ISerializer
     {

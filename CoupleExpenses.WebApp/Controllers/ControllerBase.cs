@@ -1,9 +1,9 @@
 using System;
 using System.Threading.Tasks;
-using CoupleExpenses.Application.Core;
 using Microsoft.AspNetCore.Mvc;
+using WalletMate.Application.Core;
 
-namespace CoupleExpenses.WebApp.Controllers
+namespace WalletMate.WebApp.Controllers
 {
     public class ControllerBase : Controller
     {

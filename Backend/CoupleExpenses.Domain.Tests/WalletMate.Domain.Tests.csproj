@@ -22,24 +22,25 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CoupleExpenses.Domain\CoupleExpenses.Domain.csproj" />
+    <ProjectReference Include="..\CoupleExpenses.Domain\WalletMate.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Features\PeriodBalance.feature.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>PeriodBalance.feature</DependentUpon>
-    </Compile>
     <Compile Update="Steps\PeriodSteps.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
 
   <ItemGroup>
-    <SpecFlowFeatureFiles Update="Features\PeriodBalance.feature">
+    <None Update="Features\PeriodBalance.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>PeriodBalance.feature.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <SpecFlowFeatureFiles Update="Features\PeriodBalance.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
     </SpecFlowFeatureFiles>
   </ItemGroup>
 

@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Reflection;
-using CoupleExpenses.Application.Core;
-using CoupleExpenses.Domain.Common;
-using CoupleExpenses.Domain.Common.Events;
-using CoupleExpenses.Infrastructure.Services;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using WalletMate.Application.Core;
+using WalletMate.Domain.Common;
+using WalletMate.Domain.Common.Events;
+using WalletMate.Infrastructure.Services;
 
-namespace CoupleExpenses.Infrastructure
+namespace WalletMate.Infrastructure
 {
     public static class ServiceCollectionExtensions
     {

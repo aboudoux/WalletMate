@@ -1,12 +1,10 @@
-﻿using System;
-using System.Text.RegularExpressions;
-using CoupleExpenses.Domain.Common;
-using CoupleExpenses.Domain.Common.Events;
-using CoupleExpenses.Domain.Common.ValueObjects;
-using CoupleExpenses.Domain.Periods.Exceptions;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using WalletMate.Domain.Common;
+using WalletMate.Domain.Common.Events;
+using WalletMate.Domain.Common.ValueObjects;
+using WalletMate.Domain.Periods.Exceptions;
 
-namespace CoupleExpenses.Domain.Periods.ValueObjects
+namespace WalletMate.Domain.Periods.ValueObjects
 {
     [SerializableTypeIdentifier("PeriodId")]
     public class PeriodId : ValueObject<string>

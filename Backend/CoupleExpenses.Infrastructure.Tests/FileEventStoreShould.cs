@@ -1,14 +1,14 @@
 using System.Linq;
 using System.Threading.Tasks;
-using CoupleExpenses.Domain.Common;
-using CoupleExpenses.Domain.Periods;
-using CoupleExpenses.Domain.Periods.Events;
-using CoupleExpenses.Domain.Periods.ValueObjects;
-using CoupleExpenses.Infrastructure.Tests.Tools;
 using FluentAssertions;
+using WalletMate.Domain.Common;
+using WalletMate.Domain.Periods;
+using WalletMate.Domain.Periods.Events;
+using WalletMate.Domain.Periods.ValueObjects;
+using WalletMate.Infrastructure.Tests.Tools;
 using Xunit;
 
-namespace CoupleExpenses.Infrastructure.Tests
+namespace WalletMate.Infrastructure.Tests
 {
     public class FileEventStoreShould
     {

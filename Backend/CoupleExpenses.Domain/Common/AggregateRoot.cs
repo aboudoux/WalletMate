@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using CoupleExpenses.Domain.Common.Events;
-using CoupleExpenses.Domain.Common.Exceptions;
+using WalletMate.Domain.Common.Events;
+using WalletMate.Domain.Common.Exceptions;
 
-namespace CoupleExpenses.Domain.Common {
+namespace WalletMate.Domain.Common {
     public abstract class AggregateRoot<TState> : IAggregateRoot
         where TState : AggregateState, new()
     {

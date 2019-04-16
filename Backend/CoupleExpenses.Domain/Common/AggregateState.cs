@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using CoupleExpenses.Domain.Common.Events;
+using WalletMate.Domain.Common.Events;
 
-namespace CoupleExpenses.Domain.Common
+namespace WalletMate.Domain.Common
 {
     public abstract class AggregateState 
     {

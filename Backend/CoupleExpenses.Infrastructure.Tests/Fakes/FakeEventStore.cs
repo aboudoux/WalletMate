@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CoupleExpenses.Domain.Common.Events;
+using WalletMate.Domain.Common.Events;
 
-namespace CoupleExpenses.Infrastructure.Tests.Fakes 
+namespace WalletMate.Infrastructure.Tests.Fakes 
 {
     public class FakeEventStore : IEventStore
     {

@@ -1,9 +1,9 @@
 ﻿using System;
-using CoupleExpenses.Domain.Common.Events;
-using CoupleExpenses.Domain.Common.ValueObjects;
 using Newtonsoft.Json;
+using WalletMate.Domain.Common.Events;
+using WalletMate.Domain.Common.ValueObjects;
 
-namespace CoupleExpenses.Domain.Periods.ValueObjects
+namespace WalletMate.Domain.Periods.ValueObjects
 {
     [SerializableTypeIdentifier("Pair")]
     public sealed class Pair : PositiveNumberValueObject<Pair>

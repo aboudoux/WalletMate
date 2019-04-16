@@ -1,6 +1,6 @@
-﻿using CoupleExpenses.Application.Core;
+﻿using WalletMate.Application.Core;
 
-namespace CoupleExpenses.Application {
+namespace WalletMate.Application {
     public class ReplayAllEvents : ICommand
     {
     }

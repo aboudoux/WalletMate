@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using CoupleExpenses.Application.Core;
-using CoupleExpenses.Domain.Periods.ValueObjects;
+using WalletMate.Application.Core;
+using WalletMate.Domain.Periods.ValueObjects;
 
-namespace CoupleExpenses.Application.Periods.Queries
+namespace WalletMate.Application.Periods.Queries
 {
     public class GetAllOperation : IQuery<IReadOnlyList<IPeriodOperation>>
     {

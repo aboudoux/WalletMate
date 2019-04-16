@@ -4,10 +4,10 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using CoupleExpenses.Domain.Common;
-using CoupleExpenses.Domain.Common.Events;
+using WalletMate.Domain.Common;
+using WalletMate.Domain.Common.Events;
 
-namespace CoupleExpenses.Infrastructure 
+namespace WalletMate.Infrastructure 
 {
     public sealed class FileEventStoreWithCache : IEventStore
     {

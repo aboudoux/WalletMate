@@ -1,8 +1,8 @@
-using CoupleExpenses.Domain.Periods.ValueObjects;
 using FluentAssertions;
+using WalletMate.Domain.Periods.ValueObjects;
 using Xunit;
 
-namespace CoupleExpenses.Infrastructure.Tests
+namespace WalletMate.Infrastructure.Tests
 {
     public class SerializerShould
     {

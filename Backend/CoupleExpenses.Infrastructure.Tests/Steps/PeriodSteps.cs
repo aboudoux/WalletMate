@@ -2,14 +2,14 @@
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using CoupleExpenses.Application.Periods.Queries;
-using CoupleExpenses.Domain.Common;
-using CoupleExpenses.Infrastructure.Dto;
-using CoupleExpenses.Infrastructure.Tests.Assets;
 using FluentAssertions;
 using TechTalk.SpecFlow;
+using WalletMate.Application.Periods.Queries;
+using WalletMate.Domain.Common;
+using WalletMate.Infrastructure.Dto;
+using WalletMate.Infrastructure.Tests.Assets;
 
-namespace CoupleExpenses.Infrastructure.Tests.Steps
+namespace WalletMate.Infrastructure.Tests.Steps
 {
     [Binding]
     public sealed class PeriodSteps : StepBase

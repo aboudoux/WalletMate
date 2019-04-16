@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CoupleExpenses.Infrastructure.Dto;
+using WalletMate.Infrastructure.Dto;
 
-namespace CoupleExpenses.Infrastructure.Services
+namespace WalletMate.Infrastructure.Services
 {
     public class AuthorizationService : IAuthorizationService
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace CoupleExpenses.Infrastructure.Services
+namespace WalletMate.Infrastructure.Services
 {
     public interface IAuthorizationService
     {

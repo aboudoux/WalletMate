@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Threading.Tasks;
-using CoupleExpenses.Infrastructure.Dto;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using IAuthorizationService = CoupleExpenses.Infrastructure.Services.IAuthorizationService;
+using WalletMate.Infrastructure.Dto;
+using IAuthorizationService = WalletMate.Infrastructure.Services.IAuthorizationService;
 
-namespace CoupleExpenses.WebApp.Controllers
+namespace WalletMate.WebApp.Controllers
 {
     [Route("api/[controller]")]    
     [Authorize]

@@ -1,6 +1,6 @@
-﻿using CoupleExpenses.Domain.Common.Events;
+﻿using WalletMate.Domain.Common.Events;
 
-namespace CoupleExpenses.Domain.Common.ValueObjects
+namespace WalletMate.Domain.Common.ValueObjects
 {
     public interface IValueObject : ISerializableType
     {

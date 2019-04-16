@@ -1,15 +1,15 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using CoupleExpenses.Application.Core;
-using CoupleExpenses.Application.Periods;
-using CoupleExpenses.Application.Periods.Queries;
-using CoupleExpenses.Domain.Periods.ValueObjects;
-using CoupleExpenses.Infrastructure.Dto;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using WalletMate.Application.Core;
+using WalletMate.Application.Periods;
+using WalletMate.Application.Periods.Queries;
+using WalletMate.Domain.Periods.ValueObjects;
+using WalletMate.Infrastructure.Dto;
 
-namespace CoupleExpenses.WebApp.Controllers
+namespace WalletMate.WebApp.Controllers
 {
     [Route("api/[controller]")]
     [Authorize]

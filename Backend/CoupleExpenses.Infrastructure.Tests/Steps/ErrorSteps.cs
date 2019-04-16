@@ -1,8 +1,8 @@
-﻿using CoupleExpenses.Infrastructure.Tests.Assets;
-using FluentAssertions;
+﻿using FluentAssertions;
 using TechTalk.SpecFlow;
+using WalletMate.Infrastructure.Tests.Assets;
 
-namespace CoupleExpenses.Infrastructure.Tests.Steps
+namespace WalletMate.Infrastructure.Tests.Steps
 {
     [Binding]
     public sealed class ErrorSteps : StepBase

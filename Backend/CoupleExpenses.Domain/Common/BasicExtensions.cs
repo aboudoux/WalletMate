@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace CoupleExpenses.Domain.Common 
+namespace WalletMate.Domain.Common 
 {
     public static class BasicExtensions
     {

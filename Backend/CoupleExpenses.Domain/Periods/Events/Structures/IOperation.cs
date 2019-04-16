@@ -1,6 +1,6 @@
-﻿using CoupleExpenses.Domain.Periods.ValueObjects;
+﻿using WalletMate.Domain.Periods.ValueObjects;
 
-namespace CoupleExpenses.Domain.Periods.Events.Structures
+namespace WalletMate.Domain.Periods.Events.Structures
 {
     public interface IOperation
     {

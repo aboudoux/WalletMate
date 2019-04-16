@@ -1,6 +1,6 @@
-﻿using CoupleExpenses.Domain.Common.Exceptions;
+﻿using WalletMate.Domain.Common.Exceptions;
 
-namespace CoupleExpenses.Domain.Periods.Exceptions
+namespace WalletMate.Domain.Periods.Exceptions
 {
     public sealed class BadPeriodIdException : CoupleExpensesException
     {

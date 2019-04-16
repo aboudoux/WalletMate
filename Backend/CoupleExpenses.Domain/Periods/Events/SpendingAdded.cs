@@ -1,8 +1,8 @@
-﻿using CoupleExpenses.Domain.Common.Events;
-using CoupleExpenses.Domain.Periods.Events.Structures;
-using CoupleExpenses.Domain.Periods.ValueObjects;
+﻿using WalletMate.Domain.Common.Events;
+using WalletMate.Domain.Periods.Events.Structures;
+using WalletMate.Domain.Periods.ValueObjects;
 
-namespace CoupleExpenses.Domain.Periods.Events
+namespace WalletMate.Domain.Periods.Events
 {
     [SerializableTypeIdentifier("SpendingAdded")]
     public sealed class SpendingAdded : DomainEvent, IOperation

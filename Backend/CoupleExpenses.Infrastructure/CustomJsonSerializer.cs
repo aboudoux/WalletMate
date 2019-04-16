@@ -1,8 +1,8 @@
 ﻿using System.Reflection;
-using CoupleExpenses.Domain.Common.Events;
 using Newtonsoft.Json;
+using WalletMate.Domain.Common.Events;
 
-namespace CoupleExpenses.Infrastructure
+namespace WalletMate.Infrastructure
 {
     public class CustomJsonSerializer: ISerializer
     {

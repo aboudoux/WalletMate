@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
-using CoupleExpenses.Domain.Common.Events;
-using CoupleExpenses.Domain.Common.ValueObjects;
-using CoupleExpenses.Domain.Periods.ValueObjects.Exceptions;
 using Newtonsoft.Json;
+using WalletMate.Domain.Common.Events;
+using WalletMate.Domain.Common.ValueObjects;
+using WalletMate.Domain.Periods.ValueObjects.Exceptions;
 
-namespace CoupleExpenses.Domain.Periods.ValueObjects
+namespace WalletMate.Domain.Periods.ValueObjects
 {
     [SerializableTypeIdentifier("PeriodName")]
     public class PeriodName : ValueObject<int, int>

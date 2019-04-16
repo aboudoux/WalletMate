@@ -1,14 +1,14 @@
 using System.Threading.Tasks;
-using CoupleExpenses.Application.Core;
-using CoupleExpenses.Application.Periods;
-using CoupleExpenses.Domain.Common;
-using CoupleExpenses.Domain.Common.Events;
-using CoupleExpenses.Domain.Periods.ValueObjects;
-using CoupleExpenses.Infrastructure.Tests.Fakes;
 using Microsoft.Extensions.DependencyInjection;
+using WalletMate.Application.Core;
+using WalletMate.Application.Periods;
+using WalletMate.Domain.Common;
+using WalletMate.Domain.Common.Events;
+using WalletMate.Domain.Periods.ValueObjects;
+using WalletMate.Infrastructure.Tests.Fakes;
 using Xunit;
 
-namespace CoupleExpenses.Infrastructure.Tests
+namespace WalletMate.Infrastructure.Tests
 {
     public class PeriodCommandHanlderShould
     {

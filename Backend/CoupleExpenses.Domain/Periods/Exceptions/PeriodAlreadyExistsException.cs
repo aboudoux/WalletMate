@@ -1,7 +1,7 @@
-﻿using CoupleExpenses.Domain.Common.Exceptions;
-using CoupleExpenses.Domain.Periods.ValueObjects;
+﻿using WalletMate.Domain.Common.Exceptions;
+using WalletMate.Domain.Periods.ValueObjects;
 
-namespace CoupleExpenses.Domain.Periods.Exceptions {
+namespace WalletMate.Domain.Periods.Exceptions {
     public sealed class PeriodAlreadyExistsException : CoupleExpensesException
     {
         public PeriodAlreadyExistsException(PeriodName periodName) 

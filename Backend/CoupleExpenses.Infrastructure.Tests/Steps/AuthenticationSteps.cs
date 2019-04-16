@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
-using CoupleExpenses.Infrastructure.Tests.Assets;
 using TechTalk.SpecFlow;
+using WalletMate.Infrastructure.Tests.Assets;
 
-namespace CoupleExpenses.Infrastructure.Tests.Steps
+namespace WalletMate.Infrastructure.Tests.Steps
 {
     [Binding]
     public sealed class AuthenticationSteps : StepBase

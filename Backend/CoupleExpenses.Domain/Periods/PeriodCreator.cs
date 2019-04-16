@@ -1,9 +1,9 @@
-﻿using CoupleExpenses.Domain.Common;
-using CoupleExpenses.Domain.Common.Events;
-using CoupleExpenses.Domain.Periods.Exceptions;
-using CoupleExpenses.Domain.Periods.ValueObjects;
+﻿using WalletMate.Domain.Common;
+using WalletMate.Domain.Common.Events;
+using WalletMate.Domain.Periods.Exceptions;
+using WalletMate.Domain.Periods.ValueObjects;
 
-namespace CoupleExpenses.Domain.Periods
+namespace WalletMate.Domain.Periods
 {
     public sealed class PeriodCreator : AggregateRoot<PeriodCreatorState>
     {

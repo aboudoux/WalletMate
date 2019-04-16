@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
-using CoupleExpenses.Domain.Common.Events;
 using MediatR;
+using WalletMate.Domain.Common.Events;
 
-namespace CoupleExpenses.Infrastructure
+namespace WalletMate.Infrastructure
 {
     public class MediatrEventDispatcher : IEventDispatcher
     {

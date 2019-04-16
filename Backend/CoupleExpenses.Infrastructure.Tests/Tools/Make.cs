@@ -1,4 +1,4 @@
-namespace CoupleExpenses.Infrastructure.Tests.Tools
+namespace WalletMate.Infrastructure.Tests.Tools
 {
     public class Make
     {

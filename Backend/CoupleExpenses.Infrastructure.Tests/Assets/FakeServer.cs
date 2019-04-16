@@ -6,15 +6,15 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
-using CoupleExpenses.Application.Periods.Queries;
-using CoupleExpenses.Domain.Common;
-using CoupleExpenses.Domain.Common.Events;
-using CoupleExpenses.Infrastructure.Dto;
-using CoupleExpenses.WebApp;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
+using WalletMate.Application.Periods.Queries;
+using WalletMate.Domain.Common;
+using WalletMate.Domain.Common.Events;
+using WalletMate.Infrastructure.Dto;
+using WalletMate.WebApp;
 
-namespace CoupleExpenses.Infrastructure.Tests.Assets
+namespace WalletMate.Infrastructure.Tests.Assets
 {
     public class FakeServer : IDisposable
     {

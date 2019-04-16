@@ -1,7 +1,7 @@
 ﻿using System;
-using CoupleExpenses.Domain.Common.ValueObjects.Exceptions;
+using WalletMate.Domain.Common.ValueObjects.Exceptions;
 
-namespace CoupleExpenses.Domain.Common.ValueObjects
+namespace WalletMate.Domain.Common.ValueObjects
 {
     public abstract class GuidValueObject<T> : ValueObject<Guid>
         where T : class 

@@ -1,13 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using CoupleExpenses.Domain.Common.Events;
-using CoupleExpenses.Domain.Periods;
-using CoupleExpenses.Domain.Periods.Events;
-using CoupleExpenses.Domain.Periods.Events.Structures;
-using CoupleExpenses.Domain.Periods.ValueObjects;
+using WalletMate.Domain.Common.Events;
+using WalletMate.Domain.Periods;
+using WalletMate.Domain.Periods.Events;
+using WalletMate.Domain.Periods.ValueObjects;
 
-namespace CoupleExpenses.Domain.Tests
+namespace WalletMate.Domain.Tests
 {
     public static class Some
     {
@@ -15,7 +14,7 @@ namespace CoupleExpenses.Domain.Tests
         {
             var periodName = PeriodName.From(3, 2019);
             if (events == null)
-                return Periods.Period.Create(periodName);
+                return WalletMate.Domain.Periods.Period.Create(periodName);
 
             var periodCreated = new PeriodCreated(periodName);
             

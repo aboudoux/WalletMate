@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Runtime.Serialization;
-using CoupleExpenses.Domain.Common.Exceptions;
+using WalletMate.Domain.Common.Exceptions;
 
-namespace CoupleExpenses.Domain.Common.ValueObjects.Exceptions
+namespace WalletMate.Domain.Common.ValueObjects.Exceptions
 {
     [Serializable]
     public class EmptyStringException : CoupleExpensesException {

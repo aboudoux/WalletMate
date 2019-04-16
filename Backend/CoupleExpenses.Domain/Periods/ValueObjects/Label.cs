@@ -1,10 +1,10 @@
-﻿using CoupleExpenses.Domain.Common;
-using CoupleExpenses.Domain.Common.Events;
-using CoupleExpenses.Domain.Common.ValueObjects;
-using CoupleExpenses.Domain.Common.ValueObjects.Exceptions;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using WalletMate.Domain.Common;
+using WalletMate.Domain.Common.Events;
+using WalletMate.Domain.Common.ValueObjects;
+using WalletMate.Domain.Common.ValueObjects.Exceptions;
 
-namespace CoupleExpenses.Domain.Periods.ValueObjects
+namespace WalletMate.Domain.Periods.ValueObjects
 {
     [SerializableTypeIdentifier("Label")]
     public sealed class Label : StringValueObject<Label>

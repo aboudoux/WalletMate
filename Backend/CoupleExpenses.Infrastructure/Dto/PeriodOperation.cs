@@ -1,8 +1,8 @@
-using CoupleExpenses.Application.Periods.Queries;
-using CoupleExpenses.Domain.Periods.Events;
 using Newtonsoft.Json;
+using WalletMate.Application.Periods.Queries;
+using WalletMate.Domain.Periods.Events;
 
-namespace CoupleExpenses.Infrastructure.Dto
+namespace WalletMate.Infrastructure.Dto
 {
     public class PeriodOperation : IPeriodOperation
     {

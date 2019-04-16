@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
-using CoupleExpenses.Domain.Common.Exceptions;
+using WalletMate.Domain.Common.Exceptions;
 
-namespace CoupleExpenses.Domain.Common.ValueObjects {
+namespace WalletMate.Domain.Common.ValueObjects {
     public abstract class ValueObject<TValue> : IEquatable<ValueObject<TValue>>, IValueObject
     {
         public TValue Value { get; protected set; }

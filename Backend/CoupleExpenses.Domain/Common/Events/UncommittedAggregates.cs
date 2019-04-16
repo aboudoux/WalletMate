@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace CoupleExpenses.Domain.Common.Events
+namespace WalletMate.Domain.Common.Events
 {
     public class UncommittedAggregates 
     {

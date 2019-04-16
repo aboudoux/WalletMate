@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using CoupleExpenses.Application.Core;
+using WalletMate.Application.Core;
 
-namespace CoupleExpenses.Application.Periods.Queries
+namespace WalletMate.Application.Periods.Queries
 {
     public class GetAllPeriod : IQuery<IReadOnlyList<IPeriodResult>>
     {        

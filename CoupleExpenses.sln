@@ -3,17 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.421
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoupleExpenses.Domain", "Backend\CoupleExpenses.Domain\CoupleExpenses.Domain.csproj", "{BC523F41-89EE-48C4-907B-A0CF4920E580}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WalletMate.Domain", "Backend\CoupleExpenses.Domain\WalletMate.Domain.csproj", "{BC523F41-89EE-48C4-907B-A0CF4920E580}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoupleExpenses.Application", "Backend\CoupleExpenses.Application\CoupleExpenses.Application.csproj", "{E3DE1C3B-7E39-47A9-A723-E3983D5F7E45}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WalletMate.Application", "Backend\CoupleExpenses.Application\WalletMate.Application.csproj", "{E3DE1C3B-7E39-47A9-A723-E3983D5F7E45}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoupleExpenses.Infrastructure", "Backend\CoupleExpenses.Infrastructure\CoupleExpenses.Infrastructure.csproj", "{F8FA04AC-EC89-4DD5-9885-3C8EF83288C9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WalletMate.Infrastructure", "Backend\CoupleExpenses.Infrastructure\WalletMate.Infrastructure.csproj", "{F8FA04AC-EC89-4DD5-9885-3C8EF83288C9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoupleExpenses.WebApp", "CoupleExpenses.WebApp\CoupleExpenses.WebApp.csproj", "{61AB5396-87C1-4E31-8AB5-B566BC1F8974}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WalletMate.WebApp", "CoupleExpenses.WebApp\WalletMate.WebApp.csproj", "{61AB5396-87C1-4E31-8AB5-B566BC1F8974}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoupleExpenses.Domain.Tests", "Backend\CoupleExpenses.Domain.Tests\CoupleExpenses.Domain.Tests.csproj", "{5F726AB9-E790-440E-AE24-F1ABA123F018}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WalletMate.Domain.Tests", "Backend\CoupleExpenses.Domain.Tests\WalletMate.Domain.Tests.csproj", "{5F726AB9-E790-440E-AE24-F1ABA123F018}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoupleExpenses.Infrastructure.Tests", "Backend\CoupleExpenses.Infrastructure.Tests\CoupleExpenses.Infrastructure.Tests.csproj", "{ACBFCB77-035C-4CEC-9D02-DC5CD3BC0A3F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WalletMate.Infrastructure.Tests", "Backend\CoupleExpenses.Infrastructure.Tests\WalletMate.Infrastructure.Tests.csproj", "{ACBFCB77-035C-4CEC-9D02-DC5CD3BC0A3F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Backend", "Backend", "{D55B8389-B28A-4492-AE88-8EBEB777CE5C}"
 EndProject

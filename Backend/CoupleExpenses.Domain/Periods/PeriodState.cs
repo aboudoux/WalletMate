@@ -1,9 +1,9 @@
-﻿using CoupleExpenses.Domain.Common;
-using CoupleExpenses.Domain.Periods.Events;
-using CoupleExpenses.Domain.Periods.Events.Structures;
-using CoupleExpenses.Domain.Periods.ValueObjects;
+﻿using WalletMate.Domain.Common;
+using WalletMate.Domain.Periods.Events;
+using WalletMate.Domain.Periods.Events.Structures;
+using WalletMate.Domain.Periods.ValueObjects;
 
-namespace CoupleExpenses.Domain.Periods
+namespace WalletMate.Domain.Periods
 {
     public sealed class PeriodState : AggregateState
     {

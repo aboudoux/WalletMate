@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace CoupleExpenses.Domain.Common.Exceptions
+namespace WalletMate.Domain.Common.Exceptions
 {
     [Serializable]
     public class AggregateInstantiationException : CoupleExpensesException {

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
-using CoupleExpenses.Application.Core;
 using MediatR;
+using WalletMate.Application.Core;
 
-namespace CoupleExpenses.Infrastructure
+namespace WalletMate.Infrastructure
 {
     public class MediatrCommandBus : ICommandBus
     {

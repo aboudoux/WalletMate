@@ -1,12 +1,12 @@
 ﻿using System.Linq;
-using CoupleExpenses.Domain.Common;
-using CoupleExpenses.Domain.Periods;
-using CoupleExpenses.Domain.Periods.Events;
-using CoupleExpenses.Domain.Periods.ValueObjects;
 using FluentAssertions;
 using TechTalk.SpecFlow;
+using WalletMate.Domain.Periods;
+using WalletMate.Domain.Periods.Events;
+using WalletMate.Domain.Periods.ValueObjects;
+using WalletMate.Domain.Common;
 
-namespace CoupleExpenses.Domain.Tests.Steps {
+namespace WalletMate.Domain.Tests.Steps {
     [Binding]
     public sealed class PeriodSteps
     {

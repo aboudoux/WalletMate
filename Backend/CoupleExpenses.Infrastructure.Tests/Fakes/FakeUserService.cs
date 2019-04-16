@@ -1,6 +1,6 @@
-﻿using CoupleExpenses.Domain.Common;
+﻿using WalletMate.Domain.Common;
 
-namespace CoupleExpenses.Infrastructure.Tests.Fakes
+namespace WalletMate.Infrastructure.Tests.Fakes
 {
     public class FakeUserService : IUserService
     {

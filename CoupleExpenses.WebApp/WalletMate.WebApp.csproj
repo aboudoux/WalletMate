@@ -26,8 +26,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Backend\CoupleExpenses.Application\CoupleExpenses.Application.csproj" />
-    <ProjectReference Include="..\Backend\CoupleExpenses.Infrastructure\CoupleExpenses.Infrastructure.csproj" />
+    <ProjectReference Include="..\Backend\CoupleExpenses.Application\WalletMate.Application.csproj" />
+    <ProjectReference Include="..\Backend\CoupleExpenses.Infrastructure\WalletMate.Infrastructure.csproj" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
