@@ -12,8 +12,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CoupleExpenses.Application\WalletMate.Application.csproj" />
-    <ProjectReference Include="..\CoupleExpenses.Domain\WalletMate.Domain.csproj" />
+    <ProjectReference Include="..\WalletMate.Application\WalletMate.Application.csproj" />
+    <ProjectReference Include="..\WalletMate.Domain\WalletMate.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>

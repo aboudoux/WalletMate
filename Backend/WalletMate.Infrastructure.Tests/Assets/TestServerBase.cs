@@ -48,7 +48,7 @@ namespace WalletMate.Infrastructure.Tests.Assets
 
         private string ResolveContentPath()
         {
-            return "C:\\temp\\CoupleExpenses\\CoupleExpenses.WebApp";
+            return "C:\\temp\\CoupleExpenses\\WalletMate.WebApp";
             var apiDirectory = _apiAssemblyName.Split('.').Last();
             var startDirectory = Path.GetDirectoryName(Assembly.Load(_apiAssemblyName).Location);
             while (JsonFileDoesntExists() && !startDirectory.IsEmpty())

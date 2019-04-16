@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CoupleExpenses.Domain\WalletMate.Domain.csproj" />
+    <ProjectReference Include="..\WalletMate.Domain\WalletMate.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>
