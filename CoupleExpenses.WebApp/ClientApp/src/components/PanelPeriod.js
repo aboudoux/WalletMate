@@ -15,17 +15,20 @@ import { Get } from './Call';
 
 const PanelPeriod = ({ periodName, periodId, isExpanded, dispatch }) =>
 {   
-    const [expandState, onExpend] = useReducer(reducer, isExpanded);
+    const [expandState, onExpend] = useReducer(expandReducer, isExpanded);
     const [isSpendingDialogOpen, openSpendingDialog] = useState(false);
     const [isRecipeDialogOpen, openRecipeDialog] = useState(false);
     const [operations, setOperations] = useState([]);
 
+    const refresh = () => expandReducer(false, { periodId: periodId, setOperations: setOperations });
+    const doExpand = () => onExpend({ periodId: periodId, setOperations: setOperations });
+
     return (
         <div>
-            <DialogAddSpending openState={isSpendingDialogOpen} setOpenState={openSpendingDialog} periodId={periodId} />
-            <DialogAddRecipe openState={isRecipeDialogOpen} setOpenState={openRecipeDialog} periodId={periodId} />
+            <DialogAddSpending openState={isSpendingDialogOpen} closeDialog={() => { openSpendingDialog(false); refresh(); } } periodId={periodId} />
+            <DialogAddRecipe openState={isRecipeDialogOpen} closeDialog={() => { openRecipeDialog(false); refresh(); }} periodId={periodId} />
             <ExpansionPanel expanded={expandState} >
-                <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />} className="period-title" onClick={() => onExpend({ periodId: periodId, setOperations: setOperations })}>
+                <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />} className="period-title" onClick={() => doExpand()}>
                     <Grid container direction="row" spacing={16}>
                         <Grid item>
                             <AlarmOn />
@@ -50,7 +53,8 @@ const PanelPeriod = ({ periodName, periodId, isExpanded, dispatch }) =>
     );       
 }
 
-const reducer = (state, action) =>
+
+const expandReducer = (state, action) =>
 {
     const newState = !state;
     if (newState === true) {

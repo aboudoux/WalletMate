@@ -14,7 +14,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { Post } from './Call'
 
 
-const DialogAddSpending = ({ openState, setOpenState, periodId }) =>
+const DialogAddSpending = ({ openState, closeDialog, periodId }) =>
 {
     const handleSubmit = (event) =>
     {
@@ -26,7 +26,7 @@ const DialogAddSpending = ({ openState, setOpenState, periodId }) =>
         Post("/api/Operation/addSpending",
             { PeriodId: periodId, Amount: amount, Label: label, Pair: pair, Category: category })
             .then(() => {
-                setOpenState(false);
+                closeDialog();
             })
             .catch((error) => {
                 if (error.response.status === 401) {
@@ -71,7 +71,7 @@ const DialogAddSpending = ({ openState, setOpenState, periodId }) =>
                 </FormControl>
             </DialogContent>
             <DialogActions>
-                <Button color="primary" onClick={() => setOpenState(false)}>
+                <Button color="primary" onClick={()=>closeDialog()}>
                     Annuler
                     </Button>
                     <Button
