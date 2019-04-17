@@ -44,6 +44,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Scenarios\Period.feature.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Period.feature</DependentUpon>
+    </Compile>
     <Compile Update="Steps\AuthenticationSteps.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -62,6 +67,7 @@
   <ItemGroup>
     <SpecFlowFeatureFiles Update="Scenarios\Period.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>Period.feature.cs</LastGenOutput>
     </SpecFlowFeatureFiles>
   </ItemGroup>
 

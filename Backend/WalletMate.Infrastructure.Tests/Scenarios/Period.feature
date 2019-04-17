@@ -22,7 +22,7 @@ Scenario: Ajouter une dépense à une période
 	| 2001-01 | 100     | Test    | Aurélien | Commun        |
 	Then La liste des opérations pour la période 2001-01 contient les elements suivants
 	| Type    | operationId | Periode | Montant | Libelle | Binome   | Categorie |
-	| Dépense | 1           | 2001-01 | 100     | Test    | Aurélien | Commun        |
+	| Dépense | 1           | 2001-01 | 100     | Test    | Aurélien | Commun    |
 
 Scenario: Ajouter une recette à une période
 	And J'ai demandé la création d'une période pour le mois 1 et l'année 2001
@@ -134,7 +134,7 @@ And J'ai demandé la création d'une période pour le mois 1 et l'année 2001
 	| 2001-01 | 100     | Test    | Marie  | Commun        |
 	And La liste des opérations pour la période 2001-01 contient les elements suivants
 	| Type    | OperationId | Periode | Montant | Libelle | Binome | Categorie |
-	| Dépense | 1           | 2001-01 | 100     | Test    | Marie  | Commun        |
+	| Dépense | 1           | 2001-01 | 100     | Test    | Marie  | Commun    |
 	When je demande à modifier le binôme de la dépense numéro 1 par Aurélien pour la période 2001-01
 	Then L'opération 1 de la période 2001-01 à pour binôme Aurélien
 	And Marie doit la somme de 50 euros pour la période 2001-01

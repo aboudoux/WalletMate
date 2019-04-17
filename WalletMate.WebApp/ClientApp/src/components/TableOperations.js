@@ -17,10 +17,14 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Slide from '@material-ui/core/Slide';
 import Button from '@material-ui/core/Button';
 import { Post } from './Call'
+import DialogAddRecipe from  './DialogAddRecipe'
+import DialogAddSpending from  './DialogAddSpending'
 
 const TableOperations = ({ rows, refresh }) => {
 
-    const [deleteDialogState, openDeleteDialog] = useState({ isOpen: false, periodId: '', operationId: 0, reload:refresh});
+    const [deleteDialogState, openDeleteDialog] = useState({ isOpen: false, periodId: '', operationId: 0, reload: refresh });
+    const [updateRecipeDialogState, openUpdateRecipeDialog] = useState({ isOpen: false, data: null });
+    const [updateSpendingDialogState, openUpdateSpendingDialog] = useState({ isOpen: false, data: null });
 
     return (
         <div>
@@ -49,9 +53,14 @@ const TableOperations = ({ rows, refresh }) => {
                             <TableCell>{row.category}</TableCell>
                             <TableCell>
                                 <Tooltip title="Editer cette opération">
-                                    <IconButton>
+                                        <IconButton
+                                            onClick={() => {
+                                                row.type === "Dépense"
+                                                    ? openUpdateSpendingDialog({ isOpen: true, data: row })
+                                                    : openUpdateRecipeDialog({ isOpen: true, data: row });
+                                            }}>
                                         <EditIcon />
-                                    </IconButton>
+                                        </IconButton>
                                 </Tooltip>
                                 <Tooltip title="Supprimer cette opération">
                                         <IconButton onClick={() => openDeleteDialog({ isOpen: true, periodId:row.periodId, operationId:row.operationId, reload:refresh })}>
@@ -90,6 +99,19 @@ const TableOperations = ({ rows, refresh }) => {
                     </Button>
                 </DialogActions>
                 </Dialog>
+                <DialogAddRecipe
+                    openState={updateRecipeDialogState.isOpen}
+                    periodId={updateRecipeDialogState.data ? updateRecipeDialogState.data.periodId : ""}
+                    updateData={updateRecipeDialogState.data}
+                    closeDialog={() => { openUpdateRecipeDialog({ isOpen: false }); refresh(); } }
+                />
+
+            <DialogAddSpending
+                    openState={updateSpendingDialogState.isOpen}
+                    periodId={updateSpendingDialogState.data ? updateSpendingDialogState.data.periodId : ""}
+                    updateData={updateSpendingDialogState.data}
+                    closeDialog={() => { openUpdateSpendingDialog({ isOpen: false }); refresh(); }}
+            />
             </Paper>
          </div>       
     );

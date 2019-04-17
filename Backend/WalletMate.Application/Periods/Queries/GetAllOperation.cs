@@ -22,6 +22,8 @@ namespace WalletMate.Application.Periods.Queries
         double Amount { get; set; }
         string Label { get; set; }
         string Pair { get; set; }
+        int PairValue { get; set; }
         string Category { get; set; }
+        int CategoryValue { get; set; }
     }
 }

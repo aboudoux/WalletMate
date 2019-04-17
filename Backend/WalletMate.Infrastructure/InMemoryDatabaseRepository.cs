@@ -46,12 +46,18 @@ namespace WalletMate.Infrastructure
                 operation.Amount = amount.Value;
             if (label != null)
                 operation.Label = label.Value;
-            if (pair != null)
+            if (pair != null) {
                 operation.Pair = pair.ToString();
-            if (recipeCategory != null)
+                operation.PairValue = pair.Value;
+            }
+            if (recipeCategory != null) {
                 operation.Category = recipeCategory.ToString();
-            if (spendingCategory != null)
+                operation.CategoryValue = recipeCategory.Value;
+            }
+            if (spendingCategory != null) {
                 operation.Category = spendingCategory.ToString();
+                operation.CategoryValue = spendingCategory.Value;
+            }
         }
 
         public Task<IPeriodBalance> GetBalance(PeriodId requestPeriodId)

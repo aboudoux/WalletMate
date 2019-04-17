@@ -14,7 +14,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { Post } from './Call'
 
 
-const DialogAddRecipe = ({ openState, closeDialog, periodId }) =>
+const DialogAddRecipe = ({ openState, closeDialog, periodId, updateData }) =>
 {
     const handleSubmit = (event) =>
     {
@@ -23,23 +23,36 @@ const DialogAddRecipe = ({ openState, closeDialog, periodId }) =>
         const data = new FormData(event.target);
         const [amount, label, pair, category] = data.values();
 
-        Post("/api/Operation/addRecipe",
-            { PeriodId: periodId, Amount: amount, Label: label, Pair: pair, Category: category })
-            .then(() => {
-                closeDialog();
-            })
-            .catch((error) => {
-                if (error.response.status === 401) {
-                    alert('error 401');
-                }
-            });
+        if (updateData) {
+            Post("/api/Operation/changeRecipe",
+                { PeriodId: periodId, OperationId: updateData.operationId, Amount: amount, Label: label, Pair: pair, Category: category })
+                .then(() => {
+                    closeDialog();
+                })
+                .catch((error) => {
+                    if (error.response.status === 401) {
+                        alert('error 401');
+                    }
+                });
+        } else {
+            Post("/api/Operation/addRecipe",
+                    { PeriodId: periodId, Amount: amount, Label: label, Pair: pair, Category: category })
+                .then(() => {
+                    closeDialog();
+                })
+                .catch((error) => {
+                    if (error.response.status === 401) {
+                        alert('error 401');
+                    }
+                });
+        }
     }
    
     return (
         <Dialog
             open={openState}
             aria-labelledby="form-dialog-title">
-            <DialogTitle id="form-dialog-title">Ajouter un recette</DialogTitle>
+            <DialogTitle id="form-dialog-title">{updateData ? "Modifier" : "Ajouter"} une recette</DialogTitle>
             <form onSubmit={handleSubmit}>
             <DialogContent>
                 
@@ -47,24 +60,27 @@ const DialogAddRecipe = ({ openState, closeDialog, periodId }) =>
                     <InputLabel htmlFor="adornment-amount">Montant</InputLabel>
                         <Input
                         name="amount"
-                        id="adornment-amount"
+                            id="adornment-amount"
+                            defaultValue={updateData ? updateData.amount : 0}
                         startAdornment={<InputAdornment position="start">€</InputAdornment>}
                     />
                 </FormControl>
                 <FormControl fullWidth>
                     <InputLabel htmlFor="adornment-libelle">Libelle</InputLabel>
-                        <Input name="label" id="adornment-libelle" />
-                    <RadioGroup
-                        row
+                        <Input  name="label" id="adornment-libelle" defaultValue={updateData ? updateData.label : ""} />
+                        <RadioGroup
+                            defaultValue={updateData ? updateData.pairValue.toString() : null}
+                            row
                         aria-label="Par"
                         name="pair">
                             <FormControlLabel value="1" control={<Radio />} label="Aurélien" />
                             <FormControlLabel value="2" control={<Radio />} label="Marie" />
                     </RadioGroup>
-                    <RadioGroup
-                        row
-                            aria-label="Category"
-                            name="category">
+                        <RadioGroup                            
+                            row
+                            defaultValue={updateData ? updateData.categoryValue.toString() : null}
+                        aria-label="Category"
+                        name="category">
                         <FormControlLabel value="1" control={<Radio />} label="Commun" />
                         <FormControlLabel value="2" control={<Radio />} label="Individuelle" />
                     </RadioGroup>
