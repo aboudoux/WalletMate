@@ -63,7 +63,7 @@ namespace WalletMate.Domain.Periods
             var amountRecipeMarie = totalRecipe.FirstOrDefault(a => a.By == Pair.Marie.Value)?.Amount ?? 0;
             var amountRecipeAurelien = totalRecipe.FirstOrDefault(a => a.By == Pair.Aurelien.Value)?.Amount ?? 0;
 
-            var amountDue = (amountSpendingAurelien+amountRecipeMarie) - (amountSpendingMarie+amountRecipeAurelien);
+            var amountDue =Math.Round((amountSpendingAurelien+amountRecipeMarie) - (amountSpendingMarie+amountRecipeAurelien), 2, MidpointRounding.ToEven);
             
             return (Amount.From(Math.Abs(amountDue)), amountDue < 0 ? Pair.Aurelien : Pair.Marie);
         }

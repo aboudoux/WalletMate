@@ -22,6 +22,12 @@ namespace WalletMate.Infrastructure.Tests.Steps
                 .Select(e =>
                     new PeriodOperation(e.periodId, e.operationId,e.type, e.pair, e.pair.ToPairValue(), e.amount, e.label, e.category, e.category.ToCategoryValue()))
                 .ToArray();
+
+        [StepArgumentTransformation]
+        public static PeriodResult[] ToPeriodResults(Table table)
+            => table.CreateSet<(string PeriodId, string PeriodName)>()
+                .Select(e => new PeriodResult(e.PeriodName, e.PeriodId))
+                .ToArray();
     }
 
     public static class ValueTransformation

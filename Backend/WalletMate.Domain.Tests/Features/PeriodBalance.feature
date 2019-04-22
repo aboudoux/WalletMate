@@ -56,6 +56,16 @@ Scenario: Calcul de la somme due en fonction des dépenses et recettes
     | 50      | Cadeaux | Marie    | Individuelle |
 	Then le binome Marie doit la somme de 0 euros
 
+Scenario: Arrondir la somme due à deux chiffres après la virgule.
+	Given Une période est créée	
+	When J'ajoute à la période les dépenses suivantes
+    | Montant | Libelle | Binome   | Categorie |
+    | 239.45  | Pret    | Aurelien | Avance    |
+    | 70      | taxe    | Aurelien | Commun    |
+    | 12.35   | courses | Aurelien | Commun    |
+    | 7.82    | courses | Aurelien | Commun    |
+	Then le binome Marie doit la somme de 284.54 euros
+	
 Scenario: Recalcul de la somme due lors d'une modification de montant
 	Given Une période est créée	
 	And j'y ai ajouté les dépenses suivantes

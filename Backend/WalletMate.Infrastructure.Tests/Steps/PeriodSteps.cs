@@ -91,6 +91,13 @@ namespace WalletMate.Infrastructure.Tests.Steps
             balance.By.Should().Be(pair);
         }
 
+        [Then(@"la liste des périodes est présentée dans l'ordre décroissant")]
+        public async  Task ThenLaListeDesPeriodesEstPresenteeDansCetOrdre()
+        {
+            var periods = await FakeServer.GetAllPeriod();
+            periods.Should().BeInDescendingOrder(a => a.PeriodId);
+        }
+
         [When(@"je demande à modifier le montant de la recette numéro (.*) en (.*) euros pour la période (.*)")]
         public async Task WhenJeDemandeAModifierLeMontantDeLaRecetteNumeroEnEurosPourLaPeriode(int operationId, double amount, string periodId)
         {

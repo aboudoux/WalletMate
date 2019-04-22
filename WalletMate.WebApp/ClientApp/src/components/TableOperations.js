@@ -20,7 +20,7 @@ import { Post } from './Call'
 import DialogAddRecipe from  './DialogAddRecipe'
 import DialogAddSpending from  './DialogAddSpending'
 
-const TableOperations = ({ rows, refresh }) => {
+const TableOperations = ({ rows, refresh, balance }) => {
 
     const [deleteDialogState, openDeleteDialog] = useState({ isOpen: false, periodId: '', operationId: 0, reload: refresh });
     const [updateRecipeDialogState, openUpdateRecipeDialog] = useState({ isOpen: false, data: null });
@@ -72,6 +72,9 @@ const TableOperations = ({ rows, refresh }) => {
                     ))}
                 </TableBody>
                 </Table>
+                <div>
+                    <text>{balance.by} doit la somme de {balance.amountDue} €</text>
+                </div>
 
             <Dialog
                 open={deleteDialogState.isOpen}

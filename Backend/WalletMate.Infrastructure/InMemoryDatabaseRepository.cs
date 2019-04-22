@@ -71,8 +71,9 @@ namespace WalletMate.Infrastructure
         }
 
         public Task<IReadOnlyList<IPeriodResult>> GetAllPeriod() 
-            => Task.FromResult((IReadOnlyList<IPeriodResult>)_allPeriods.Keys
+            => Task.FromResult((IReadOnlyList<IPeriodResult>)_allPeriods.Keys                
                 .Select(p => new PeriodResult(p.ToString(), p.ToPeriodId().Value))
+                .OrderByDescending(p=>p.PeriodId)
                 .ToList());
 
         public Task<IReadOnlyList<IPeriodOperation>> GetAllOperation(PeriodId periodId)

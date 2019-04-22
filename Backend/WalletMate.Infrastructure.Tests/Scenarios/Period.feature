@@ -164,3 +164,12 @@ Scenario: Obtenir le solde d'une période après de multiples opérations
 	| 2001-01 | 200     | CAF     | Marie  | Commun        |
 	Then Marie doit la somme de 122.5 euros pour la période 2001-01
 
+	Scenario: La liste des périodes doit être dans un ordre déscendant
+	And J'ai demandé la création d'une période pour le mois 1 et l'année 2001
+	And J'ai demandé la création d'une période pour le mois 2 et l'année 2001
+	And J'ai demandé la création d'une période pour le mois 3 et l'année 2001
+	And J'ai demandé la création d'une période pour le mois 4 et l'année 2001
+	And J'ai demandé la création d'une période pour le mois 1 et l'année 2002
+	And J'ai demandé la création d'une période pour le mois 1 et l'année 2003
+	Then la liste des périodes est présentée dans l'ordre décroissant
+	

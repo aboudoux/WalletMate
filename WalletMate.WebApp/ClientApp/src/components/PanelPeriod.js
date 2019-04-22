@@ -19,9 +19,10 @@ const PanelPeriod = ({ periodName, periodId, isExpanded, dispatch }) =>
     const [isSpendingDialogOpen, openSpendingDialog] = useState(false);
     const [isRecipeDialogOpen, openRecipeDialog] = useState(false);
     const [operations, setOperations] = useState([]);
+    const [balance, setBalance] = useState({ amountDue:0, by:''});
 
-    const refresh = () => expandReducer(false, { periodId: periodId, setOperations: setOperations });
-    const doExpand = () => onExpend({ periodId: periodId, setOperations: setOperations });
+    const refresh = () => expandReducer(false, { periodId: periodId, setOperations: setOperations, setBalance: setBalance });
+    const doExpand = () => onExpend({ periodId: periodId, setOperations: setOperations, setBalance: setBalance });
 
     return (
         <div>
@@ -39,7 +40,7 @@ const PanelPeriod = ({ periodName, periodId, isExpanded, dispatch }) =>
                     </Grid>
                 </ExpansionPanelSummary>
                 <ExpansionPanelDetails>
-                    <TableOperations rows={operations} refresh={refresh} />
+                    <TableOperations rows={operations} balance={balance} refresh={refresh} />
                 </ExpansionPanelDetails>
 
                 <BottomNavigation
@@ -60,6 +61,8 @@ const expandReducer = (state, action) =>
     if (newState === true) {
         Get("/api/Operation/All?periodId=" + action.periodId)
             .then(response => action.setOperations(response.data));
+        Get("/api/Period/Balance?periodId=" + action.periodId)
+            .then(response => action.setBalance(response.data));
     }
     return newState;
 }

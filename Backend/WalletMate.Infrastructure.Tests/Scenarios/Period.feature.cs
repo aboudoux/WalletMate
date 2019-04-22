@@ -870,6 +870,35 @@ this.FeatureBackground();
             this.ScenarioCleanup();
         }
         
+        [Xunit.FactAttribute(DisplayName="La liste des périodes doit être dans un ordre déscendant")]
+        [Xunit.TraitAttribute("FeatureTitle", "Period")]
+        [Xunit.TraitAttribute("Description", "La liste des périodes doit être dans un ordre déscendant")]
+        public virtual void LaListeDesPeriodesDoitEtreDansUnOrdreDescendant()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("La liste des périodes doit être dans un ordre déscendant", null, ((string[])(null)));
+#line 167
+ this.ScenarioInitialize(scenarioInfo);
+            this.ScenarioStart();
+#line 6
+this.FeatureBackground();
+#line 168
+ testRunner.And("J\'ai demandé la création d\'une période pour le mois 1 et l\'année 2001", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 169
+ testRunner.And("J\'ai demandé la création d\'une période pour le mois 2 et l\'année 2001", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 170
+ testRunner.And("J\'ai demandé la création d\'une période pour le mois 3 et l\'année 2001", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 171
+ testRunner.And("J\'ai demandé la création d\'une période pour le mois 4 et l\'année 2001", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 172
+ testRunner.And("J\'ai demandé la création d\'une période pour le mois 1 et l\'année 2002", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 173
+ testRunner.And("J\'ai demandé la création d\'une période pour le mois 1 et l\'année 2003", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 174
+ testRunner.Then("la liste des périodes est présentée dans l\'ordre décroissant", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
         [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "3.0.0.0")]
         [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
         public class FixtureData : System.IDisposable
