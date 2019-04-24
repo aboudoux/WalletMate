@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Threading.Tasks;
 using WalletMate.Infrastructure.Dto;
@@ -9,12 +10,15 @@ namespace WalletMate.Infrastructure.Services
     public class AuthorizationService : IAuthorizationService
     {
         private readonly Dictionary<Guid, string> _connectedUsers = new Dictionary<Guid, string>();
+        private readonly IReadOnlyCollection<User> _users;
 
-        private readonly List<User> _users = new List<User>
+        public AuthorizationService(IConfigurationProvider configuration)
         {
-            new User("aurelien", "0f46f2fb6f5a91c79e86acc5da7df95176b4e4c7"),
-            new User("marie","5fa0bfcd909ca004073b086ed1843e6cac480f85") 
-        };
+            if(configuration == null)
+                throw new ArgumentNullException(nameof(configuration));
+
+            _users = configuration.GetUsers();
+        }
 
         public Task<Guid> Authenticate(string username, string password)
         {
@@ -43,5 +47,25 @@ namespace WalletMate.Infrastructure.Services
                 _connectedUsers.Remove(authKey);
             return Task.CompletedTask;
         }
+    }
+
+    public class LocalConfigurationProvider : IConfigurationProvider
+    {
+        public IReadOnlyCollection<User> GetUsers()
+        {
+            return new List<User>
+            {
+                new User("aurelien", "0f46f2fb6f5a91c79e86acc5da7df95176b4e4c7"),
+                new User("marie","5fa0bfcd909ca004073b086ed1843e6cac480f85")
+            };
+        }
+    }
+
+    [Serializable]
+    public class WalletMateConfiguration
+    {
+        public User FirstPair { get; set; }
+        public User SecondPair { get; set; }
+        public User Operator { get; set; }
     }
 }
