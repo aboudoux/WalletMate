@@ -6,7 +6,7 @@ namespace WalletMate.Infrastructure.Tests
 {
     public class SerializerShould
     {
-        private CustomJsonSerializer _serializer = new CustomJsonSerializer();
+        private readonly CustomJsonSerializer _serializer = new CustomJsonSerializer();
 
         [Fact]
         public void SerializeOperationId()

@@ -1,7 +1,7 @@
 ﻿Feature: Calcul de balance pour une période
 	En tant qu'utilisateur
     Je veux que la période me calcul la balance en fonction de mes opérations
-    Afin de connaitre quelle somme est dûe lors d'une période
+    Afin de connaitre quelle somme est due et par qui lors d'une période
 
 Scenario: Calcul de la somme due en fonction des dépenses
 	Given Une période est créée	
