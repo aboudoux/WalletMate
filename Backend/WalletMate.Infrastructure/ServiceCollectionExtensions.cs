@@ -19,7 +19,7 @@ namespace WalletMate.Infrastructure
 
             services.AddMediatR(Assembly.GetAssembly(typeof(ICommand)), Assembly.GetAssembly(typeof(ISerializer)));
 
-            services.TryAddSingleton<IConfigurationProvider, LocalConfigurationProvider>();
+            services.TryAddSingleton<IConfigurationProvider, XmlConfigurationProvider>();
             services.TryAddSingleton<IAuthorizationService, AuthorizationService>();
             services.TryAddSingleton<IEventStore, FileEventStoreWithCache>();
             services.TryAddSingleton<IDatabaseRepository, InMemoryDatabaseRepository>();

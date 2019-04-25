@@ -1,9 +1,12 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
 using WalletMate.Infrastructure.Dto;
 using WalletMate.Infrastructure.Services;
+using WalletMate.Infrastructure.Services.Exceptions;
 using WalletMate.Infrastructure.Tests.Tools;
 using Xunit;
 
@@ -41,6 +44,68 @@ namespace WalletMate.Infrastructure.Tests
                 config.FirstPair.Password.Should().Be(expected);
                 config.SecondPair.Password.Should().Be(expected);
                 config.Operator.Password.Should().Be(expected);
+
+                return Task.CompletedTask;
+            });
+        }
+
+        [Theory]
+        [InlineData("", "", "")]
+        [InlineData("", "1234", "1234")]
+        [InlineData("", "", "1234")]
+        [InlineData("1234", "", "1234")]
+        [InlineData("1234", "1234", "")]
+        public async Task Throw_exception_if_blank_password(string firstPassword, string secondPassword, string operatorPassword)
+        {
+            await Make.TestFile("blankpassword.config").AndExecute(environment =>
+            {
+                CreateConfigFile(environment.FilePath, firstUserPassword: firstPassword, secondUserPassword: secondPassword, operatorPassword: operatorPassword);
+
+                Action action = () => new XmlConfigurationProvider(environment.FilePath);
+                action.Should().Throw<EmptyConfigurationPasswordException>();
+
+                return Task.CompletedTask;
+            });
+        }
+
+        [Theory]
+        [InlineData("", "", "")]
+        [InlineData("", "Testuser", "Testuser")]
+        [InlineData("", "", "Testuser")]
+        [InlineData("Testuser", "", "Testuser")]
+        [InlineData("Testuser", "Testuser", "")]
+        public async Task Throw_exception_if_blank_username(string firstUsername, string secondUsername, string operatorUsername)
+        {
+            await Make.TestFile("blankname.config").AndExecute(environment =>
+            {
+                CreateConfigFile(environment.FilePath, firstUsername: firstUsername, secondUsername: secondUsername, operatorUsername: operatorUsername);
+
+                Action action = () => new XmlConfigurationProvider(environment.FilePath);
+                action.Should().Throw<EmptyConfigurationUsernameException>();
+
+                return Task.CompletedTask;
+            });
+        }
+
+        [Theory]
+        [InlineData("1234", "7110eda4d09e062aa5e4a390b0a572ac0d2c0220")]
+        [InlineData("Password", "8be3c943b1609fffbfc51aad666d0a04adf83c9d")]
+        [InlineData("Azerty", "0f300f33b728cabd2cd5cbde86757722de291ceb")]
+        public async Task Return_users_with_decoded_password_hash(string allPassword, string expected)
+        {
+            await Make.TestFile("blankname.config").AndExecute(environment =>
+            {
+                CreateConfigFile(environment.FilePath, firstUserPassword: allPassword, secondUserPassword: allPassword, operatorPassword: allPassword);
+                var provider = new XmlConfigurationProvider(environment.FilePath);
+
+                provider.GetUsers()
+                    .Select(a => a.Password)
+                    .ToList()
+                    .Should()
+                    .HaveCount(3)
+                    .And
+                    .BeEquivalentTo(
+                        new List<string>() { expected, expected, expected });
 
                 return Task.CompletedTask;
             });

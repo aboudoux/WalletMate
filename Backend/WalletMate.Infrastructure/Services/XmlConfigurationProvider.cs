@@ -1,16 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using System.Security.Cryptography;
-using System.Text;
 using WalletMate.Domain.Common;
 using WalletMate.Infrastructure.Dto;
 
 namespace WalletMate.Infrastructure.Services
 {
     public class XmlConfigurationProvider : IConfigurationProvider
-    {       
+    {   
+        private IReadOnlyList<User> _users;
+
         public XmlConfigurationProvider(string configurationFile = null)
         {
             if (configurationFile.IsEmpty())
@@ -26,37 +25,21 @@ namespace WalletMate.Infrastructure.Services
             }
 
             var configuration = ConfigurationDeserializer.Deserialize(configurationFile);
-            
+            _users = configuration.GetUsersWithDecryptedPassword();
 
             void CreateDefaultConfiguration()
             {
                 var config = new WalletMateConfiguration();
-                config.FirstPair = new User("FirstUserName", "password");
-                config.SecondPair = new User("SecondUserName", "password");
-                config.Operator = new User("OperatorUserName", "password");
+                config.FirstPair = new User("FirstUserName", "");
+                config.SecondPair = new User("SecondUserName", "");
+                config.Operator = new User("OperatorUserName", "");
                 Xml.SaveTo(configurationFile, config);
             }
         }
 
-        public IReadOnlyCollection<User> GetUsers()
+        public IReadOnlyList<User> GetUsers()
         {
-            throw null;
+            return _users;
         }
-
-       
-    }
-
-    public class ConfigurationDeserializer
-    {
-
-        public static WalletMateConfiguration Deserialize(string configurationFile)
-        {
-            var configuration = Xml.DeserializeFrom<WalletMateConfiguration>(configurationFile);
-            if(configuration.EncodePlainTextPasswords())
-                Xml.SaveTo(configurationFile, configuration);
-
-            return configuration;
-
-        }        
     }
 }

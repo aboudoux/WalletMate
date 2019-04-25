@@ -11,9 +11,14 @@ namespace WalletMate.Infrastructure.Dto
             Password = password;
         }
 
+        public User(User source)
+        {
+            Username = source.Username;
+            Password = source.Password;
+        }
+
         public User()
         {
-            
         }
 
         public string Username { get; set; }

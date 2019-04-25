@@ -5,6 +5,6 @@ namespace WalletMate.Infrastructure.Services
 {
     public interface IConfigurationProvider
     {
-        IReadOnlyCollection<User> GetUsers();
+        IReadOnlyList<User> GetUsers();
     }
 }
