@@ -44,7 +44,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Scenarios\Period.feature.cs">
+    <Compile Update="Steps\Scenarios\Period.feature.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Period.feature</DependentUpon>
@@ -58,14 +58,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Scenarios\Period.feature">
-      <Generator>SpecFlowSingleFileGenerator</Generator>
-      <LastGenOutput>Period.feature.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <SpecFlowFeatureFiles Update="Scenarios\Period.feature">
+    <SpecFlowFeatureFiles Update="Steps\Scenarios\Period.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>Period.feature.cs</LastGenOutput>
     </SpecFlowFeatureFiles>

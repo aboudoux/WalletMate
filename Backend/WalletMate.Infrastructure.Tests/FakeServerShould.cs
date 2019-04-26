@@ -13,7 +13,7 @@ namespace WalletMate.Infrastructure.Tests
         {
             using (var server = new FakeServer())
             {
-                var reponse = await server.Authenticate("aurelien", "0f46f2fb6f5a91c79e86acc5da7df95176b4e4c7");
+                var reponse = await server.Authenticate("Aurélien", "1234");
                 reponse.Should().BeTrue();
             }
         }
@@ -23,7 +23,7 @@ namespace WalletMate.Infrastructure.Tests
         {
             using (var server = new FakeServer())
             {
-                await server.Authenticate("aurelien", "0f46f2fb6f5a91c79e86acc5da7df95176b4e4c7");
+                await server.Authenticate("Aurélien", "1234");
                 var response = await server.CreatePeriod(1, 2000);
                 response.Should().Be(HttpStatusCode.OK);
             }

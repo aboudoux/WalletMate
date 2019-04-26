@@ -4,7 +4,7 @@
 
 
 Background: 
-	Given Je suis connecté à l'application avec l'utilisateur aurelien et le mot de passe 0f46f2fb6f5a91c79e86acc5da7df95176b4e4c7
+	Given Je suis connecté à l'application avec l'utilisateur Aurélien et le mot de passe 1234
 
 Scenario: Création d'une nouvelle période
 	When Je demande la création d'une période pour le mois 1 et l'année 2001

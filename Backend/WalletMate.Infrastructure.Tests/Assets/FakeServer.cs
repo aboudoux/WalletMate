@@ -12,6 +12,7 @@ using WalletMate.Application.Periods.Queries;
 using WalletMate.Domain.Common;
 using WalletMate.Domain.Common.Events;
 using WalletMate.Infrastructure.Dto;
+using WalletMate.Infrastructure.Services;
 using WalletMate.WebApp;
 
 namespace WalletMate.Infrastructure.Tests.Assets
@@ -22,7 +23,10 @@ namespace WalletMate.Infrastructure.Tests.Assets
 
         public FakeServer()
         {
-            _testServer = new TestServerBase<Startup>("Test", "WalletMate.WebApp", s => s.AddSingleton(CreateEventStoreInstance));
+            _testServer = new TestServerBase<Startup>("Test", "WalletMate.WebApp", 
+                s => s.AddSingleton(CreateEventStoreInstance)
+                      .AddSingleton<IConfigurationProvider, FakeServerConfigurationProvider>()
+                );
 
             IEventStore CreateEventStoreInstance(IServiceProvider provider)
             {

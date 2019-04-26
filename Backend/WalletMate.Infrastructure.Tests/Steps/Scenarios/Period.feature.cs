@@ -10,7 +10,7 @@
 // ------------------------------------------------------------------------------
 #region Designer generated code
 #pragma warning disable
-namespace WalletMate.Infrastructure.Tests.Scenarios
+namespace WalletMate.Infrastructure.Tests.Steps.Scenarios
 {
     using TechTalk.SpecFlow;
     
@@ -77,8 +77,8 @@ namespace WalletMate.Infrastructure.Tests.Scenarios
         {
 #line 6
 #line 7
- testRunner.Given("Je suis connecté à l\'application avec l\'utilisateur aurelien et le mot de passe 0" +
-                    "f46f2fb6f5a91c79e86acc5da7df95176b4e4c7", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("Je suis connecté à l\'application avec l\'utilisateur Aurélien et le mot de passe 1" +
+                    "234", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
         }
         
