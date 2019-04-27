@@ -6,7 +6,6 @@ namespace WalletMate.Application.Pairs
     {
         IReadOnlyList<IUser> GetUsers();
 
-        string GetFirstPairUserName();
-        string GetSecondPairUserName();
+        IConfiguredPair GetConfiguredPair();
     }
 }

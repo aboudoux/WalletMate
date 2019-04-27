@@ -1,39 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using WalletMate.Application.Core;
 using WalletMate.Application.Pairs;
-using WalletMate.Infrastructure.Dto;
-using WalletMate.Infrastructure.Services;
 
 namespace WalletMate.WebApp.Controllers
 {
-    [Route("api/[controller]")]    
+    [Route("api/[controller]")]
     public class PairController
     {
-        private readonly IUserProvider _userProvider;
+        private readonly IQueryBus _queryBus;
 
-        public PairController(IUserProvider userProvider)
+        public PairController(IQueryBus queryBus)
         {
-            _userProvider = userProvider ?? throw new ArgumentNullException(nameof(userProvider));
+            _queryBus = queryBus;
         }
-        //[HttpGet("[action]")]
-        //public async Task<IActionResult> All()
-        //{
-        //    var result = new List<PairUser>();
-        //    result.Add(new );
-        //}
-    }
 
-    public class PairUser
-    {
-        public PairUser(int pairId, string username)
+        [HttpGet("[action]")]
+        public async Task<IConfiguredPair> All()
         {
-            PairId = pairId;
-            Username = username;
+            return await _queryBus.QueryAsync(new GetConfiguredPair());
         }
-        public int PairId { get; }
-        public string Username { get; }
     }
 }

@@ -86,6 +86,12 @@ namespace WalletMate.Infrastructure.Tests.Assets
             return await result.ReadContentAs<IEnumerable<PeriodOperation>>();
         }
 
+        public async Task<IConfiguredPair> GetConfiguredPair()
+        {
+            var result = await Get("/api/Pair/All");
+            return await result.ReadContentAs<ConfiguredPair>();
+        }
+
         public async Task<HttpStatusCode> RemoveOperation(string periodId, int operationId)
         {
             var post = await Post(new OperationToRemove(periodId, operationId), "/api/Operation/Remove");

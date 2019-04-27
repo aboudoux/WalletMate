@@ -9,9 +9,11 @@ namespace WalletMate.Infrastructure
         public static string GetUserName(this Pair pair, IUserProvider user)
         {
             if (user == null) throw new ArgumentNullException(nameof(user));
+            var configuredPair = user.GetConfiguredPair();
+
             return pair == Pair.First
-                ? user.GetFirstPairUserName()
-                : user.GetSecondPairUserName();
+                ? configuredPair.FirstPairName
+                : configuredPair.SecondPairName;
         }
     }
 }

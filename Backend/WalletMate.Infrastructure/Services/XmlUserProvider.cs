@@ -48,8 +48,9 @@ namespace WalletMate.Infrastructure.Services
             return _users;
         }
 
-        public string GetFirstPairUserName() => _firstPairUser.Username;
-
-        public string GetSecondPairUserName() => _secondPairUser.Username;
+        public IConfiguredPair GetConfiguredPair()
+        {
+            return new ConfiguredPair(_firstPairUser.Username, _secondPairUser.Username);
+        }
     }
 }        
