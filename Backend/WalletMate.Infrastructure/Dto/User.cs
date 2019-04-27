@@ -1,9 +1,10 @@
 ﻿using System;
+using WalletMate.Application.Pairs;
 
 namespace WalletMate.Infrastructure.Dto
 {
     [Serializable]
-    public class User
+    public class User : IUser
     {
         public User(string username, string password)
         {

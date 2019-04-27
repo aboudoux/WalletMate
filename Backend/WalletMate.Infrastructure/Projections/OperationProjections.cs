@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using WalletMate.Application.Core;
+using WalletMate.Application.Pairs;
 using WalletMate.Domain.Common.Events;
 using WalletMate.Domain.Periods.Events;
 using WalletMate.Domain.Periods.ValueObjects;
@@ -23,12 +24,12 @@ namespace WalletMate.Infrastructure.Projections {
         IEventHandler<RecipeCategoryChanged>,
         IEventHandler<SpendingCategoryChanged>
     {
-        private readonly IConfigurationProvider _configurationProvider;
+        private readonly IUserProvider _userProvider;
         private readonly IDatabaseRepository _databaseRepository;
 
-        public OperationProjections(IDatabaseRepository databaseRepository, IConfigurationProvider configurationProvider)
+        public OperationProjections(IDatabaseRepository databaseRepository, IUserProvider userProvider)
         {
-            _configurationProvider = configurationProvider ?? throw new ArgumentNullException(nameof(configurationProvider));
+            _userProvider = userProvider ?? throw new ArgumentNullException(nameof(userProvider));
             _databaseRepository = databaseRepository ?? throw new ArgumentNullException(nameof(_databaseRepository));
         }
 
@@ -40,12 +41,12 @@ namespace WalletMate.Infrastructure.Projections {
 
         public Task Handle(SpendingAdded @event, CancellationToken cancellationToken)
         {
-            return AddOperation(new PeriodOperation(@event, @event.Pair.GetUserName(_configurationProvider)));
+            return AddOperation(new PeriodOperation(@event, @event.Pair.GetUserName(_userProvider)));
         }
 
         public Task Handle(RecipeAdded @event, CancellationToken cancellationToken)
         {
-            return AddOperation(new PeriodOperation(@event, @event.Pair.GetUserName(_configurationProvider)));
+            return AddOperation(new PeriodOperation(@event, @event.Pair.GetUserName(_userProvider)));
         }
 
         public Task Handle(SpendingRemoved @event, CancellationToken cancellationToken)

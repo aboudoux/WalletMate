@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
+using WalletMate.Application.Pairs;
 using WalletMate.Infrastructure.Dto;
 using WalletMate.Infrastructure.Services;
 
 namespace WalletMate.Infrastructure.Tests.Assets
 {
-    public class FakeServerConfigurationProvider : IConfigurationProvider
+    public class FakeServerUserProvider : IUserProvider
     {
-        public IReadOnlyList<User> GetUsers()
+        public IReadOnlyList<IUser> GetUsers()
         {
             return new List<User>()
             {

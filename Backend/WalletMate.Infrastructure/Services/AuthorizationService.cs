@@ -2,22 +2,21 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using WalletMate.Domain.Common;
-using WalletMate.Infrastructure.Dto;
+using WalletMate.Application.Pairs;
 
 namespace WalletMate.Infrastructure.Services
 {
     public class AuthorizationService : IAuthorizationService
     {
         private readonly Dictionary<Guid, string> _connectedUsers = new Dictionary<Guid, string>();
-        private readonly IReadOnlyCollection<User> _users;
+        private readonly IReadOnlyCollection<IUser> _users;
 
-        public AuthorizationService(IConfigurationProvider configuration)
+        public AuthorizationService(IUserProvider user)
         {
-            if(configuration == null)
-                throw new ArgumentNullException(nameof(configuration));
+            if(user == null)
+                throw new ArgumentNullException(nameof(user));
 
-            _users = configuration.GetUsers();
+            _users = user.GetUsers();
         }
 
         public Task<Guid> Authenticate(string username, string password)

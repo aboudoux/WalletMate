@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using WalletMate.Application.Core;
+using WalletMate.Application.Pairs;
 using WalletMate.Domain.Common;
 using WalletMate.Domain.Common.Events;
 using WalletMate.Infrastructure.Services;
@@ -19,7 +20,7 @@ namespace WalletMate.Infrastructure
 
             services.AddMediatR(Assembly.GetAssembly(typeof(ICommand)), Assembly.GetAssembly(typeof(ISerializer)));
 
-            services.TryAddSingleton<IConfigurationProvider, XmlConfigurationProvider>();
+            services.TryAddSingleton<IUserProvider, XmlUserProvider>();
             services.TryAddSingleton<IAuthorizationService, AuthorizationService>();
             services.TryAddSingleton<IEventStore, FileEventStoreWithCache>();
             services.TryAddSingleton<IDatabaseRepository, InMemoryDatabaseRepository>();

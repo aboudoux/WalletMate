@@ -13,4 +13,8 @@
     <ProjectReference Include="..\WalletMate.Domain\WalletMate.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Pairs\Queries\" />
+  </ItemGroup>
+
 </Project>

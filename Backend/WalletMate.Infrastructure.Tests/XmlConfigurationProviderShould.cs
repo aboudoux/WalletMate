@@ -19,7 +19,7 @@ namespace WalletMate.Infrastructure.Tests
         {
             await Make.TestFile("TestUser.config").AndExecute(environment =>
             {
-                Action action = () => new XmlConfigurationProvider(environment.FilePath);
+                Action action = () => new XmlUserProvider(environment.FilePath);
 
                 action.Should().Throw<FileNotFoundException>();
                 File.Exists(environment.FilePath).Should().BeTrue();
@@ -38,7 +38,7 @@ namespace WalletMate.Infrastructure.Tests
             {
                 CreateConfigFile(environment.FilePath, firstUserPassword: allPassword, secondUserPassword:allPassword, operatorPassword:allPassword);
 
-                var _ = new XmlConfigurationProvider(environment.FilePath);
+                var _ = new XmlUserProvider(environment.FilePath);
 
                 var config = Xml.DeserializeFrom<WalletMateConfiguration>(environment.FilePath);
                 config.FirstPair.Password.Should().Be(expected);
@@ -61,7 +61,7 @@ namespace WalletMate.Infrastructure.Tests
             {
                 CreateConfigFile(environment.FilePath, firstUserPassword: firstPassword, secondUserPassword: secondPassword, operatorPassword: operatorPassword);
 
-                Action action = () => new XmlConfigurationProvider(environment.FilePath);
+                Action action = () => new XmlUserProvider(environment.FilePath);
                 action.Should().Throw<EmptyConfigurationPasswordException>();
 
                 return Task.CompletedTask;
@@ -80,7 +80,7 @@ namespace WalletMate.Infrastructure.Tests
             {
                 CreateConfigFile(environment.FilePath, firstUsername: firstUsername, secondUsername: secondUsername, operatorUsername: operatorUsername);
 
-                Action action = () => new XmlConfigurationProvider(environment.FilePath);
+                Action action = () => new XmlUserProvider(environment.FilePath);
                 action.Should().Throw<EmptyConfigurationUsernameException>();
 
                 return Task.CompletedTask;
@@ -96,7 +96,7 @@ namespace WalletMate.Infrastructure.Tests
             await Make.TestFile("blankname.config").AndExecute(environment =>
             {
                 CreateConfigFile(environment.FilePath, firstUserPassword: allPassword, secondUserPassword: allPassword, operatorPassword: allPassword);
-                var provider = new XmlConfigurationProvider(environment.FilePath);
+                var provider = new XmlUserProvider(environment.FilePath);
 
                 provider.GetUsers()
                     .Select(a => a.Password)

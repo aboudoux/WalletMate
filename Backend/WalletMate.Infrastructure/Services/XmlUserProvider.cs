@@ -1,18 +1,19 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using WalletMate.Application.Pairs;
 using WalletMate.Domain.Common;
 using WalletMate.Infrastructure.Dto;
 
 namespace WalletMate.Infrastructure.Services
 {
-    public class XmlConfigurationProvider : IConfigurationProvider
+    public class XmlUserProvider : IUserProvider
     {
         private readonly IReadOnlyList<User> _users;
         private readonly User _firstPairUser;
         private readonly User _secondPairUser;
 
-        public XmlConfigurationProvider(string configurationFile = null)
+        public XmlUserProvider(string configurationFile = null)
         {
             if (configurationFile.IsEmpty())
             {
@@ -42,7 +43,7 @@ namespace WalletMate.Infrastructure.Services
             }
         }
 
-        public IReadOnlyList<User> GetUsers()
+        public IReadOnlyList<IUser> GetUsers()
         {
             return _users;
         }

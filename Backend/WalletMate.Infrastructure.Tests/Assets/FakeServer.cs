@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
+using WalletMate.Application.Pairs;
 using WalletMate.Application.Periods.Queries;
 using WalletMate.Domain.Common;
 using WalletMate.Domain.Common.Events;
@@ -25,7 +26,7 @@ namespace WalletMate.Infrastructure.Tests.Assets
         {
             _testServer = new TestServerBase<Startup>("Test", "WalletMate.WebApp", 
                 s => s.AddSingleton(CreateEventStoreInstance)
-                      .AddSingleton<IConfigurationProvider, FakeServerConfigurationProvider>()
+                      .AddSingleton<IUserProvider, FakeServerUserProvider>()
                 );
 
             IEventStore CreateEventStoreInstance(IServiceProvider provider)

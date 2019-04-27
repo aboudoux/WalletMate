@@ -1,17 +1,17 @@
 ﻿using System;
+using WalletMate.Application.Pairs;
 using WalletMate.Domain.Periods.ValueObjects;
-using WalletMate.Infrastructure.Services;
 
 namespace WalletMate.Infrastructure
 {
     public static class PairExtensions
     {
-        public static string GetUserName(this Pair pair, IConfigurationProvider configuration)
+        public static string GetUserName(this Pair pair, IUserProvider user)
         {
-            if (configuration == null) throw new ArgumentNullException(nameof(configuration));
+            if (user == null) throw new ArgumentNullException(nameof(user));
             return pair == Pair.First
-                ? configuration.GetFirstPairUserName()
-                : configuration.GetSecondPairUserName();
+                ? user.GetFirstPairUserName()
+                : user.GetSecondPairUserName();
         }
     }
 }

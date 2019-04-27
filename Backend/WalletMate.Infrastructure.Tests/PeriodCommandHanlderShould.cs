@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using WalletMate.Application.Core;
+using WalletMate.Application.Pairs;
 using WalletMate.Application.Periods;
 using WalletMate.Domain.Common;
 using WalletMate.Domain.Common.Events;
@@ -23,7 +24,7 @@ namespace WalletMate.Infrastructure.Tests
             {
                 config.AddSingleton<IConnectedUserService, FakeConnectedUserService>();
                 config.AddSingleton<IEventStore, FakeEventStore>();
-                config.AddSingleton<IConfigurationProvider, FakeServerConfigurationProvider>();
+                config.AddSingleton<IUserProvider, FakeServerUserProvider>();
             });
 
             var provider = services.BuildServiceProvider();
