@@ -6,6 +6,7 @@ using WalletMate.Domain.Common.Events;
 using WalletMate.Domain.Periods.Events;
 using WalletMate.Domain.Periods.ValueObjects;
 using WalletMate.Infrastructure.Dto;
+using WalletMate.Infrastructure.Services;
 
 namespace WalletMate.Infrastructure.Projections {
 
@@ -22,10 +23,12 @@ namespace WalletMate.Infrastructure.Projections {
         IEventHandler<RecipeCategoryChanged>,
         IEventHandler<SpendingCategoryChanged>
     {
+        private readonly IConfigurationProvider _configurationProvider;
         private readonly IDatabaseRepository _databaseRepository;
 
-        public OperationProjections(IDatabaseRepository databaseRepository)
+        public OperationProjections(IDatabaseRepository databaseRepository, IConfigurationProvider configurationProvider)
         {
+            _configurationProvider = configurationProvider ?? throw new ArgumentNullException(nameof(configurationProvider));
             _databaseRepository = databaseRepository ?? throw new ArgumentNullException(nameof(_databaseRepository));
         }
 
@@ -37,12 +40,12 @@ namespace WalletMate.Infrastructure.Projections {
 
         public Task Handle(SpendingAdded @event, CancellationToken cancellationToken)
         {
-            return AddOperation(new PeriodOperation(@event));
+            return AddOperation(new PeriodOperation(@event, @event.Pair.GetUserName(_configurationProvider)));
         }
 
         public Task Handle(RecipeAdded @event, CancellationToken cancellationToken)
         {
-            return AddOperation(new PeriodOperation(@event));
+            return AddOperation(new PeriodOperation(@event, @event.Pair.GetUserName(_configurationProvider)));
         }
 
         public Task Handle(SpendingRemoved @event, CancellationToken cancellationToken)

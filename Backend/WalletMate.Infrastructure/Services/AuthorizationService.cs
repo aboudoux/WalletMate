@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WalletMate.Domain.Common;
 using WalletMate.Infrastructure.Dto;
 
 namespace WalletMate.Infrastructure.Services

@@ -5,6 +5,8 @@ using WalletMate.Application.Periods;
 using WalletMate.Domain.Common;
 using WalletMate.Domain.Common.Events;
 using WalletMate.Domain.Periods.ValueObjects;
+using WalletMate.Infrastructure.Services;
+using WalletMate.Infrastructure.Tests.Assets;
 using WalletMate.Infrastructure.Tests.Fakes;
 using Xunit;
 
@@ -19,8 +21,9 @@ namespace WalletMate.Infrastructure.Tests
 
             services.RegisterDependencies(config =>
             {
-                config.AddSingleton<IUserService, FakeUserService>();
+                config.AddSingleton<IConnectedUserService, FakeConnectedUserService>();
                 config.AddSingleton<IEventStore, FakeEventStore>();
+                config.AddSingleton<IConfigurationProvider, FakeServerConfigurationProvider>();
             });
 
             var provider = services.BuildServiceProvider();

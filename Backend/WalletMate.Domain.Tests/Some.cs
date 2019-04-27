@@ -36,10 +36,10 @@ namespace WalletMate.Domain.Tests
         }
 
         public static SpendingAdded SpendingAdded(OperationId operationId) 
-            => new SpendingAdded(operationId, Amount.From(10), Label.From("TEST"), Pair.Aurelien, SpendingCategory.Common);
+            => new SpendingAdded(operationId, Amount.From(10), Label.From("TEST"), Pair.First, SpendingCategory.Common);
 
         public static RecipeAdded RecipeAdded(OperationId operationId)
-            => new RecipeAdded(operationId, Amount.From(10), Label.From("TEST"), Pair.Aurelien, RecipeCategory.Common);
+            => new RecipeAdded(operationId, Amount.From(10), Label.From("TEST"), Pair.First, RecipeCategory.Common);
 
         public static PeriodCreated PeriodCreated(PeriodName periodName) => new PeriodCreated(periodName);
     }

@@ -10,13 +10,13 @@ namespace WalletMate.Domain.Common.Events
     {
         private readonly IEventStore _eventStore;
         private readonly IEventDispatcher _eventDispatcher;
-        private readonly IUserService _userService;
+        private readonly IConnectedUserService _connectedUserService;
 
-        public EventBroker(IEventStore eventStore, IEventDispatcher eventDispatcher, IUserService userService) 
+        public EventBroker(IEventStore eventStore, IEventDispatcher eventDispatcher, IConnectedUserService connectedUserService) 
         {
             _eventStore = eventStore ?? throw new ArgumentNullException(nameof(eventStore));
             _eventDispatcher = eventDispatcher ?? throw new ArgumentNullException(nameof(eventDispatcher));
-            _userService = userService ?? throw new ArgumentNullException(nameof(userService));
+            _connectedUserService = connectedUserService ?? throw new ArgumentNullException(nameof(connectedUserService));
         }
 
         public async Task Publish(UncommittedAggregates aggregates) 
@@ -42,7 +42,7 @@ namespace WalletMate.Domain.Common.Events
             }
 
             void Stamp(IDomainEvent @event) 
-                => ((IEventMetaData)@event).SetCreationInfos(_userService.GetCurrentUserName(), DateTimeOffset.Now);
+                => ((IEventMetaData)@event).SetCreationInfos(_connectedUserService.GetCurrentUserName(), DateTimeOffset.Now);
         }
 
         public async Task<T> GetAggregate<T>(string aggregateId)

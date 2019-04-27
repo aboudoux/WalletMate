@@ -1,17 +1,25 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WalletMate.Application.Core;
 using WalletMate.Application.Periods.Queries;
 using WalletMate.Domain.Periods.ValueObjects;
 using WalletMate.Infrastructure.Dto;
+using WalletMate.Infrastructure.Services;
 
 namespace WalletMate.Infrastructure
 {
     public class InMemoryDatabaseRepository : IDatabaseRepository
     {
+        private readonly IConfigurationProvider _configurationProvider;
         private readonly Dictionary<PeriodName, IPeriodBalance> _allPeriods = new Dictionary<PeriodName, IPeriodBalance>();
         private readonly Dictionary<string, List<IPeriodOperation>> _operations = new Dictionary<string, List<IPeriodOperation>>();
+
+        public InMemoryDatabaseRepository(IConfigurationProvider configurationProvider)
+        {
+            _configurationProvider = configurationProvider ?? throw new ArgumentNullException(nameof(configurationProvider));
+        }
 
         public void AddPeriod(PeriodName periodName)
         {
@@ -47,7 +55,7 @@ namespace WalletMate.Infrastructure
             if (label != null)
                 operation.Label = label.Value;
             if (pair != null) {
-                operation.Pair = pair.ToString();
+                operation.Pair = pair.GetUserName(_configurationProvider);
                 operation.PairValue = pair.Value;
             }
             if (recipeCategory != null) {
@@ -67,7 +75,7 @@ namespace WalletMate.Infrastructure
 
         public void UpdateBalance(PeriodId periodId, Amount amountDue, Pair @by)
         {
-            _allPeriods[periodId.ToPeriodName()] = new PeriodBalance(amountDue.Value, by.ToString());
+            _allPeriods[periodId.ToPeriodName()] = new PeriodBalance(amountDue.Value, by.GetUserName(_configurationProvider));
         }
 
         public Task<IReadOnlyList<IPeriodResult>> GetAllPeriod() 

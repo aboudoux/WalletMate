@@ -2,7 +2,7 @@
 
 namespace WalletMate.Infrastructure.Tests.Fakes
 {
-    public class FakeUserService : IUserService
+    public class FakeConnectedUserService : IConnectedUserService
     {
         public string GetCurrentUserName()
         {

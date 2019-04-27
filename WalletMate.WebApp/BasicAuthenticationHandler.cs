@@ -31,7 +31,7 @@ namespace WalletMate.WebApp
                 var credentials = Encoding.UTF8.GetString(credentialBytes).Split(':');
                 var username = credentials[0];
                 var password = credentials[1];
-              /*  if(await _userService.Authenticate(username, password) == false)
+              /*  if(await _connectedUserService.Authenticate(username, password) == false)
                     return AuthenticateResult.Fail("Invalid Username or Password");   */             
                 
                 var claims = new[] {

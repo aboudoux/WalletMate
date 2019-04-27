@@ -14,5 +14,9 @@ namespace WalletMate.Infrastructure.Tests.Assets
                 new User("Marie", "1234")
             };
         }
+
+        public string GetFirstPairUserName() => "Aurélien";
+
+        public string GetSecondPairUserName() => "Marie";
     }
 }

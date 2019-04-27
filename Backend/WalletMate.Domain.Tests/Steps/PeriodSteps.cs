@@ -87,8 +87,8 @@ namespace WalletMate.Domain.Tests.Steps {
         [StepArgumentTransformation]
         private static Pair ToPair(string source)
             => source == "Aurelien"
-                ? Pair.Aurelien
-                : Pair.Marie;
+                ? Pair.First
+                : Pair.Second;
 
         [StepArgumentTransformation]
         private static OperationId ToOperationId(string source)

@@ -1,6 +1,6 @@
 ﻿namespace WalletMate.Domain.Common
 {
-    public interface IUserService
+    public interface IConnectedUserService
     {
         string GetCurrentUserName();
     }

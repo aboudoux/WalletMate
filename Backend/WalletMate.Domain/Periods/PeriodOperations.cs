@@ -57,15 +57,15 @@ namespace WalletMate.Domain.Periods
                     (key, g) => new { Amount = g.Sum(), By = key })
                 .ToList();
 
-            var amountSpendingMarie = totalSpending.FirstOrDefault(a => a.By == Pair.Marie.Value)?.Amount ?? 0;
-            var amountSpendingAurelien = totalSpending.FirstOrDefault(a => a.By == Pair.Aurelien.Value)?.Amount ?? 0;
+            var amountSpendingMarie = totalSpending.FirstOrDefault(a => a.By == Pair.Second.Value)?.Amount ?? 0;
+            var amountSpendingAurelien = totalSpending.FirstOrDefault(a => a.By == Pair.First.Value)?.Amount ?? 0;
 
-            var amountRecipeMarie = totalRecipe.FirstOrDefault(a => a.By == Pair.Marie.Value)?.Amount ?? 0;
-            var amountRecipeAurelien = totalRecipe.FirstOrDefault(a => a.By == Pair.Aurelien.Value)?.Amount ?? 0;
+            var amountRecipeMarie = totalRecipe.FirstOrDefault(a => a.By == Pair.Second.Value)?.Amount ?? 0;
+            var amountRecipeAurelien = totalRecipe.FirstOrDefault(a => a.By == Pair.First.Value)?.Amount ?? 0;
 
             var amountDue =Math.Round((amountSpendingAurelien+amountRecipeMarie) - (amountSpendingMarie+amountRecipeAurelien), 2, MidpointRounding.ToEven);
             
-            return (Amount.From(Math.Abs(amountDue)), amountDue < 0 ? Pair.Aurelien : Pair.Marie);
+            return (Amount.From(Math.Abs(amountDue)), amountDue < 0 ? Pair.First : Pair.Second);
         }
 
         public bool IsSpendingOperation(int operationIdValue) => _allOperations[operationIdValue].IsSpending;

@@ -4,11 +4,11 @@ using WalletMate.Domain.Common;
 
 namespace WalletMate.Infrastructure
 {
-    public class UserService : IUserService
+    public class ConnectedUserService : IConnectedUserService
     {
         private readonly IHttpContextAccessor _httpContext;
 
-        public UserService(IHttpContextAccessor httpContext)
+        public ConnectedUserService(IHttpContextAccessor httpContext)
         {
             _httpContext = httpContext ?? throw new ArgumentNullException(nameof(httpContext));
         }

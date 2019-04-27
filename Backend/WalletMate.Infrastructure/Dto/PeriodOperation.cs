@@ -20,12 +20,12 @@ namespace WalletMate.Infrastructure.Dto
             CategoryValue = categoryValue;
         }
 
-        public PeriodOperation(SpendingAdded @event)
+        public PeriodOperation(SpendingAdded @event, string pairName)
         {
             Type = "Dépense";
             PeriodId = @event.AggregateId;
             OperationId = @event.OperationId.Value;
-            Pair = @event.Pair.ToString();
+            Pair = pairName;
             PairValue = @event.Pair.Value;
             Amount = @event.Amount.Value;
             Label = @event.Label.Value;
@@ -33,12 +33,12 @@ namespace WalletMate.Infrastructure.Dto
             CategoryValue = @event.Category.Value;
         }
 
-        public PeriodOperation(RecipeAdded @event)
+        public PeriodOperation(RecipeAdded @event, string pairName)
         {
             Type = "Recette";
             PeriodId = @event.AggregateId;
             OperationId = @event.OperationId.Value;
-            Pair = @event.Pair.ToString();
+            Pair = pairName;
             PairValue = @event.Pair.Value;
             Amount = @event.Amount.Value;
             Label = @event.Label.Value;

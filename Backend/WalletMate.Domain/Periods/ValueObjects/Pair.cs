@@ -1,5 +1,6 @@
 ﻿using System;
 using Newtonsoft.Json;
+using WalletMate.Domain.Common;
 using WalletMate.Domain.Common.Events;
 using WalletMate.Domain.Common.ValueObjects;
 
@@ -8,8 +9,8 @@ namespace WalletMate.Domain.Periods.ValueObjects
     [SerializableTypeIdentifier("Pair")]
     public sealed class Pair : PositiveNumberValueObject<Pair>
     {
-        public static Pair Aurelien => new Pair(1);
-        public static Pair Marie => new Pair(2);
+        public static Pair First => new Pair(1);
+        public static Pair Second => new Pair(2);
 
         private Pair(int value) : base(value)
         {
@@ -20,10 +21,5 @@ namespace WalletMate.Domain.Periods.ValueObjects
         [JsonConstructor]
         private Pair(int value, bool deserialization = true) : base(value, deserialization) {
         }
-
-        public override string ToString()
-            => Value == 1 
-                ? "Aurélien" 
-                : "Marie";
     }
 }

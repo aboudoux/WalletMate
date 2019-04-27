@@ -30,7 +30,7 @@ namespace WalletMate.Infrastructure
             services.TryAddScoped<IQueryBus, MediatrQueryBus>();
             services.TryAddScoped<IEventBroker, EventBroker>();
             services.TryAddScoped<IEventDispatcher, MediatrEventDispatcher>();
-            services.TryAddScoped<IUserService, UserService>();
+            services.TryAddScoped<IConnectedUserService, ConnectedUserService>();
         }
     }
 }

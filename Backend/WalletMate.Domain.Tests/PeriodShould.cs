@@ -24,11 +24,11 @@ namespace WalletMate.Domain.Tests
         {
             var period = Some.Period();
 
-            period.AddSpending(Amount.From(10), Label.From("Test spending"), Pair.Aurelien, SpendingCategory.Common);
+            period.AddSpending(Amount.From(10), Label.From("Test spending"), Pair.First, SpendingCategory.Common);
 
             period.UncommittedEvents.GetStream().Should()
                 .ContainEquivalentOf(
-                    new SpendingAdded(OperationId.From(1), Amount.From(10), Label.From("Test spending"), Pair.Aurelien, SpendingCategory.Common), 
+                    new SpendingAdded(OperationId.From(1), Amount.From(10), Label.From("Test spending"), Pair.First, SpendingCategory.Common), 
                     e => e.Excluding(a=>a.AggregateId).Excluding(a=>a.Sequence));
         }
 
@@ -64,7 +64,7 @@ namespace WalletMate.Domain.Tests
             var period = Some.Period();
 
             for(var i = 1; i < 10; i++)
-                period.AddSpending(Amount.From(i), Label.From("Test spending"), Pair.Aurelien, SpendingCategory.Common);
+                period.AddSpending(Amount.From(i), Label.From("Test spending"), Pair.First, SpendingCategory.Common);
 
             period.UncommittedEvents.GetStream()
                 .OfType<SpendingAdded>()
@@ -82,10 +82,10 @@ namespace WalletMate.Domain.Tests
                  .WithEvent(Some.SpendingAdded(OperationId.From(3)))
                  .WithEvent(Some.SpendingAdded(OperationId.From(4))));
 
-            period.AddSpending(Amount.From(10),Label.From("test"), Pair.Aurelien, SpendingCategory.Advance);
+            period.AddSpending(Amount.From(10),Label.From("test"), Pair.First, SpendingCategory.Advance);
 
             period.UncommittedEvents.GetStream().Should()
-                .ContainEquivalentOf(new SpendingAdded(OperationId.From(5), Amount.From(10), Label.From("test"), Pair.Aurelien, SpendingCategory.Advance),
+                .ContainEquivalentOf(new SpendingAdded(OperationId.From(5), Amount.From(10), Label.From("test"), Pair.First, SpendingCategory.Advance),
                     e=>e.Excluding(a=>a.AggregateId).Excluding(a=>a.Sequence) );
         }
 
@@ -112,10 +112,10 @@ namespace WalletMate.Domain.Tests
         [Fact]
         public void RaisePairChangedIfJustChangingPair()
         {
-            var period = ChangeSpendingInfo(pair: Pair.Marie);
+            var period = ChangeSpendingInfo(pair: Pair.Second);
 
             period.UncommittedEvents.GetStream().Should().HaveCount(2).And
-                .ContainEquivalentOf(new PairChanged(OperationId.From(1), Pair.Marie),
+                .ContainEquivalentOf(new PairChanged(OperationId.From(1), Pair.Second),
                     e => e.Excluding(a => a.AggregateId).Excluding(a => a.Sequence));
         }
 
@@ -132,7 +132,7 @@ namespace WalletMate.Domain.Tests
         [Fact]
         public void RaiseMultipleChange()
         {
-            var period = ChangeSpendingInfo(Amount.From(25), Label.From("well"), Pair.Marie, SpendingCategory.Common);
+            var period = ChangeSpendingInfo(Amount.From(25), Label.From("well"), Pair.Second, SpendingCategory.Common);
             period.UncommittedEvents.GetStream().Should().HaveCount(5);
         }
 
@@ -140,12 +140,12 @@ namespace WalletMate.Domain.Tests
         public void NotRaiseChangedEventIfDataChangedTwice()
         {
             var period = Some.Period();
-            var id = period.AddSpending(Amount.From(10), Label.From("test"), Pair.Aurelien, SpendingCategory.Advance);
-            period.ChangeSpending(id, Amount.From(5), Label.From("test"), Pair.Aurelien, SpendingCategory.Advance);
-            period.ChangeSpending(id, Amount.From(5), Label.From("test2"), Pair.Aurelien, SpendingCategory.Advance);
-            period.ChangeSpending(id, Amount.From(5), Label.From("test2"), Pair.Marie, SpendingCategory.Advance);
-            period.ChangeSpending(id, Amount.From(5), Label.From("test2"), Pair.Marie, SpendingCategory.Common);
-            period.ChangeSpending(id, Amount.From(5), Label.From("test2"), Pair.Marie, SpendingCategory.Common);
+            var id = period.AddSpending(Amount.From(10), Label.From("test"), Pair.First, SpendingCategory.Advance);
+            period.ChangeSpending(id, Amount.From(5), Label.From("test"), Pair.First, SpendingCategory.Advance);
+            period.ChangeSpending(id, Amount.From(5), Label.From("test2"), Pair.First, SpendingCategory.Advance);
+            period.ChangeSpending(id, Amount.From(5), Label.From("test2"), Pair.Second, SpendingCategory.Advance);
+            period.ChangeSpending(id, Amount.From(5), Label.From("test2"), Pair.Second, SpendingCategory.Common);
+            period.ChangeSpending(id, Amount.From(5), Label.From("test2"), Pair.Second, SpendingCategory.Common);
 
             period.UncommittedEvents.GetStream().Should().HaveCount(12);
         }
@@ -154,10 +154,10 @@ namespace WalletMate.Domain.Tests
         public void RaiseRecipeAddedWhenAddingRecipe()
         {
             var period = Some.Period();
-            period.AddRecipe(Amount.From(100), Label.From("test"), Pair.Aurelien, RecipeCategory.Common);
+            period.AddRecipe(Amount.From(100), Label.From("test"), Pair.First, RecipeCategory.Common);
 
             period.UncommittedEvents.GetStream().Should().HaveCount(3).And
-                .ContainEquivalentOf(new RecipeAdded(OperationId.From(1), Amount.From(100), Label.From("test"), Pair.Aurelien, RecipeCategory.Common),
+                .ContainEquivalentOf(new RecipeAdded(OperationId.From(1), Amount.From(100), Label.From("test"), Pair.First, RecipeCategory.Common),
                     e => e.Excluding(a => a.AggregateId).Excluding(a => a.Sequence));
         }
 
@@ -178,7 +178,7 @@ namespace WalletMate.Domain.Tests
         
         private static Period ChangeSpendingInfo(Amount amount = null, Label label = null, Pair pair = null, SpendingCategory category = null)
         {
-            var period = Some.Period(p => p.WithEvent(new SpendingAdded(OperationId.From(1), Amount.From(10), Label.From("test"), Pair.Aurelien, SpendingCategory.Advance)));
+            var period = Some.Period(p => p.WithEvent(new SpendingAdded(OperationId.From(1), Amount.From(10), Label.From("test"), Pair.First, SpendingCategory.Advance)));
             MakeChanges(period, amount, label, pair, category);
             return period;
         }
@@ -188,7 +188,7 @@ namespace WalletMate.Domain.Tests
             period.ChangeSpending(OperationId.From(1),
                 amount ?? Amount.From(10),
                 label ?? Label.From("test"),
-                pair ?? Pair.Aurelien,
+                pair ?? Pair.First,
                 category ?? SpendingCategory.Advance);
         }
     }

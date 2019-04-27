@@ -7,8 +7,10 @@ using WalletMate.Infrastructure.Dto;
 namespace WalletMate.Infrastructure.Services
 {
     public class XmlConfigurationProvider : IConfigurationProvider
-    {   
-        private IReadOnlyList<User> _users;
+    {
+        private readonly IReadOnlyList<User> _users;
+        private readonly User _firstPairUser;
+        private readonly User _secondPairUser;
 
         public XmlConfigurationProvider(string configurationFile = null)
         {
@@ -21,11 +23,14 @@ namespace WalletMate.Infrastructure.Services
             if (!File.Exists(configurationFile))
             {
                 CreateDefaultConfiguration();
-                throw new FileNotFoundException("La configuration des utilisateurs n'a pas été trouvée. Un fichier a été généré pour que vous puissiez l'éditer");
+                throw new FileNotFoundException(
+                    "La configuration des utilisateurs n'a pas été trouvée. Un fichier a été généré pour que vous puissiez l'éditer");
             }
 
             var configuration = ConfigurationDeserializer.Deserialize(configurationFile);
             _users = configuration.GetUsersWithDecryptedPassword();
+            _firstPairUser = configuration.FirstPair;
+            _secondPairUser = configuration.SecondPair;
 
             void CreateDefaultConfiguration()
             {
@@ -41,5 +46,9 @@ namespace WalletMate.Infrastructure.Services
         {
             return _users;
         }
+
+        public string GetFirstPairUserName() => _firstPairUser.Username;
+
+        public string GetSecondPairUserName() => _secondPairUser.Username;
     }
-}
+}        

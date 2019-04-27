@@ -6,5 +6,8 @@ namespace WalletMate.Infrastructure.Services
     public interface IConfigurationProvider
     {
         IReadOnlyList<User> GetUsers();
+
+        string GetFirstPairUserName();
+        string GetSecondPairUserName();
     }
 }
