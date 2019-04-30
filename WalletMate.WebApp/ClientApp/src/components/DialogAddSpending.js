@@ -12,8 +12,14 @@ import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { Post } from './Call'
+import { connect } from 'react-redux';
 
-const DialogAddSpending = ({ openState, closeDialog, periodId, updateData }) =>
+function mapStateToProps(state) {
+    return { firstPairName: state.firstPairName, secondPairName: state.secondPairName };
+};
+
+
+const DialogAddSpending = ({ openState, closeDialog, periodId, updateData, firstPairName, secondPairName }) =>
 {
     const handleSubmit = (event) =>
     {
@@ -72,8 +78,8 @@ const DialogAddSpending = ({ openState, closeDialog, periodId, updateData }) =>
                         defaultValue={updateData ? updateData.pairValue.toString() : null}
                         aria-label="Par"
                         name="pair">
-                            <FormControlLabel value="1" control={<Radio />} label="Aurélien" />
-                            <FormControlLabel value="2" control={<Radio />} label="Marie" />
+                            <FormControlLabel value="1" control={<Radio />} label={firstPairName} />
+                            <FormControlLabel value="2" control={<Radio />} label={secondPairName} />
                     </RadioGroup>
                     <RadioGroup
                         row

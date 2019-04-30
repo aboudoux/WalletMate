@@ -11,10 +11,14 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import { Post } from './Call'
+import { Post } from './Call';
+import {connect} from 'react-redux';
 
+function mapStateToProps(state) {
+    return { firstPairName: state.firstPairName, secondPairName: state.secondPairName };
+};
 
-const DialogAddRecipe = ({ openState, closeDialog, periodId, updateData }) =>
+const ConnectedDialogAddRecipe = ({ openState, closeDialog, periodId, updateData, firstPairName, secondPairName }) =>
 {
     const handleSubmit = (event) =>
     {
@@ -73,8 +77,8 @@ const DialogAddRecipe = ({ openState, closeDialog, periodId, updateData }) =>
                             row
                         aria-label="Par"
                         name="pair">
-                            <FormControlLabel value="1" control={<Radio />} label="Aurélien" />
-                            <FormControlLabel value="2" control={<Radio />} label="Marie" />
+                            <FormControlLabel value="1" control={<Radio />} label={firstPairName} />
+                            <FormControlLabel value="2" control={<Radio />} label={secondPairName} />
                     </RadioGroup>
                         <RadioGroup                            
                             row
@@ -100,4 +104,5 @@ const DialogAddRecipe = ({ openState, closeDialog, periodId, updateData }) =>
         </Dialog>);
 }
 
+const DialogAddRecipe = connect(mapStateToProps)(ConnectedDialogAddRecipe);
 export default DialogAddRecipe;

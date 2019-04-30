@@ -3,8 +3,14 @@ import ShadowBox from './ShadowBox'
 import { Form, FormGroup, Col, Input, Button } from 'reactstrap';
 import axios from 'axios';
 import crypto from 'crypto'
+import { setConnectedUser } from './actions'
+import { connect } from "react-redux";
 
-const SelectPassword = ({ username, onConnected }) => {
+function mapDispatchToProps(dispatch) {
+    return { setConnectedUser: authInfo => dispatch(setConnectedUser(authInfo)) }
+}
+
+const ConnectedSelectPassword = ({ username, setConnectedUser }) => {
 
     function handleSubmit(event) {
         event.preventDefault();
@@ -17,7 +23,7 @@ const SelectPassword = ({ username, onConnected }) => {
 
         axios.post("/api/Authentication/authenticate", authenticationInfos)
             .then(res => {
-                onConnected(res.data);
+                setConnectedUser(res.data);
             }).catch((error) => {
                 alert(error.message);
             });
@@ -32,7 +38,7 @@ const SelectPassword = ({ username, onConnected }) => {
                     </Col>
                 </FormGroup>
                 <FormGroup row className="cancel-validate">
-                    <Button color="danger" onClick={() => onConnected(null)}>Annuler</Button>
+                    <Button color="danger" onClick={() => setConnectedUser(null)}>Annuler</Button>
                     <Button type="submit" color="success">Valider</Button>
                 </FormGroup>
             </Form>
@@ -40,4 +46,5 @@ const SelectPassword = ({ username, onConnected }) => {
     );
 };
 
+const SelectPassword = connect(null, mapDispatchToProps)(ConnectedSelectPassword);
 export default SelectPassword;

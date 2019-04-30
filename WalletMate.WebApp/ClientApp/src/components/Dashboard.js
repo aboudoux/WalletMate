@@ -2,15 +2,24 @@
 import { Get } from './Call';
 import MainMenu from './MainMenu';
 import PanelPeriod from './PanelPeriod';
+import { setPeriods } from './actions';
+import { connect } from "react-redux";
 
-const Dashboard = ({ dispatch }) => {
+function mapDispatchToProps(dispatch) {
+    return { setPeriods: periods => dispatch(setPeriods(periods)) }
+}
+
+function mapStateToProps(state) {
+    return { allPeriods: state.periods };
+};
+
+const ConnectedDashboard = ({ dispatch, setPeriods, allPeriods }) => {
 
     const [initialized, setInitialized] = useState(false);
-    const [state, refreshPeriod] = useState([]);
 
     if (!initialized) {
         Get("/api/Period/All")
-            .then(response => refreshPeriod(response.data))
+            .then(response => setPeriods(response.data))
             .catch((error) => {
                 if (error.response.status === 401) {
                     dispatch(null);
@@ -21,10 +30,11 @@ const Dashboard = ({ dispatch }) => {
 
     return (
         <div>
-            <MainMenu dispatch={dispatch} refreshDashboard={setInitialized} />
-            {state.map((p) => <PanelPeriod periodName={p.periodName} periodId={p.periodId} isExpanded={false} dispatch={dispatch} />)}
+            <MainMenu dispatch={dispatch} />
+            {allPeriods.map((p) => <PanelPeriod periodName={p.periodName} periodId={p.periodId} isExpanded={false} dispatch={dispatch} />)}
 
         </div>);
 }
 
+const Dashboard = connect(mapStateToProps, mapDispatchToProps)(ConnectedDashboard);
 export default Dashboard;
