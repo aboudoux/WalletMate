@@ -4,9 +4,14 @@ import MainMenu from './MainMenu';
 import PanelPeriod from './PanelPeriod';
 import { setPeriods } from './actions';
 import { connect } from "react-redux";
+import DialogAddSpending from './DialogAddSpending';
+import DialogAddRecipe from './DialogAddRecipe';
+import DialogDeleteOperation from './DialogDeleteOperation'
 
 function mapDispatchToProps(dispatch) {
-    return { setPeriods: periods => dispatch(setPeriods(periods)) }
+    return {
+        setPeriods: periods => dispatch(setPeriods(periods))
+     }
 }
 
 function mapStateToProps(state) {
@@ -29,10 +34,12 @@ const ConnectedDashboard = ({ dispatch, setPeriods, allPeriods }) => {
     }
 
     return (
-        <div>
+        <div>            
+            <DialogAddSpending />
+            <DialogAddRecipe />
+            <DialogDeleteOperation />
             <MainMenu dispatch={dispatch} />
-            {allPeriods.map((p) => <PanelPeriod periodName={p.periodName} periodId={p.periodId} isExpanded={false} dispatch={dispatch} />)}
-
+            {allPeriods.map((p) => <PanelPeriod key={p.periodName} periodName={p.periodName} periodId={p.periodId} isExpanded={false} dispatch={dispatch} />)}
         </div>);
 }
 

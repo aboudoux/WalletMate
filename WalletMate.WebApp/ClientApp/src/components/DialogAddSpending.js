@@ -12,14 +12,26 @@ import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { Post } from './Call'
+import { closeSpendingDialog } from './actions';
 import { connect } from 'react-redux';
 
 function mapStateToProps(state) {
-    return { firstPairName: state.firstPairName, secondPairName: state.secondPairName };
+    return {
+        firstPairName: state.firstPairName,
+        secondPairName: state.secondPairName,
+        openState: state.spendingDialog.isOpen,
+        periodId: state.spendingDialog.periodId,
+        updateData: state.spendingDialog.data
+    };
 };
 
+function mapDispatchToProps(dispatch) {
+    return {
+        closeDialog: () => dispatch(closeSpendingDialog())
+    }
+}
 
-const DialogAddSpending = ({ openState, closeDialog, periodId, updateData, firstPairName, secondPairName }) =>
+const ConnectedDialogAddSpending = ({ openState, closeDialog, periodId, updateData, firstPairName, secondPairName }) =>
 {
     const handleSubmit = (event) =>
     {
@@ -30,7 +42,7 @@ const DialogAddSpending = ({ openState, closeDialog, periodId, updateData, first
 
         if (updateData) {
             Post("/api/Operation/changeSpending",
-                    { PeriodId: periodId, OperationId:updateData.operationId, Amount: amount, Label: label, Pair: pair, Category: category })
+                { PeriodId: updateData.periodId, OperationId:updateData.operationId, Amount: amount, Label: label, Pair: pair, Category: category })
                 .then(() => {
                     closeDialog();
                 })
@@ -105,4 +117,5 @@ const DialogAddSpending = ({ openState, closeDialog, periodId, updateData, first
         </Dialog>);
 }
 
+const DialogAddSpending = connect(mapStateToProps, mapDispatchToProps)(ConnectedDialogAddSpending);
 export default DialogAddSpending;

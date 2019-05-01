@@ -12,11 +12,24 @@ import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { Post } from './Call';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
+import { closeRecipeDialog } from './actions';
 
 function mapStateToProps(state) {
-    return { firstPairName: state.firstPairName, secondPairName: state.secondPairName };
+    return {
+        firstPairName: state.firstPairName,
+        secondPairName: state.secondPairName,
+        openState: state.recipeDialog.isOpen,
+        periodId: state.recipeDialog.periodId,
+        updateData: state.recipeDialog.data
+    };
 };
+
+function mapDispatchToProps(dispatch) {
+    return {
+        closeDialog: () => dispatch(closeRecipeDialog())
+    }
+}
 
 const ConnectedDialogAddRecipe = ({ openState, closeDialog, periodId, updateData, firstPairName, secondPairName }) =>
 {
@@ -29,7 +42,7 @@ const ConnectedDialogAddRecipe = ({ openState, closeDialog, periodId, updateData
 
         if (updateData) {
             Post("/api/Operation/changeRecipe",
-                { PeriodId: periodId, OperationId: updateData.operationId, Amount: amount, Label: label, Pair: pair, Category: category })
+                { PeriodId: updateData.periodId, OperationId: updateData.operationId, Amount: amount, Label: label, Pair: pair, Category: category })
                 .then(() => {
                     closeDialog();
                 })
@@ -51,7 +64,7 @@ const ConnectedDialogAddRecipe = ({ openState, closeDialog, periodId, updateData
                 });
         }
     }
-   
+
     return (
         <Dialog
             open={openState}
@@ -104,5 +117,5 @@ const ConnectedDialogAddRecipe = ({ openState, closeDialog, periodId, updateData
         </Dialog>);
 }
 
-const DialogAddRecipe = connect(mapStateToProps)(ConnectedDialogAddRecipe);
+const DialogAddRecipe = connect(mapStateToProps, mapDispatchToProps)(ConnectedDialogAddRecipe);
 export default DialogAddRecipe;

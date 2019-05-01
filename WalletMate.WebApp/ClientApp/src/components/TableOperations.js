@@ -1,4 +1,4 @@
-﻿import React, { useState } from 'react';
+﻿import React from 'react';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -9,22 +9,18 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import Slide from '@material-ui/core/Slide';
-import Button from '@material-ui/core/Button';
-import { Post } from './Call'
-import DialogAddRecipe from  './DialogAddRecipe'
-import DialogAddSpending from  './DialogAddSpending'
+import { connect } from 'react-redux';
+import { openDeleteOperationDialog, openUpdateSpendingDialog, openUpdateRecipeDialog} from './actions';
 
-const TableOperations = ({ rows, refresh, balance }) => {
+function mapDispatchToProps(dispatch) {
+    return {
+        openDeleteOperationDialog: (periodId, operationId) => dispatch(openDeleteOperationDialog(periodId, operationId)),
+        openUpdateSpendingDialog: (row) => dispatch(openUpdateSpendingDialog(row)),
+        openUpdateRecipeDialog: (row) => dispatch(openUpdateRecipeDialog(row)),
+    }
+}
 
-    const [deleteDialogState, openDeleteDialog] = useState({ isOpen: false, periodId: '', operationId: 0, reload: refresh });
-    const [updateRecipeDialogState, openUpdateRecipeDialog] = useState({ isOpen: false, data: null });
-    const [updateSpendingDialogState, openUpdateSpendingDialog] = useState({ isOpen: false, data: null });
+const ConnectedTableOperations = ({ rows, refresh, balance, openDeleteOperationDialog, openUpdateSpendingDialog, openUpdateRecipeDialog }) => {
 
     return (
         <div>
@@ -53,17 +49,17 @@ const TableOperations = ({ rows, refresh, balance }) => {
                             <TableCell>{row.category}</TableCell>
                             <TableCell>
                                 <Tooltip title="Editer cette opération">
-                                        <IconButton
-                                            onClick={() => {
-                                                row.type === "Dépense"
-                                                    ? openUpdateSpendingDialog({ isOpen: true, data: row })
-                                                    : openUpdateRecipeDialog({ isOpen: true, data: row });
-                                            }}>
+                                        <IconButton onClick={() => {
+                                            row.type === "Dépense"
+                                                ? openUpdateSpendingDialog(row)
+                                                : openUpdateRecipeDialog(row);
+                                        }}>
+                                            
                                         <EditIcon />
                                         </IconButton>
                                 </Tooltip>
                                 <Tooltip title="Supprimer cette opération">
-                                        <IconButton onClick={() => openDeleteDialog({ isOpen: true, periodId:row.periodId, operationId:row.operationId, reload:refresh })}>
+                                        <IconButton onClick={() => openDeleteOperationDialog(row.periodId, row.operationId)}>
                                         <DeleteIcon />
                                     </IconButton>
                                 </Tooltip>
@@ -75,63 +71,10 @@ const TableOperations = ({ rows, refresh, balance }) => {
                 <div>
                     <text>{balance.by} doit la somme de {balance.amountDue} €</text>
                 </div>
-
-            <Dialog
-                open={deleteDialogState.isOpen}
-                TransitionComponent={transition}
-                keepMounted
-                onClose={() => openDeleteDialog({isOpen:false})}
-                aria-labelledby="alert-dialog-slide-title"
-                aria-describedby="alert-dialog-slide-description"
-            >
-                <DialogTitle id="alert-dialog-slide-title">
-                    Supprimer l'opération ?
-                </DialogTitle>
-                <DialogContent>
-                    <DialogContentText id="alert-dialog-slide-description">
-                        Vous êtes sur le point de supprimer une opération.
-                        Etes vous sûr de vouloir continuer ?    
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                        <Button onClick={() => openDeleteDialog({ isOpen: false })} color="primary">
-                        NON
-                    </Button>
-                        <Button onClick={() => {removeOperation(deleteDialogState.periodId, deleteDialogState.operationId, deleteDialogState.reload); openDeleteDialog(false); }} color="primary">
-                        Oui
-                    </Button>
-                </DialogActions>
-                </Dialog>
-                <DialogAddRecipe
-                    openState={updateRecipeDialogState.isOpen}
-                    periodId={updateRecipeDialogState.data ? updateRecipeDialogState.data.periodId : ""}
-                    updateData={updateRecipeDialogState.data}
-                    closeDialog={() => { openUpdateRecipeDialog({ isOpen: false }); refresh(); } }
-                />
-
-            <DialogAddSpending
-                    openState={updateSpendingDialogState.isOpen}
-                    periodId={updateSpendingDialogState.data ? updateSpendingDialogState.data.periodId : ""}
-                    updateData={updateSpendingDialogState.data}
-                    closeDialog={() => { openUpdateSpendingDialog({ isOpen: false }); refresh(); }}
-            />
             </Paper>
          </div>       
     );
 };
 
-function removeOperation(periodId, operationId, reload) {
-    Post('/api/Operation/Remove', { PeriodId: periodId, OperationId: operationId })
-        .then(() => reload())
-        .catch((error) => {
-            if (error.response.status === 401) {
-                alert('error 401');
-            }
-        });
-}
-
-function transition(props) {
-    return <Slide direction="up" {...props} />;
-}
-
+const TableOperations = connect(null, mapDispatchToProps)(ConnectedTableOperations);
 export default TableOperations;

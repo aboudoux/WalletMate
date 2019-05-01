@@ -1,8 +1,7 @@
-﻿import React, {useState} from 'react';
+﻿import React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import {  Button } from 'reactstrap';
 import ShadowBox from './ShadowBox'
-import { GetAnonymous } from './Call';
 import { selectUsername } from './actions';
 import { connect } from "react-redux";
 
