@@ -9,9 +9,19 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import DialogCreatePeriod from './DialogCreatePeriod';
+import { connect } from "react-redux";
 
+import { openCreatePeriodPopup, closeCreatePeriodPopup } from './actions';
 
-const MainMenu = ({ dispatch, refreshDashboard }) => {
+function mapDispatchToProps(dispatch) {
+    return {
+        openCreatePeriodPopup: () => dispatch(openCreatePeriodPopup()),
+        closeCreatePeriodPopup: () => dispatch(closeCreatePeriodPopup())
+    }
+}
+
+const ConnectedMainMenu = ({ openCreatePeriodPopup, closeCreatePeriodPopup }) =>
+{
     const menuReducer = (state, action) => {
         var newState = { ...state };
 
@@ -65,7 +75,7 @@ const MainMenu = ({ dispatch, refreshDashboard }) => {
     return (
         <div className="root">
 
-            <DialogCreatePeriod openState={dashboardState.createPeriodOpen} doAction={doAction} refreshDashboard={refreshDashboard} />
+            <DialogCreatePeriod />
 
             <AppBar position="static">
                 <Toolbar>
@@ -83,8 +93,8 @@ const MainMenu = ({ dispatch, refreshDashboard }) => {
                         anchorEl={dashboardState.anchorActionMenu}
                         open={Boolean(dashboardState.anchorActionMenu)}
                         onClose={handleClose}>
-                        <MenuItem onClick={handleCreatePeriod}>Créer une période</MenuItem>
-                        <MenuItem onClick={handleClose}>Ajouter la prochaine période</MenuItem>
+                        <MenuItem onClick={openCreatePeriodPopup}>Créer une période</MenuItem>
+                        <MenuItem onClick={closeCreatePeriodPopup}>Ajouter la prochaine période</MenuItem>
                     </Menu>
 
                     <Typography variant="h6" color="inherit" className="grow">
@@ -113,4 +123,5 @@ const MainMenu = ({ dispatch, refreshDashboard }) => {
     );
 };
 
+const MainMenu = connect(null, mapDispatchToProps)(ConnectedMainMenu);
 export default MainMenu;

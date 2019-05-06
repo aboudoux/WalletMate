@@ -18,7 +18,7 @@ function mapStateToProps(state) {
     return { allPeriods: state.periods };
 };
 
-const ConnectedDashboard = ({ dispatch, setPeriods, allPeriods }) => {
+const ConnectedDashboard = () => {
 
     const [initialized, setInitialized] = useState(false);
 
@@ -38,8 +38,8 @@ const ConnectedDashboard = ({ dispatch, setPeriods, allPeriods }) => {
             <DialogAddSpending />
             <DialogAddRecipe />
             <DialogDeleteOperation />
-            <MainMenu dispatch={dispatch} />
-            {allPeriods.map((p) => <PanelPeriod key={p.periodName} periodName={p.periodName} periodId={p.periodId} isExpanded={false} dispatch={dispatch} />)}
+            <MainMenu/>
+            {allPeriods.map((p) => <PanelPeriod key={p.periodName} periodName={p.periodName} periodId={p.periodId} isExpanded={false} />)}
         </div>);
 }
 

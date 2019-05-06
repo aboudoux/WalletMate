@@ -1,5 +1,4 @@
 ﻿import React, { useReducer, useState } from 'react';
-
 import TableOperations from './TableOperations';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
@@ -13,8 +12,6 @@ import LocalAtmIcon from '@material-ui/icons/LocalAtm';
 import { connect } from "react-redux";
 import { Get } from './Call';
 import { openSpendingDialog, openRecipeDialog} from './actions';
-
-
 
 function mapDispatchToProps(dispatch) {
     return {

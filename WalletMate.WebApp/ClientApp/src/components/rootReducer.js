@@ -6,7 +6,8 @@ const initialState = {
     periods: [],
     spendingDialog: { isOpen: false, periodId: '', data:null },
     recipeDialog: { isOpen: false, periodId: '', data:null },
-    deleteDialog: { isOpen: false, periodId:'', operationId:0}
+    deleteDialog: { isOpen: false, periodId: '', operationId: 0 },
+    createPeriodDialog: { isOpen: false}
 };
 
 function rootReducer(state = initialState, action) {
@@ -57,6 +58,12 @@ function rootReducer(state = initialState, action) {
         case 'CLOSE_DELETE_OPERATION_DIALOG':
             newState.deleteDialog.isOpen = false;
             break;        
+        case 'OPEN_CREATE_PERIOD_POPUP':
+            newState.createPeriodDialog.isOpen = true;
+            break;
+        case 'CLOSE_CREATE_PERIOD_POPUP':
+            newState.createPeriodDialog.isOpen = false;
+            break;
     default:
         return state;
     }

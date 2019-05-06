@@ -1,5 +1,4 @@
 ﻿import React, { useState } from 'react';
-import { Post } from './Call';
 import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
@@ -8,8 +7,19 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
+import { connect } from "react-redux";
+import { closeCreatePeriodPopup, createPeriod } from'./actions'
 
-const DialogCreatePeriod = ({ openState, doAction, refreshDashboard }) => {
+function mapDispatchToProps(dispatch) {
+    return { close: () => dispatch(closeCreatePeriodPopup()) }
+}
+
+function mapStateToProps(state) {
+    return { openState: state.createPeriodDialog.isOpen };
+};
+
+const ConnectedDialogCreatePeriod = ({ openState, close }) => {
+
     const months = [
         "Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Aout", "Septembre", "Octobre", "Novembre", "Décembre"
     ];
@@ -22,7 +32,7 @@ const DialogCreatePeriod = ({ openState, doAction, refreshDashboard }) => {
     return (
         <Dialog
             open={openState}
-            onClose={() => doAction({ command: 'closeCreatePeriodPopup' })}
+            onClose={() => close() }
             aria-labelledby="form-dialog-title">
             <DialogTitle id="form-dialog-title">Créer une période</DialogTitle>
             <DialogContent>
@@ -52,20 +62,10 @@ const DialogCreatePeriod = ({ openState, doAction, refreshDashboard }) => {
                 </TextField>
             </DialogContent>
             <DialogActions>
-                <Button onClick={() => doAction({ command: 'closeCreatePeriodPopup' })} color="primary">
+                <Button onClick={() => close()} color="primary">
                     Annuler
                     </Button>
-                <Button onClick={() => Post("/api/Period/Create", { Month: selectedMonth, Year: selectedYear })
-                    .then(() => {
-                        doAction({ command: 'closeCreatePeriodPopup' });
-                        refreshDashboard(false);
-                    })
-                    .catch((error) => {
-                        if (error.response.status === 401) {
-                            alert('error 401');
-                        }
-                    })}
-
+                <Button onClick={() => createPeriod(selectedMonth, selectedYear, () => close())}
                     color="primary">
                     Valider
                     </Button>
@@ -74,4 +74,5 @@ const DialogCreatePeriod = ({ openState, doAction, refreshDashboard }) => {
     );
 }
 
+const DialogCreatePeriod = connect(mapStateToProps, mapDispatchToProps)(ConnectedDialogCreatePeriod);
 export default DialogCreatePeriod;

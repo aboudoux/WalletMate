@@ -49,12 +49,28 @@ export function openDeleteOperationDialog(periodId, operationId) {
     return { type: 'OPEN_DELETE_OPERATION_DIALOG', periodId, operationId }
 }
 
-export function removeOperation(periodId, operationId, callBack) {
+export function openCreatePeriodPopup() {
+    return { type: 'OPEN_CREATE_PERIOD_POPUP' }
+}
+
+export function closeCreatePeriodPopup() {
+    return { type: 'CLOSE_CREATE_PERIOD_POPUP' }
+}
+
+export function removeOperation(periodId, operationId, then) {
     Post('/api/Operation/Remove', { PeriodId: periodId, OperationId: operationId })
-        .then(() => callBack())
-        .catch((error) => {
-            if (error.response.status === 401) {
-                alert('error 401');
-            }
-        });
+        .then(() => then())
+        .catch((error) => handleError(error));
+};
+
+export function createPeriod(month, year, then) {
+    Post("/api/Period/Create", { Month: month, Year: year })
+        .then(() => then())
+        .catch((error) => handleError(error));
+}
+
+function handleError(error) {
+    if (error.response.status === 401) {
+        alert('error 401');
+    }
 }

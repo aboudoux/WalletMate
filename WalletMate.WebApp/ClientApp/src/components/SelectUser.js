@@ -5,7 +5,6 @@ import ShadowBox from './ShadowBox'
 import { selectUsername } from './actions';
 import { connect } from "react-redux";
 
-
 function mapDispatchToProps(dispatch) {
     return { selectUsername: username => dispatch(selectUsername(username)) }
 }
