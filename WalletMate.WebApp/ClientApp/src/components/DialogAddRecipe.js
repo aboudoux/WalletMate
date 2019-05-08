@@ -11,9 +11,8 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import { Post } from './Call';
 import { connect } from 'react-redux';
-import { closeRecipeDialog } from './actions';
+import { closeRecipeDialog, addRecipe, changeRecipe } from './actions';
 
 function mapStateToProps(state) {
     return {
@@ -27,11 +26,13 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        closeDialog: () => dispatch(closeRecipeDialog())
+        closeDialog: () => dispatch(closeRecipeDialog()),
+        addRecipe: (periodId, amount, label, pair, category) => dispatch(addRecipe(periodId, amount, label, pair, category)),
+        changeRecipe: (periodId, operationId, amount, label, pair, category) => dispatch(changeRecipe(periodId, operationId, amount, label, pair, category)),
     }
 }
 
-const ConnectedDialogAddRecipe = ({ openState, closeDialog, periodId, updateData, firstPairName, secondPairName }) =>
+const ConnectedDialogAddRecipe = ({ openState, closeDialog, periodId, updateData, firstPairName, secondPairName, addRecipe, changeRecipe }) =>
 {
     const handleSubmit = (event) =>
     {
@@ -40,29 +41,10 @@ const ConnectedDialogAddRecipe = ({ openState, closeDialog, periodId, updateData
         const data = new FormData(event.target);
         const [amount, label, pair, category] = data.values();
 
-        if (updateData) {
-            Post("/api/Operation/changeRecipe",
-                { PeriodId: updateData.periodId, OperationId: updateData.operationId, Amount: amount, Label: label, Pair: pair, Category: category })
-                .then(() => {
-                    closeDialog();
-                })
-                .catch((error) => {
-                    if (error.response.status === 401) {
-                        alert('error 401');
-                    }
-                });
-        } else {
-            Post("/api/Operation/addRecipe",
-                    { PeriodId: periodId, Amount: amount, Label: label, Pair: pair, Category: category })
-                .then(() => {
-                    closeDialog();
-                })
-                .catch((error) => {
-                    if (error.response.status === 401) {
-                        alert('error 401');
-                    }
-                });
-        }
+        if (updateData)
+            changeRecipe(updateData.periodId, updateData.operationId, amount, label, pair, category);           
+        else 
+            addRecipe(periodId, amount, label, pair, category);        
     }
 
     return (

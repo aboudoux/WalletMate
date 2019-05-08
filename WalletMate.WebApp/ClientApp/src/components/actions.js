@@ -1,5 +1,5 @@
-﻿import { Post } from './Call'
-
+﻿import { Post, Get, PostAnonymous, GetAnonymous } from './Call'
+import crypto from 'crypto'
 
 export function setPair(pair) {
     return { type: 'SET_PAIR', pair}
@@ -7,6 +7,10 @@ export function setPair(pair) {
 
 export function setConnectedUser(authInfo) {
     return { type: 'SET_CONNECTED_USER', authInfo}
+}
+
+export function resetConnectedUser() {
+    return { type: 'SET_CONNECTED_USER', authInfo:null }
 }
 
 export function selectUsername(selectedUsername) {
@@ -57,17 +61,121 @@ export function closeCreatePeriodPopup() {
     return { type: 'CLOSE_CREATE_PERIOD_POPUP' }
 }
 
-export function removeOperation(periodId, operationId, then) {
-    Post('/api/Operation/Remove', { PeriodId: periodId, OperationId: operationId })
-        .then(() => then())
-        .catch((error) => handleError(error));
+export function resetOperations(periodId) {
+    return { type: 'RESET_OPERATIONS', periodId }
+}
+
+export function setOperations(periodId, operations) {
+    return { type: 'SET_OPERATIONS', periodId, operations }
+}
+
+export function setBalance(periodId, balance) {
+    return { type: 'SET_BALANCE', periodId, balance }
+}
+
+export function expandPeriodPanel(periodId) {
+    return { type: 'EXPAND_PERIOD_PANEL', periodId }
+}
+
+export function showPeriodPanel(periodId) {
+    return function(dispatch) {
+        dispatch(getOperations(periodId));
+        dispatch(expandPeriodPanel(periodId));
+    }
+}
+
+export function collapsePeriodPanel(periodId) {
+    return { type: 'COLLAPSE_PERIOD_PANEL', periodId }
+}
+
+export function removeOperation(periodId, operationId) {
+    return function(dispatch) {
+        Post('/api/Operation/Remove', { periodId, operationId })
+            .then(() => dispatch(closeDeleteOperationDialog()))
+            .catch((error) => handleError(error));
+    }
 };
 
-export function createPeriod(month, year, then) {
-    Post("/api/Period/Create", { Month: month, Year: year })
-        .then(() => then())
-        .catch((error) => handleError(error));
+export function createPeriod(month, year) {
+    return function(dispatch) {
+        Post("/api/Period/Create", { Month: month, Year: year })
+            .then(() => {
+                dispatch(closeCreatePeriodPopup());
+                dispatch(getAllPeriod());
+            })
+            .catch((error) => handleError(error));
+    }
 }
+
+export function getAllPeriod() {
+    return function(dispatch) {
+        Get("/api/Period/All")
+            .then(response => dispatch(setPeriods(response.data)))
+            .catch((error) => handleError(error));
+    }
+}
+
+export function authenticate(login, password) {
+    return function (dispatch) {
+        const authenticationInfos = {
+            Username: login,
+            Password: crypto.createHash('sha1').update(password).digest("hex")
+        };
+
+        PostAnonymous("/api/Authentication/authenticate", authenticationInfos)
+            .then(r => dispatch(setConnectedUser(r.data)))
+            .catch((error) => handleError(error));
+    }
+}
+
+export function getPair() {
+    return function(dispatch) {
+        GetAnonymous("/api/Pair/All")
+            .then(r => dispatch(setPair(r.data)))
+            .catch ((error) => handleError(error));
+    }
+}
+
+export function addRecipe(periodId, amount, label, pair, category) {
+    return function(dispatch) {
+        Post("/api/Operation/addRecipe", { periodId, amount, label, pair, category })
+            .then(() => dispatch(closeRecipeDialog()))
+            .catch((error) => handleError(error));
+    }
+}
+
+export function changeRecipe(periodId, operationId, amount, label, pair, category) {
+    return function(dispatch) {
+        Post("/api/Operation/changeRecipe", { periodId, operationId, amount, label, pair, category })
+            .then(() => dispatch(closeRecipeDialog()))
+            .catch((error) => handleError(error));
+    }
+}
+
+export function addSpending(periodId, amount, label, pair, category) {
+    return function (dispatch) {
+        Post("/api/Operation/addSpending", { periodId, amount, label, pair, category })
+            .then(() => dispatch(closeSpendingDialog()))
+            .catch((error) => handleError(error));
+    }
+}
+
+export function changeSpending(periodId, operationId, amount, label, pair, category) {
+    return function (dispatch) {
+        Post("/api/Operation/changeSpending", { periodId, operationId, amount, label, pair, category })
+            .then(() => dispatch(closeSpendingDialog()))
+            .catch((error) => handleError(error));
+    }
+}
+
+export function getOperations(periodId) {
+    return function(dispatch) {
+        Get("/api/Operation/All?periodId=" + periodId)
+            .then(response => dispatch(setOperations(periodId, response.data)))
+            .catch ((error) => handleError(error));
+    }
+}
+
 
 function handleError(error) {
     if (error.response.status === 401) {

@@ -19,11 +19,12 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        closeDialog: () => dispatch(closeDeleteOperationDialog())
+        closeDialog: () => dispatch(closeDeleteOperationDialog()),
+        removeOperation: (periodId, operationId) => dispatch(removeOperation(periodId, operationId))
     }
 }
 
-const ConnectedDialogDeleteOperation = ({isOpen, closeDialog, periodId, operationId}) => {
+const ConnectedDialogDeleteOperation = ({ isOpen, closeDialog, periodId, operationId, removeOperation}) => {
 
     return (
         <Dialog
@@ -47,7 +48,7 @@ const ConnectedDialogDeleteOperation = ({isOpen, closeDialog, periodId, operatio
                 <Button onClick={() => closeDialog() } color="primary">
                     NON
                     </Button>
-                <Button onClick={() => { removeOperation(periodId, operationId, () => closeDialog()); }} color="primary">
+                <Button onClick={() => { removeOperation(periodId, operationId); }} color="primary">
                     Oui
                     </Button>
             </DialogActions>

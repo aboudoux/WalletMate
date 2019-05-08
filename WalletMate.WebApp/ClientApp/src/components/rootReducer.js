@@ -4,6 +4,7 @@ const initialState = {
     secondPairName: '',
     connectedUser: null,
     periods: [],
+    operations: {},
     spendingDialog: { isOpen: false, periodId: '', data:null },
     recipeDialog: { isOpen: false, periodId: '', data:null },
     deleteDialog: { isOpen: false, periodId: '', operationId: 0 },
@@ -63,6 +64,21 @@ function rootReducer(state = initialState, action) {
             break;
         case 'CLOSE_CREATE_PERIOD_POPUP':
             newState.createPeriodDialog.isOpen = false;
+            break;
+        case 'SET_OPERATIONS':            
+            newState.operations = { ...state.operations, [action.periodId]: { expanded: true, operations:action.operations } }
+            break;
+        case 'RESET_OPERATIONS':
+            newState.operations[action.periodId].operations = [];
+            break;
+        case 'SET_BALANCE':
+            newState.operations[action.periodId].balance = action.balance;
+            break;
+        case 'EXPAND_PERIOD_PANEL':
+            newState.operations = {...state.operations, [action.periodId]: { expanded: true, operations:[]}}
+            break;
+        case 'COLLAPSE_PERIOD_PANEL':
+            newState.operations = { ...state.operations, [action.periodId]: { expanded: false, operations:[] } }
             break;
     default:
         return state;

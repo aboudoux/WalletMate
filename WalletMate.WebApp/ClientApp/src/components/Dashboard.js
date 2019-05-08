@@ -1,16 +1,15 @@
 ﻿import React, { useState } from 'react';
-import { Get } from './Call';
 import MainMenu from './MainMenu';
 import PanelPeriod from './PanelPeriod';
-import { setPeriods } from './actions';
 import { connect } from "react-redux";
 import DialogAddSpending from './DialogAddSpending';
 import DialogAddRecipe from './DialogAddRecipe';
 import DialogDeleteOperation from './DialogDeleteOperation'
+import { getAllPeriod } from './actions'
 
 function mapDispatchToProps(dispatch) {
     return {
-        setPeriods: periods => dispatch(setPeriods(periods))
+        getAllPeriod: () => dispatch(getAllPeriod())
      }
 }
 
@@ -18,18 +17,12 @@ function mapStateToProps(state) {
     return { allPeriods: state.periods };
 };
 
-const ConnectedDashboard = () => {
+const ConnectedDashboard = ({ allPeriods, getAllPeriod}) => {
 
     const [initialized, setInitialized] = useState(false);
 
     if (!initialized) {
-        Get("/api/Period/All")
-            .then(response => setPeriods(response.data))
-            .catch((error) => {
-                if (error.response.status === 401) {
-                    dispatch(null);
-                }
-            });
+        getAllPeriod();
         setInitialized(true);
     }
 
@@ -39,7 +32,7 @@ const ConnectedDashboard = () => {
             <DialogAddRecipe />
             <DialogDeleteOperation />
             <MainMenu/>
-            {allPeriods.map((p) => <PanelPeriod key={p.periodName} periodName={p.periodName} periodId={p.periodId} isExpanded={false} />)}
+            {allPeriods.map((p) => <PanelPeriod key={p.periodName} periodName={p.periodName} periodId={p.periodId} />)}
         </div>);
 }
 

@@ -11,8 +11,7 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import { Post } from './Call'
-import { closeSpendingDialog } from './actions';
+import { closeSpendingDialog, addSpending, changeSpending } from './actions';
 import { connect } from 'react-redux';
 
 function mapStateToProps(state) {
@@ -27,11 +26,13 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        closeDialog: () => dispatch(closeSpendingDialog())
+        closeDialog: () => dispatch(closeSpendingDialog()),
+        addSpending: (periodId, amount, label, pair, category) => dispatch(addSpending(periodId, amount, label, pair, category)),
+        changeSpending: (periodId, operationId, amount, label, pair, category) => dispatch(changeSpending(periodId, operationId, amount, label, pair, category)),
     }
 }
 
-const ConnectedDialogAddSpending = ({ openState, closeDialog, periodId, updateData, firstPairName, secondPairName }) =>
+const ConnectedDialogAddSpending = ({ openState, closeDialog, periodId, updateData, firstPairName, secondPairName, addSpending, changeSpending }) =>
 {
     const handleSubmit = (event) =>
     {
@@ -40,29 +41,10 @@ const ConnectedDialogAddSpending = ({ openState, closeDialog, periodId, updateDa
         const data = new FormData(event.target);
         const [amount, label, pair, category] = data.values();
 
-        if (updateData) {
-            Post("/api/Operation/changeSpending",
-                { PeriodId: updateData.periodId, OperationId:updateData.operationId, Amount: amount, Label: label, Pair: pair, Category: category })
-                .then(() => {
-                    closeDialog();
-                })
-                .catch((error) => {
-                    if (error.response.status === 401) {
-                        alert('error 401');
-                    }
-                });
-        } else {
-            Post("/api/Operation/addSpending",
-                    { PeriodId: periodId, Amount: amount, Label: label, Pair: pair, Category: category })
-                .then(() => {
-                    closeDialog();
-                })
-                .catch((error) => {
-                    if (error.response.status === 401) {
-                        alert('error 401');
-                    }
-                });
-        }
+        if (updateData)
+            changeSpending(updateData.periodId, updateData.operationId, amount, label, pair, category);
+        else
+            addSpending(periodId, amount, label, pair, category);    
     }
    
     return (

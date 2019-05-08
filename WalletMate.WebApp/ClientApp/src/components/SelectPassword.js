@@ -1,32 +1,23 @@
 ﻿import React from 'react';
 import ShadowBox from './ShadowBox'
 import { Form, FormGroup, Col, Input, Button } from 'reactstrap';
-import axios from 'axios';
-import crypto from 'crypto'
-import { setConnectedUser } from './actions'
+import { authenticate, resetConnectedUser } from './actions'
 import { connect } from "react-redux";
 
 function mapDispatchToProps(dispatch) {
-    return { setConnectedUser: authInfo => dispatch(setConnectedUser(authInfo)) }
+    return {
+        authenticate: (login, password) => dispatch(authenticate(login, password)),
+        resetConnectedUser: () => dispatch(resetConnectedUser())
+    }
 }
 
-const ConnectedSelectPassword = ({ username, setConnectedUser }) => {
+const ConnectedSelectPassword = ({ username, authenticate, resetConnectedUser }) => {
 
-    function handleSubmit(event) {
+    function handleSubmit(event)
+    {
         event.preventDefault();
-
         const data = new FormData(event.target);
-        const authenticationInfos = {
-            Username: username,
-            Password: crypto.createHash('sha1').update(data.get('password')).digest("hex")
-        };
-
-        axios.post("/api/Authentication/authenticate", authenticationInfos)
-            .then(res => {
-                setConnectedUser(res.data);
-            }).catch((error) => {
-                alert(error.message);
-            });
+        authenticate(username, data.get('password'));
     }
 
     return (
@@ -38,7 +29,7 @@ const ConnectedSelectPassword = ({ username, setConnectedUser }) => {
                     </Col>
                 </FormGroup>
                 <FormGroup row className="cancel-validate">
-                    <Button color="danger" onClick={() => setConnectedUser(null)}>Annuler</Button>
+                    <Button color="danger" onClick={() => resetConnectedUser()}>Annuler</Button>
                     <Button type="submit" color="success">Valider</Button>
                 </FormGroup>
             </Form>

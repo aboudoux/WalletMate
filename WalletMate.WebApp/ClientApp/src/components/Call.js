@@ -3,10 +3,8 @@ import { Buffer } from 'buffer'
 import store from './store';
 
 
-export const GetAnonymous = (url) =>
-{
-    return axios.get(url);
-}
+export const GetAnonymous = (url) => axios.get(url);
+export const PostAnonymous = (url, payload) => axios.post(url, payload);
 
 export const Get = (url) =>
 {

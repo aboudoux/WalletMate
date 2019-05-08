@@ -64,7 +64,6 @@ const ConnectedMainMenu = ({ openCreatePeriodPopup, closeCreatePeriodPopup }) =>
 
     const handleDisconnect = () => {
         doAction({ command: "resetAll" });
-        dispatch(null);
     };
 
     const handleCreatePeriod = () => {

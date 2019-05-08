@@ -11,14 +11,17 @@ import { connect } from "react-redux";
 import { closeCreatePeriodPopup, createPeriod } from'./actions'
 
 function mapDispatchToProps(dispatch) {
-    return { close: () => dispatch(closeCreatePeriodPopup()) }
+    return {
+        close: () => dispatch(closeCreatePeriodPopup()),
+        createPeriod: (selectedMonth, selectedYear) => dispatch(createPeriod(selectedMonth, selectedYear))
+    }
 }
 
 function mapStateToProps(state) {
     return { openState: state.createPeriodDialog.isOpen };
 };
 
-const ConnectedDialogCreatePeriod = ({ openState, close }) => {
+const ConnectedDialogCreatePeriod = ({ openState, close, createPeriod }) => {
 
     const months = [
         "Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Aout", "Septembre", "Octobre", "Novembre", "Décembre"
@@ -65,7 +68,7 @@ const ConnectedDialogCreatePeriod = ({ openState, close }) => {
                 <Button onClick={() => close()} color="primary">
                     Annuler
                     </Button>
-                <Button onClick={() => createPeriod(selectedMonth, selectedYear, () => close())}
+                <Button onClick={() => createPeriod(selectedMonth, selectedYear)}
                     color="primary">
                     Valider
                     </Button>
