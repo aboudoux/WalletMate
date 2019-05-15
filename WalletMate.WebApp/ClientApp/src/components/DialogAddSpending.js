@@ -11,7 +11,7 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import { closeSpendingDialog, addSpending, changeSpending } from './actions';
+import { closeSpendingDialog, addSpending, changeSpending, getOperations } from './actions';
 import { connect } from 'react-redux';
 
 function mapStateToProps(state) {
@@ -40,11 +40,12 @@ const ConnectedDialogAddSpending = ({ openState, closeDialog, periodId, updateDa
 
         const data = new FormData(event.target);
         const [amount, label, pair, category] = data.values();
+        const currentPeriodId = updateData ? updateData.periodId : periodId;
 
         if (updateData)
-            changeSpending(updateData.periodId, updateData.operationId, amount, label, pair, category);
+            changeSpending(currentPeriodId, updateData.operationId, amount, label, pair, category);
         else
-            addSpending(periodId, amount, label, pair, category);    
+            addSpending(currentPeriodId, amount, label, pair, category);
     }
    
     return (
@@ -86,7 +87,7 @@ const ConnectedDialogAddSpending = ({ openState, closeDialog, periodId, updateDa
                 </FormControl>
             </DialogContent>
             <DialogActions>
-                <Button color="primary" onClick={()=>closeDialog()}>
+                    <Button color="primary" onClick={() => closeDialog()}>
                     Annuler
                     </Button>
                     <Button

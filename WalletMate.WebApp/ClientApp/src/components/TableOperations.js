@@ -16,11 +16,11 @@ function mapDispatchToProps(dispatch) {
     return {
         openDeleteOperationDialog: (periodId, operationId) => dispatch(openDeleteOperationDialog(periodId, operationId)),
         openUpdateSpendingDialog: (row) => dispatch(openUpdateSpendingDialog(row)),
-        openUpdateRecipeDialog: (row) => dispatch(openUpdateRecipeDialog(row)),
+        openUpdateRecipeDialog: (row) => dispatch(openUpdateRecipeDialog(row))
     }
 }
 
-const ConnectedTableOperations = ({ rows, refresh, balance, openDeleteOperationDialog, openUpdateSpendingDialog, openUpdateRecipeDialog }) => {
+const ConnectedTableOperations = ({ rows, balance, openDeleteOperationDialog, openUpdateSpendingDialog, openUpdateRecipeDialog }) => {
 
     return (
         <div>
@@ -68,8 +68,11 @@ const ConnectedTableOperations = ({ rows, refresh, balance, openDeleteOperationD
                     ))}
                 </TableBody>
                 </Table>
-                <div>
-                    <text>{balance.by} doit la somme de {balance.amountDue} €</text>
+                <div>{
+                    (balance) 
+                        ? <text>{balance.by} doit la somme de {balance.amountDue} €</text>
+                        : <text>No balance found</text>
+                    }
                 </div>
             </Paper>
          </div>       

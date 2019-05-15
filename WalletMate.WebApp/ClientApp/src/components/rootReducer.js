@@ -4,12 +4,14 @@ const initialState = {
     secondPairName: '',
     connectedUser: null,
     periods: [],
-    operations: {},
+    periodsData: {},
     spendingDialog: { isOpen: false, periodId: '', data:null },
     recipeDialog: { isOpen: false, periodId: '', data:null },
     deleteDialog: { isOpen: false, periodId: '', operationId: 0 },
     createPeriodDialog: { isOpen: false}
 };
+
+const defaultData = { operations: [], expanded: false, balance: null }
 
 function rootReducer(state = initialState, action) {
 
@@ -32,6 +34,7 @@ function rootReducer(state = initialState, action) {
         case 'OPEN_SPENDING_DIALOG':
             newState.spendingDialog.isOpen = true;
             newState.spendingDialog.periodId = action.periodId;
+            newState.spendingDialog.data = null;
             break;
         case 'OPEN_UPDATE_SPENDING_DIALOG':
             newState.spendingDialog.isOpen = true;
@@ -39,10 +42,12 @@ function rootReducer(state = initialState, action) {
             break;
         case 'CLOSE_SPENDING_DIALOG':
             newState.spendingDialog.isOpen = false;
+            newState.spendingDialog.data = null;
             break;
         case 'OPEN_RECIPE_DIALOG':
             newState.recipeDialog.isOpen = true;
             newState.recipeDialog.periodId = action.periodId;
+            newState.recipeDialog.data = null;
             break;
         case 'OPEN_UPDATE_RECIPE_DIALOG':
             newState.recipeDialog.isOpen = true;
@@ -50,6 +55,7 @@ function rootReducer(state = initialState, action) {
             break;
         case 'CLOSE_RECIPE_DIALOG':
             newState.recipeDialog.isOpen = false;
+            newState.recipeDialog.data = null;
             break;
         case 'OPEN_DELETE_OPERATION_DIALOG':            
             newState.deleteDialog.isOpen = true;
@@ -65,20 +71,20 @@ function rootReducer(state = initialState, action) {
         case 'CLOSE_CREATE_PERIOD_POPUP':
             newState.createPeriodDialog.isOpen = false;
             break;
-        case 'SET_OPERATIONS':            
-            newState.operations = { ...state.operations, [action.periodId]: { expanded: true, operations:action.operations } }
-            break;
-        case 'RESET_OPERATIONS':
-            newState.operations[action.periodId].operations = [];
+        case 'SET_OPERATIONS':    
+            newState.periodsData = {
+                ...state.periodsData,
+                [action.periodId]: { ...defaultData, ...state.periodsData[action.periodId], expanded: true, operations: action.operations } 
+            }
             break;
         case 'SET_BALANCE':
-            newState.operations[action.periodId].balance = action.balance;
-            break;
-        case 'EXPAND_PERIOD_PANEL':
-            newState.operations = {...state.operations, [action.periodId]: { expanded: true, operations:[]}}
-            break;
+            newState.periodsData = {
+                ...state.periodsData,
+                [action.periodId]: { ...defaultData, ...state.periodsData[action.periodId], balance: action.balance }
+            }
+            break;        
         case 'COLLAPSE_PERIOD_PANEL':
-            newState.operations = { ...state.operations, [action.periodId]: { expanded: false, operations:[] } }
+            newState.periodsData = { ...state.periodsData, [action.periodId]: defaultData }
             break;
     default:
         return state;

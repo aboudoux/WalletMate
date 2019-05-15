@@ -61,10 +61,6 @@ export function closeCreatePeriodPopup() {
     return { type: 'CLOSE_CREATE_PERIOD_POPUP' }
 }
 
-export function resetOperations(periodId) {
-    return { type: 'RESET_OPERATIONS', periodId }
-}
-
 export function setOperations(periodId, operations) {
     return { type: 'SET_OPERATIONS', periodId, operations }
 }
@@ -78,9 +74,9 @@ export function expandPeriodPanel(periodId) {
 }
 
 export function showPeriodPanel(periodId) {
-    return function(dispatch) {
+    return function (dispatch) {        
         dispatch(getOperations(periodId));
-        dispatch(expandPeriodPanel(periodId));
+        dispatch(getBalance(periodId));
     }
 }
 
@@ -91,7 +87,11 @@ export function collapsePeriodPanel(periodId) {
 export function removeOperation(periodId, operationId) {
     return function(dispatch) {
         Post('/api/Operation/Remove', { periodId, operationId })
-            .then(() => dispatch(closeDeleteOperationDialog()))
+            .then(() => {
+                dispatch(closeDeleteOperationDialog());
+                dispatch(getOperations(periodId));
+                dispatch(getBalance(periodId));
+            })
             .catch((error) => handleError(error));
     }
 };
@@ -139,15 +139,23 @@ export function getPair() {
 export function addRecipe(periodId, amount, label, pair, category) {
     return function(dispatch) {
         Post("/api/Operation/addRecipe", { periodId, amount, label, pair, category })
-            .then(() => dispatch(closeRecipeDialog()))
-            .catch((error) => handleError(error));
+            .then(() => {
+                dispatch(closeRecipeDialog());
+                dispatch(getOperations(periodId));
+                dispatch(getBalance(periodId));
+            })
+            .catch((error) => handleError(error));    
     }
 }
 
 export function changeRecipe(periodId, operationId, amount, label, pair, category) {
     return function(dispatch) {
         Post("/api/Operation/changeRecipe", { periodId, operationId, amount, label, pair, category })
-            .then(() => dispatch(closeRecipeDialog()))
+            .then(() => {
+                dispatch(closeRecipeDialog());
+                dispatch(getOperations(periodId));
+                dispatch(getBalance(periodId));
+            })
             .catch((error) => handleError(error));
     }
 }
@@ -155,7 +163,11 @@ export function changeRecipe(periodId, operationId, amount, label, pair, categor
 export function addSpending(periodId, amount, label, pair, category) {
     return function (dispatch) {
         Post("/api/Operation/addSpending", { periodId, amount, label, pair, category })
-            .then(() => dispatch(closeSpendingDialog()))
+            .then(() => {
+                dispatch(closeSpendingDialog());
+                dispatch(getOperations(periodId));
+                dispatch(getBalance(periodId));
+            })
             .catch((error) => handleError(error));
     }
 }
@@ -163,7 +175,11 @@ export function addSpending(periodId, amount, label, pair, category) {
 export function changeSpending(periodId, operationId, amount, label, pair, category) {
     return function (dispatch) {
         Post("/api/Operation/changeSpending", { periodId, operationId, amount, label, pair, category })
-            .then(() => dispatch(closeSpendingDialog()))
+            .then(() => {
+                dispatch(closeSpendingDialog());
+                dispatch(getOperations(periodId));
+                dispatch(getBalance(periodId));
+            })
             .catch((error) => handleError(error));
     }
 }
@@ -176,9 +192,14 @@ export function getOperations(periodId) {
     }
 }
 
+export function getBalance(periodId) {
+    return function(dispatch) {
+        Get("/api/Period/Balance?periodId=" + periodId)
+            .then(r => dispatch(setBalance(periodId, r.data)))
+            .catch((error) => handleError(error));
+    }
+}
 
 function handleError(error) {
-    if (error.response.status === 401) {
-        alert('error 401');
-    }
+    alert("Handle error : " + error);
 }

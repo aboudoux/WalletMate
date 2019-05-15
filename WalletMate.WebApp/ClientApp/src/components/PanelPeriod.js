@@ -10,29 +10,31 @@ import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import LocalAtmIcon from '@material-ui/icons/LocalAtm';
 import { connect } from "react-redux";
-import { Get } from './Call';
-import { openSpendingDialog, openRecipeDialog, showPeriodPanel} from './actions';
+import { openSpendingDialog, openRecipeDialog, showPeriodPanel, collapsePeriodPanel} from './actions';
 
 function mapDispatchToProps(dispatch) {
     return {
         openSpendingDialog: periodId => dispatch(openSpendingDialog(periodId)),
         openRecipeDialog: periodId => dispatch(openRecipeDialog(periodId)),
-        showPeriodPanel: periodId => dispatch(showPeriodPanel(periodId))
+        showPeriodPanel: periodId => dispatch(showPeriodPanel(periodId)),
+        collapse: periodId => dispatch(collapsePeriodPanel(periodId))
     }
 }
 
 function mapStateToProps(state, ownProps) {
     return {        
-        isExpanded: state.operations[ownProps.periodId] != undefined ? state.operations[ownProps.periodId].expanded : false,
-        operations: state.operations[ownProps.periodId] != undefined ? state.operations[ownProps.periodId].operations : []
+        isExpanded: state.periodsData[ownProps.periodId] != undefined ? state.periodsData[ownProps.periodId].expanded : false,
+        operations: state.periodsData[ownProps.periodId] != undefined ? state.periodsData[ownProps.periodId].operations : [],
+        balance: state.periodsData[ownProps.periodId] != undefined ? state.periodsData[ownProps.periodId].balance : null
     };
 }
 
-const ConnectedPanelPeriod = ({ periodName, periodId, isExpanded, openSpendingDialog, openRecipeDialog, showPeriodPanel, operations}) => {
+const ConnectedPanelPeriod = ({ periodName, periodId, isExpanded, openSpendingDialog, openRecipeDialog, showPeriodPanel, operations, collapse, balance }) => {
+
     return (
         <div>            
             <ExpansionPanel expanded={isExpanded} >
-                <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />} className="period-title" onClick={() => showPeriodPanel(periodId)}>
+                <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />} className="period-title" onClick={() => isExpanded ? collapse(periodId) : showPeriodPanel(periodId)}>
                     <Grid container direction="row" spacing={16}>
                         <Grid item>
                             <AlarmOn />
@@ -43,7 +45,7 @@ const ConnectedPanelPeriod = ({ periodName, periodId, isExpanded, openSpendingDi
                     </Grid>
                 </ExpansionPanelSummary>
                 <ExpansionPanelDetails>
-                    <TableOperations rows={operations} balance={0} />
+                    <TableOperations rows={operations} balance={balance} />
                 </ExpansionPanelDetails>
 
                 <BottomNavigation
@@ -55,19 +57,6 @@ const ConnectedPanelPeriod = ({ periodName, periodId, isExpanded, openSpendingDi
             </ExpansionPanel>
         </div>
     );       
-}
-
-
-const expandReducer = (state, action) =>
-{
-    const newState = !state;
-    if (newState === true) {
-        Get("/api/Operation/All?periodId=" + action.periodId)
-            .then(response => action.setOperations(response.data));
-        Get("/api/Period/Balance?periodId=" + action.periodId)
-            .then(response => action.setBalance(response.data));
-    }
-    return newState;
 }
 
 const PanelPeriod = connect(mapStateToProps, mapDispatchToProps)(ConnectedPanelPeriod);
