@@ -1,6 +1,5 @@
 ﻿using System;
 using Newtonsoft.Json;
-using WalletMate.Domain.Common;
 using WalletMate.Domain.Common.Events;
 using WalletMate.Domain.Common.ValueObjects;
 

@@ -1,13 +1,11 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
 using System.Net.Http;
 using System.Reflection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using WalletMate.Domain.Common;
 
 namespace WalletMate.Infrastructure.Tests.Assets
 {
@@ -15,25 +13,19 @@ namespace WalletMate.Infrastructure.Tests.Assets
     {
         private readonly TestServer _testServer;
 
-        private readonly string _environment;
-        private readonly string _apiAssemblyName;
-
         public HttpClient Client { get; }
 
         public IServiceProvider ServiceProvider { get; }
 
         public TestServerBase(string environment, string apiAssemblyName, Action<IServiceCollection> configureServices = default)
         {
-            _environment = environment;
-            _apiAssemblyName = apiAssemblyName;
-
             var contentRootPath = ResolveContentPath();
 
             var builder = new WebHostBuilder()
                 .UseContentRoot(contentRootPath)
-                .UseEnvironment(_environment)
+                .UseEnvironment(environment)
                 .UseConfiguration(new ConfigurationBuilder().SetBasePath(contentRootPath)
-                    .AddJsonFile($"appsettings.{_environment}.json").Build())
+                    .AddJsonFile($"appsettings.{environment}.json").Build())
                 .UseStartup<TStartup>();
 
             if (configureServices != default)
@@ -43,29 +35,9 @@ namespace WalletMate.Infrastructure.Tests.Assets
 
             ServiceProvider = _testServer.Host.Services;
             Client = _testServer.CreateClient();
-
         }
 
-        private string ResolveContentPath()
-        {
-            return "C:\\temp\\CoupleExpenses\\WalletMate.WebApp";
-            var apiDirectory = _apiAssemblyName.Split('.').Last();
-            var startDirectory = Path.GetDirectoryName(Assembly.Load(_apiAssemblyName).Location);
-            while (JsonFileDoesntExists() && !startDirectory.IsEmpty())
-            {
-                startDirectory = Directory.GetParent(startDirectory).FullName;
-            }
-
-            if (startDirectory.IsEmpty())
-            {
-                throw new DirectoryNotFoundException("cannot find test server directory");
-            }
-
-            return Path.Combine(startDirectory, apiDirectory);
-
-            bool JsonFileDoesntExists()
-                => !File.Exists(Path.Combine(startDirectory, apiDirectory, $"appsettings.{_environment}.json"));
-        }
+        private static string ResolveContentPath() => Path.GetDirectoryName(Assembly.GetAssembly(typeof(TStartup)).Location);
 
         protected virtual void Dispose(bool disposing)
         {

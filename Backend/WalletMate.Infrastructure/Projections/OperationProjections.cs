@@ -7,7 +7,6 @@ using WalletMate.Domain.Common.Events;
 using WalletMate.Domain.Periods.Events;
 using WalletMate.Domain.Periods.ValueObjects;
 using WalletMate.Infrastructure.Dto;
-using WalletMate.Infrastructure.Services;
 
 namespace WalletMate.Infrastructure.Projections {
 

@@ -13,7 +13,6 @@ using WalletMate.Application.Periods.Queries;
 using WalletMate.Domain.Common;
 using WalletMate.Domain.Common.Events;
 using WalletMate.Infrastructure.Dto;
-using WalletMate.Infrastructure.Services;
 using WalletMate.WebApp;
 
 namespace WalletMate.Infrastructure.Tests.Assets

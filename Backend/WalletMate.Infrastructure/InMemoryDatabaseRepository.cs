@@ -7,7 +7,6 @@ using WalletMate.Application.Pairs;
 using WalletMate.Application.Periods.Queries;
 using WalletMate.Domain.Periods.ValueObjects;
 using WalletMate.Infrastructure.Dto;
-using WalletMate.Infrastructure.Services;
 
 namespace WalletMate.Infrastructure
 {

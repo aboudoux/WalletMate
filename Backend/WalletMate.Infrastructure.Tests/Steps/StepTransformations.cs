@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using TechTalk.SpecFlow;
 using TechTalk.SpecFlow.Assist;
-using WalletMate.Domain.Periods.ValueObjects;
 using WalletMate.Infrastructure.Dto;
 
 namespace WalletMate.Infrastructure.Tests.Steps
