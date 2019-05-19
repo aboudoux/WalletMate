@@ -28,6 +28,6 @@ export const Post = (url, param) =>
 
 const getAuthorizationTokenFromLocalStorage = () => {
     var authInfo = store.getState().connectedUser;
-    //JSON.parse(localStorage.getItem('connectedUser'));
+    //var authInfo = JSON.parse(localStorage.getItem('connectedUser'));
     return Buffer.from(`${authInfo.username}:${authInfo.authKey}`).toString('base64');
 }

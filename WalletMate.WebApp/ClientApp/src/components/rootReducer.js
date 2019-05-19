@@ -2,7 +2,7 @@
 const initialState = {
     firstPairName: '',
     secondPairName: '',
-    connectedUser: null,
+    connectedUser: JSON.parse(localStorage.getItem('connectedUser')),
     periods: [],
     periodsData: {},
     spendingDialog: { isOpen: false, periodId: '', data:null },
@@ -23,6 +23,7 @@ function rootReducer(state = initialState, action) {
             newState.secondPairName = action.pair.secondPairName;
             break;
         case 'SET_CONNECTED_USER':
+            localStorage.setItem('connectedUser', JSON.stringify(action.authInfo));
             newState.connectedUser = action.authInfo;
             break;
         case 'SELECT_USERNAME':

@@ -10,7 +10,6 @@ import Menu from '@material-ui/core/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import DialogCreatePeriod from './DialogCreatePeriod';
 import { connect } from "react-redux";
-
 import { openCreatePeriodPopup, closeCreatePeriodPopup } from './actions';
 
 function mapDispatchToProps(dispatch) {

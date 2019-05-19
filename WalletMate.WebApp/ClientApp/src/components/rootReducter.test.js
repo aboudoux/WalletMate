@@ -1,5 +1,5 @@
 ﻿import rootReducer from './rootReducer'
-import { setPair, setPeriods, openSpendingDialog, openRecipeDialog, setOperations, setBalance } from './actions'
+import { setPair, setPeriods, openSpendingDialog, openRecipeDialog, setOperations, setBalance, setConnectedUser, resetConnectedUser } from './actions'
 
 var redux;
 
@@ -86,6 +86,25 @@ test("Set operations and balance when calling each other inverted",
         expect(redux.state.periodsData[periodId].operations).toEqual(operations);
         expect(redux.state.periodsData[periodId].balance).toEqual(balance);
 
+    });
+
+test("connectedUser should be in localStorage",
+    () => {
+        const user = { username: "Aurelien", authKey: "1234" };
+        localStorage.clear();
+        redux.dispatch(setConnectedUser(user));
+        expect(redux.state.connectedUser).toEqual(user);
+        expect(JSON.parse(localStorage.getItem('connectedUser'))).toEqual(user);
+    });
+
+test("reset connected user should clear state and local storage",
+    () => {
+        const user = { username: "Aurelien", authKey: "1234" };
+        redux.dispatch(setConnectedUser(user));
+        redux.dispatch(resetConnectedUser());
+
+        expect(redux.state.connectedUser).toBeNull();
+        expect(localStorage.getItem('connectedUser')).toBe("null");
     });
 
 
