@@ -70,8 +70,8 @@ const ConnectedTableOperations = ({ rows, balance, openDeleteOperationDialog, op
                 </Table>
                 <div>{
                     (balance) 
-                        ? <text>{balance.by} doit la somme de {balance.amountDue} €</text>
-                        : <text>No balance found</text>
+                        ? <p>{balance.by} doit la somme de {balance.amountDue} €</p>
+                        : <p>No balance found</p>
                     }
                 </div>
             </Paper>

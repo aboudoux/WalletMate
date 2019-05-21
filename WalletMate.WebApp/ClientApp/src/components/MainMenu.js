@@ -1,4 +1,4 @@
-﻿import React, { useReducer } from 'react';
+﻿import React from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -10,66 +10,25 @@ import Menu from '@material-ui/core/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import DialogCreatePeriod from './DialogCreatePeriod';
 import { connect } from "react-redux";
-import { openCreatePeriodPopup, closeCreatePeriodPopup } from './actions';
+import { openCreatePeriodPopup, closeCreatePeriodPopup, showActionMenu, showLoginMenu, hideAllMenu, disconnectUser } from './actions';
 
 function mapDispatchToProps(dispatch) {
     return {
         openCreatePeriodPopup: () => dispatch(openCreatePeriodPopup()),
-        closeCreatePeriodPopup: () => dispatch(closeCreatePeriodPopup())
+        closeCreatePeriodPopup: () => dispatch(closeCreatePeriodPopup()),
+        showActionMenu: element => dispatch(showActionMenu(element)),
+        showLoginMenu: element => dispatch(showLoginMenu(element)),
+        hideAllMenu: () => dispatch(hideAllMenu()),
+        disconnectUser: () => dispatch(disconnectUser())
     }
 }
 
-const ConnectedMainMenu = ({ openCreatePeriodPopup, closeCreatePeriodPopup }) =>
+function mapStateToProps(state) {
+    return { anchorLoginMenu: state.mainMenu.anchorLoginMenu, anchorActionMenu: state.mainMenu.anchorActionMenu};
+};
+
+const ConnectedMainMenu = ({ openCreatePeriodPopup, closeCreatePeriodPopup, anchorLoginMenu, anchorActionMenu, showActionMenu, showLoginMenu, hideAllMenu, disconnectUser }) =>
 {
-    const menuReducer = (state, action) => {
-        var newState = { ...state };
-
-        switch (action.command) {
-            case "actionMenu":
-                newState.anchorActionMenu = action.target;
-                break;
-            case "loginMenu":
-                newState.anchorLoginMenu = action.target;
-                break;
-            case "resetAll":
-                newState.anchorActionMenu = null;
-                newState.anchorLoginMenu = null;
-                break;
-            case "openCreatePeriodPopup":
-                newState.createPeriodOpen = true;
-                break;
-            case "closeCreatePeriodPopup":
-                newState.createPeriodOpen = false;
-                break;
-        }
-        return newState;
-    };
-
-    const initialDashBoardState = { anchorLoginMenu: null, anchorActionMenu: null, createPeriodOpen: false };
-    const [dashboardState, doAction] = useReducer(menuReducer, initialDashBoardState);
-
-
-    const handleActionMenu = event => {
-        doAction({ target: event.currentTarget, command: "actionMenu" });
-    };
-
-    const handleLoginMenu = event => {
-        doAction({ target: event.currentTarget, command: "loginMenu" });
-    };
-
-    const handleClose = () => {
-        doAction({ command: "resetAll" });
-    };
-
-    const handleDisconnect = () => {
-        doAction({ command: "resetAll" });
-    };
-
-    const handleCreatePeriod = () => {
-        doAction({ command: "resetAll" });
-        doAction({ command: "openCreatePeriodPopup" });
-    }
-
     return (
         <div className="root">
 
@@ -78,19 +37,19 @@ const ConnectedMainMenu = ({ openCreatePeriodPopup, closeCreatePeriodPopup }) =>
             <AppBar position="static">
                 <Toolbar>
                     <IconButton
-                        aria-owns={Boolean(dashboardState.anchorActionMenu) ? 'menu-action' : undefined}
+                        aria-owns={Boolean(anchorActionMenu) ? 'menu-action' : undefined}
                         className="menu-button"
                         color="inherit"
                         aria-label="Menu"
                         aria-haspopup="true"
-                        onClick={handleActionMenu}>
+                        onClick={event => showActionMenu(event.currentTarget)}>
                         <MenuIcon />
                     </IconButton>
                     <Menu
                         id="menu-action"
-                        anchorEl={dashboardState.anchorActionMenu}
-                        open={Boolean(dashboardState.anchorActionMenu)}
-                        onClose={handleClose}>
+                        anchorEl={anchorActionMenu}
+                        open={Boolean(anchorActionMenu)}
+                        onClose={hideAllMenu}>
                         <MenuItem onClick={openCreatePeriodPopup}>Créer une période</MenuItem>
                         <MenuItem onClick={closeCreatePeriodPopup}>Ajouter la prochaine période</MenuItem>
                     </Menu>
@@ -100,19 +59,22 @@ const ConnectedMainMenu = ({ openCreatePeriodPopup, closeCreatePeriodPopup }) =>
                     </Typography>
                     <div>
                         <IconButton
-                            aria-owns={Boolean(dashboardState.anchorLoginMenu) ? 'menu-appbar' : undefined}
+                            aria-owns={Boolean(anchorLoginMenu) ? 'menu-appbar' : undefined}
                             aria-haspopup="true"
-                            onClick={handleLoginMenu}
+                            onClick={event => showLoginMenu(event.currentTarget)}
                             color="inherit">
                             <AccountCircle />
                         </IconButton>
                         <Menu
                             id="menu-appbar"
-                            anchorEl={dashboardState.anchorLoginMenu}
-                            open={Boolean(dashboardState.anchorLoginMenu)}
-                            onClose={handleClose}
+                            anchorEl={anchorLoginMenu}
+                            open={Boolean(anchorLoginMenu)}
+                            onClose={hideAllMenu}
                         >
-                            <MenuItem onClick={handleDisconnect}>Déconnecter</MenuItem>
+                            <MenuItem onClick={() => {
+                                disconnectUser();
+                                hideAllMenu();
+                            }}>Déconnecter</MenuItem>
                         </Menu>
                     </div>
                 </Toolbar>
@@ -121,5 +83,5 @@ const ConnectedMainMenu = ({ openCreatePeriodPopup, closeCreatePeriodPopup }) =>
     );
 };
 
-const MainMenu = connect(null, mapDispatchToProps)(ConnectedMainMenu);
+const MainMenu = connect(mapStateToProps, mapDispatchToProps)(ConnectedMainMenu);
 export default MainMenu;

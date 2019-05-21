@@ -1,5 +1,10 @@
 ﻿import rootReducer from './rootReducer'
-import { setPair, setPeriods, openSpendingDialog, openRecipeDialog, setOperations, setBalance, setConnectedUser, resetConnectedUser } from './actions'
+import {
+    setPair, setPeriods, openSpendingDialog, openRecipeDialog,
+    setOperations, setBalance, setConnectedUser,
+    disconnectUser, showActionMenu, showLoginMenu,
+    hideAllMenu
+} from './actions'
 
 var redux;
 
@@ -101,10 +106,29 @@ test("reset connected user should clear state and local storage",
     () => {
         const user = { username: "Aurelien", authKey: "1234" };
         redux.dispatch(setConnectedUser(user));
-        redux.dispatch(resetConnectedUser());
+        redux.dispatch(disconnectUser());
 
         expect(redux.state.connectedUser).toBeNull();
         expect(localStorage.getItem('connectedUser')).toBe("null");
+    });
+
+test("showActionMenu should set anchorActionMenu",
+    () => {
+        redux.dispatch(showActionMenu("menu"));
+        expect(redux.state.mainMenu.anchorActionMenu).toBe("menu");
+    });
+
+test("showLoginMenu should set anchorLoginMenu",
+    () => {
+        redux.dispatch(showLoginMenu("menu"));
+        expect(redux.state.mainMenu.anchorLoginMenu).toBe("menu");
+    });
+
+test("HideAllMenu should set anchorLoginMenu and anchorActionMenu to null",
+    () => {
+        redux.dispatch(hideAllMenu());
+        expect(redux.state.mainMenu.anchorLoginMenu).toBeNull();
+        expect(redux.state.mainMenu.anchorActionMenu).toBeNull();
     });
 
 

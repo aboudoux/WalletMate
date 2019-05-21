@@ -8,7 +8,8 @@ const initialState = {
     spendingDialog: { isOpen: false, periodId: '', data:null },
     recipeDialog: { isOpen: false, periodId: '', data:null },
     deleteDialog: { isOpen: false, periodId: '', operationId: 0 },
-    createPeriodDialog: { isOpen: false}
+    createPeriodDialog: { isOpen: false },
+    mainMenu: { anchorLoginMenu: null, anchorActionMenu:null}
 };
 
 const defaultData = { operations: [], expanded: false, balance: null }
@@ -18,6 +19,16 @@ function rootReducer(state = initialState, action) {
     var newState = { ...state }
 
     switch (action.type) {
+        case 'SHOW_ACTION_MENU':
+            newState.mainMenu.anchorActionMenu = action.element;
+            break;
+        case 'SHOW_LOGIN_MENU':
+            newState.mainMenu.anchorLoginMenu = action.element;
+            break;
+        case 'HIDE_ALL_MENU':
+            newState.mainMenu.anchorLoginMenu = null;
+            newState.mainMenu.anchorActionMenu = null;
+            break;
         case 'SET_PAIR':
             newState.firstPairName = action.pair.firstPairName;
             newState.secondPairName = action.pair.secondPairName;

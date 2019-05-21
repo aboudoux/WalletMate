@@ -1,17 +1,17 @@
 ﻿import React from 'react';
 import ShadowBox from './ShadowBox'
 import { Form, FormGroup, Col, Input, Button } from 'reactstrap';
-import { authenticate, resetConnectedUser } from './actions'
+import { authenticate, disconnectUser } from './actions'
 import { connect } from "react-redux";
 
 function mapDispatchToProps(dispatch) {
     return {
         authenticate: (login, password) => dispatch(authenticate(login, password)),
-        resetConnectedUser: () => dispatch(resetConnectedUser())
+        disconnectUser: () => dispatch(disconnectUser())
     }
 }
 
-const ConnectedSelectPassword = ({ username, authenticate, resetConnectedUser }) => {
+const ConnectedSelectPassword = ({ username, authenticate, disconnectUser }) => {
 
     function handleSubmit(event)
     {
@@ -29,7 +29,7 @@ const ConnectedSelectPassword = ({ username, authenticate, resetConnectedUser })
                     </Col>
                 </FormGroup>
                 <FormGroup row className="cancel-validate">
-                    <Button color="danger" onClick={() => resetConnectedUser()}>Annuler</Button>
+                    <Button color="danger" onClick={() => disconnectUser()}>Annuler</Button>
                     <Button type="submit" color="success">Valider</Button>
                 </FormGroup>
             </Form>

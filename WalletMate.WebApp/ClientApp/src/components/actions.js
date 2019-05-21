@@ -9,7 +9,7 @@ export function setConnectedUser(authInfo) {
     return { type: 'SET_CONNECTED_USER', authInfo}
 }
 
-export function resetConnectedUser() {
+export function disconnectUser() {
     return { type: 'SET_CONNECTED_USER', authInfo:null }
 }
 
@@ -78,6 +78,18 @@ export function showPeriodPanel(periodId) {
         dispatch(getOperations(periodId));
         dispatch(getBalance(periodId));
     }
+}
+
+export function showLoginMenu(element) {
+    return {type:"SHOW_LOGIN_MENU", element }
+}
+
+export function showActionMenu(element) {
+    return { type: "SHOW_ACTION_MENU", element }
+}
+
+export function hideAllMenu() {
+    return { type: "HIDE_ALL_MENU" }
 }
 
 export function collapsePeriodPanel(periodId) {

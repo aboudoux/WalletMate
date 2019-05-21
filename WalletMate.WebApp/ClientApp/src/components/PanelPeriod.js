@@ -23,9 +23,9 @@ function mapDispatchToProps(dispatch) {
 
 function mapStateToProps(state, ownProps) {
     return {        
-        isExpanded: state.periodsData[ownProps.periodId] != undefined ? state.periodsData[ownProps.periodId].expanded : false,
-        operations: state.periodsData[ownProps.periodId] != undefined ? state.periodsData[ownProps.periodId].operations : [],
-        balance: state.periodsData[ownProps.periodId] != undefined ? state.periodsData[ownProps.periodId].balance : null
+        isExpanded: state.periodsData[ownProps.periodId] !== undefined ? state.periodsData[ownProps.periodId].expanded : false,
+        operations: state.periodsData[ownProps.periodId] !== undefined ? state.periodsData[ownProps.periodId].operations : [],
+        balance: state.periodsData[ownProps.periodId] !== undefined ? state.periodsData[ownProps.periodId].balance : null
     };
 }
 

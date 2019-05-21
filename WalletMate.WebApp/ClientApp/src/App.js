@@ -33,11 +33,5 @@ const ConnectedApp = ({ connectedUser, getPair}) => {
     );
 }
 
-const reducer = (state, authInfo) => {    
-    localStorage.setItem('connectedUser', JSON.stringify(authInfo));
-    return authInfo;
-}
-
-
 const App = connect(mapStateToProps, mapDispatchToProp)(ConnectedApp);
 export default App;

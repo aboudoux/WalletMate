@@ -11,7 +11,7 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import { closeSpendingDialog, addSpending, changeSpending, getOperations } from './actions';
+import { closeSpendingDialog, addSpending, changeSpending } from './actions';
 import { connect } from 'react-redux';
 
 function mapStateToProps(state) {
