@@ -2,7 +2,6 @@
 import { Buffer } from 'buffer'
 import store from './store';
 
-
 export const GetAnonymous = (url) => axios.get(url);
 export const PostAnonymous = (url, payload) => axios.post(url, payload);
 
@@ -28,6 +27,5 @@ export const Post = (url, param) =>
 
 const getAuthorizationTokenFromLocalStorage = () => {
     var authInfo = store.getState().connectedUser;
-    //var authInfo = JSON.parse(localStorage.getItem('connectedUser'));
     return Buffer.from(`${authInfo.username}:${authInfo.authKey}`).toString('base64');
 }

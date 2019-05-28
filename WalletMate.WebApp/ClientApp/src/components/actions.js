@@ -104,7 +104,7 @@ export function removeOperation(periodId, operationId) {
                 dispatch(getOperations(periodId));
                 dispatch(getBalance(periodId));
             })
-            .catch((error) => handleError(error));
+            .catch((error) => handleError(error, dispatch));
     }
 };
 
@@ -115,7 +115,7 @@ export function createPeriod(month, year) {
                 dispatch(closeCreatePeriodPopup());
                 dispatch(getAllPeriod());
             })
-            .catch((error) => handleError(error));
+            .catch((error) => handleError(error, dispatch));
     }
 }
 
@@ -123,7 +123,7 @@ export function getAllPeriod() {
     return function(dispatch) {
         Get("/api/Period/All")
             .then(response => dispatch(setPeriods(response.data)))
-            .catch((error) => handleError(error));
+            .catch((error) => handleError(error, dispatch));
     }
 }
 
@@ -136,7 +136,7 @@ export function authenticate(login, password) {
 
         PostAnonymous("/api/Authentication/authenticate", authenticationInfos)
             .then(r => dispatch(setConnectedUser(r.data)))
-            .catch((error) => handleError(error));
+            .catch((error) => handleError(error, dispatch));
     }
 }
 
@@ -144,7 +144,7 @@ export function getPair() {
     return function(dispatch) {
         GetAnonymous("/api/Pair/All")
             .then(r => dispatch(setPair(r.data)))
-            .catch ((error) => handleError(error));
+            .catch((error) => handleError(error, dispatch));
     }
 }
 
@@ -156,7 +156,7 @@ export function addRecipe(periodId, amount, label, pair, category) {
                 dispatch(getOperations(periodId));
                 dispatch(getBalance(periodId));
             })
-            .catch((error) => handleError(error));    
+            .catch((error) => handleError(error, dispatch));
     }
 }
 
@@ -168,7 +168,7 @@ export function changeRecipe(periodId, operationId, amount, label, pair, categor
                 dispatch(getOperations(periodId));
                 dispatch(getBalance(periodId));
             })
-            .catch((error) => handleError(error));
+            .catch((error) => handleError(error, dispatch));
     }
 }
 
@@ -180,7 +180,7 @@ export function addSpending(periodId, amount, label, pair, category) {
                 dispatch(getOperations(periodId));
                 dispatch(getBalance(periodId));
             })
-            .catch((error) => handleError(error));
+            .catch((error) => handleError(error, dispatch));
     }
 }
 
@@ -192,7 +192,7 @@ export function changeSpending(periodId, operationId, amount, label, pair, categ
                 dispatch(getOperations(periodId));
                 dispatch(getBalance(periodId));
             })
-            .catch((error) => handleError(error));
+            .catch((error) => handleError(error, dispatch));
     }
 }
 
@@ -200,7 +200,7 @@ export function getOperations(periodId) {
     return function(dispatch) {
         Get("/api/Operation/All?periodId=" + periodId)
             .then(response => dispatch(setOperations(periodId, response.data)))
-            .catch ((error) => handleError(error));
+            .catch((error) => handleError(error, dispatch));
     }
 }
 
@@ -208,10 +208,13 @@ export function getBalance(periodId) {
     return function(dispatch) {
         Get("/api/Period/Balance?periodId=" + periodId)
             .then(r => dispatch(setBalance(periodId, r.data)))
-            .catch((error) => handleError(error));
+            .catch((error) => handleError(error, dispatch));
     }
 }
 
-function handleError(error) {
-    alert("Handle error : " + error);
+function handleError(error, dispatch) {
+    if(!error.response)
+        alert("Handle error : " + error);
+    else if (error.response.status === 401)
+        dispatch(disconnectUser());
 }
