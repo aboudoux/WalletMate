@@ -38,8 +38,8 @@ const ConnectedTableOperations = ({ rows, balance, openDeleteOperationDialog, op
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {rows.map(row => (
-                        <TableRow key={row.operationId}>
+                        {rows.map(row => (
+                        <TableRow key={row.operationId} >
                             <TableCell component="th" scope="row">
                                 {row.type}
                             </TableCell>

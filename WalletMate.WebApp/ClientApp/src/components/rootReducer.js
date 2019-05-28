@@ -18,6 +18,11 @@ function rootReducer(state = initialState, action) {
 
     var newState = { ...state }
 
+    var hideAllMainMenu = () => {
+        newState.mainMenu.anchorLoginMenu = null;
+        newState.mainMenu.anchorActionMenu = null;
+    }
+
     switch (action.type) {
         case 'SHOW_ACTION_MENU':
             newState.mainMenu.anchorActionMenu = action.element;
@@ -26,8 +31,7 @@ function rootReducer(state = initialState, action) {
             newState.mainMenu.anchorLoginMenu = action.element;
             break;
         case 'HIDE_ALL_MENU':
-            newState.mainMenu.anchorLoginMenu = null;
-            newState.mainMenu.anchorActionMenu = null;
+            hideAllMainMenu();
             break;
         case 'SET_PAIR':
             newState.firstPairName = action.pair.firstPairName;
@@ -79,9 +83,11 @@ function rootReducer(state = initialState, action) {
             break;        
         case 'OPEN_CREATE_PERIOD_POPUP':
             newState.createPeriodDialog.isOpen = true;
+            hideAllMainMenu();
             break;
         case 'CLOSE_CREATE_PERIOD_POPUP':
             newState.createPeriodDialog.isOpen = false;
+            hideAllMainMenu();
             break;
         case 'SET_OPERATIONS':    
             newState.periodsData = {

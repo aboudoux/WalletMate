@@ -8,11 +8,12 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
 import { connect } from "react-redux";
-import { closeCreatePeriodPopup, createPeriod } from'./actions'
+import { closeCreatePeriodPopup, createPeriod } from './actions'
+import './DialogCreatePeriod.css'
 
 function mapDispatchToProps(dispatch) {
     return {
-        close: () => dispatch(closeCreatePeriodPopup()),
+        closeCreatePeriodPopup: () => dispatch(closeCreatePeriodPopup()),
         createPeriod: (selectedMonth, selectedYear) => dispatch(createPeriod(selectedMonth, selectedYear))
     }
 }
@@ -21,7 +22,7 @@ function mapStateToProps(state) {
     return { openState: state.createPeriodDialog.isOpen };
 };
 
-const ConnectedDialogCreatePeriod = ({ openState, close, createPeriod }) => {
+const ConnectedDialogCreatePeriod = ({ openState, closeCreatePeriodPopup, createPeriod }) => {
 
     const months = [
         "Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Aout", "Septembre", "Octobre", "Novembre", "Décembre"
@@ -32,6 +33,12 @@ const ConnectedDialogCreatePeriod = ({ openState, close, createPeriod }) => {
     const [selectedMonth, selectMonth] = useState(null);
     const [selectedYear, selectYear] = useState(null);
 
+    const close = () => {
+        selectMonth(null);
+        selectYear(null);
+        closeCreatePeriodPopup();
+    }
+
     return (
         <Dialog
             open={openState}
@@ -41,13 +48,14 @@ const ConnectedDialogCreatePeriod = ({ openState, close, createPeriod }) => {
             <DialogContent>
                 <DialogContentText>
                     Sélectionnez les informations de création pour la nouvelle periode.
-                    </DialogContentText>
-                <TextField
+                </DialogContentText>
+                <TextField className="marge"
                     select
-                    margin="dense"
                     label="Mois"
+                    margin="normal"
                     value={selectedMonth}
                     onChange={(event) => selectMonth(event.target.value)}
+                    InputLabelProps={{ shrink: selectedMonth ? true : false }}
                 >
                     {ranges.map(option => (
                         <MenuItem key={option.value} value={option.value}>
@@ -56,9 +64,9 @@ const ConnectedDialogCreatePeriod = ({ openState, close, createPeriod }) => {
                     ))}
                 </TextField>
 
-                <TextField
+                <TextField className="marge"
                     label="Année"
-                    margin="dense"
+                    margin="normal"
                     value={selectedYear}
                     onChange={(event) => selectYear(event.target.value)}
                 >
@@ -68,7 +76,11 @@ const ConnectedDialogCreatePeriod = ({ openState, close, createPeriod }) => {
                 <Button onClick={() => close()} color="primary">
                     Annuler
                     </Button>
-                <Button onClick={() => createPeriod(selectedMonth, selectedYear)}
+                <Button onClick={() => {
+                    createPeriod(selectedMonth, selectedYear);
+                    selectMonth(null);
+                    selectYear(null); 
+                }}
                     color="primary">
                     Valider
                     </Button>
