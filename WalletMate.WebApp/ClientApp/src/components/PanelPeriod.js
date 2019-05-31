@@ -10,12 +10,10 @@ import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import LocalAtmIcon from '@material-ui/icons/LocalAtm';
 import { connect } from "react-redux";
-import { openSpendingDialog, openRecipeDialog, showPeriodPanel, collapsePeriodPanel} from './actions';
+import { showPeriodPanel, collapsePeriodPanel} from './actions';
 
 function mapDispatchToProps(dispatch) {
     return {
-        openSpendingDialog: periodId => dispatch(openSpendingDialog(periodId)),
-        openRecipeDialog: periodId => dispatch(openRecipeDialog(periodId)),
         showPeriodPanel: periodId => dispatch(showPeriodPanel(periodId)),
         collapse: periodId => dispatch(collapsePeriodPanel(periodId))
     }
@@ -29,7 +27,7 @@ function mapStateToProps(state, ownProps) {
     };
 }
 
-const ConnectedPanelPeriod = ({ periodName, periodId, isExpanded, openSpendingDialog, openRecipeDialog, showPeriodPanel, operations, collapse, balance }) => {
+const ConnectedPanelPeriod = ({ periodName, periodId, isExpanded, showPeriodPanel, operations, collapse, balance }) => {
 
     return (
         <div>            
@@ -45,15 +43,8 @@ const ConnectedPanelPeriod = ({ periodName, periodId, isExpanded, openSpendingDi
                     </Grid>
                 </ExpansionPanelSummary>
                 <ExpansionPanelDetails>
-                    <TableOperations rows={operations} balance={balance} />
+                    <TableOperations periodId={periodId} rows={operations} balance={balance} />
                 </ExpansionPanelDetails>
-
-                <BottomNavigation
-                    showLabels
-                >
-                    <BottomNavigationAction label="Ajouter une dépense" icon={<LocalAtmIcon color="secondary" />} onClick={() => { openSpendingDialog(periodId); }} />
-                    <BottomNavigationAction label="Ajouter une recette" icon={<LocalAtmIcon color="primary" />} onClick={() => { openRecipeDialog(periodId); }} />
-                </BottomNavigation>
             </ExpansionPanel>
         </div>
     );       

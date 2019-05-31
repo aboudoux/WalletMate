@@ -6,21 +6,27 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import DeleteIcon from '@material-ui/icons/Delete';
+import RecipeIcon from '@material-ui/icons/ArrowBack';
+import SpendingIcon from '@material-ui/icons/ArrowForward';
 import EditIcon from '@material-ui/icons/Edit';
 import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
+import IconAddOperation from '@material-ui/icons/AttachMoney';
 import { connect } from 'react-redux';
-import { openDeleteOperationDialog, openUpdateSpendingDialog, openUpdateRecipeDialog} from './actions';
+import './TableOperations.css'
+import { openDeleteOperationDialog, openUpdateSpendingDialog, openUpdateRecipeDialog, openSpendingDialog, openRecipeDialog} from './actions';
 
 function mapDispatchToProps(dispatch) {
     return {
+        openRecipeDialog: periodId => dispatch(openRecipeDialog(periodId)),
+        openSpendingDialog: periodId => dispatch(openSpendingDialog(periodId)),
         openDeleteOperationDialog: (periodId, operationId) => dispatch(openDeleteOperationDialog(periodId, operationId)),
         openUpdateSpendingDialog: (row) => dispatch(openUpdateSpendingDialog(row)),
         openUpdateRecipeDialog: (row) => dispatch(openUpdateRecipeDialog(row))
     }
 }
 
-const ConnectedTableOperations = ({ rows, balance, openDeleteOperationDialog, openUpdateSpendingDialog, openUpdateRecipeDialog }) => {
+const ConnectedTableOperations = ({ periodId, rows, balance, openDeleteOperationDialog, openUpdateSpendingDialog, openUpdateRecipeDialog, openSpendingDialog, openRecipeDialog }) => {
 
     return (
         <div>
@@ -30,26 +36,31 @@ const ConnectedTableOperations = ({ rows, balance, openDeleteOperationDialog, op
                 <TableHead>
                     <TableRow>
                         <TableCell>Type</TableCell>
-                        <TableCell>Binôme</TableCell>
-                        <TableCell>Montant</TableCell>
+                        <TableCell>Binôme</TableCell>                        
                         <TableCell>Libelle</TableCell>
+                        <TableCell>Montant</TableCell>
                         <TableCell>Opération</TableCell>
                         <TableCell align="center">Actions</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
                         {rows.map(row => (
-                        <TableRow key={row.operationId} >
-                            <TableCell component="th" scope="row">
-                                {row.type}
+                            <TableRow key={row.operationId} className="row-height" hover="true">
+                                <TableCell component="th" scope="row">
+                                    {
+                                        row.type === "Recette"
+                                            ? <SpendingIcon style={{ color: 'green' }} />
+                                            : <RecipeIcon style={{ color: 'red' }} />
+                                    }
+                                    {row.type}
                             </TableCell>
-                            <TableCell>{row.pair}</TableCell>
-                            <TableCell>{row.amount} €</TableCell>
-                            <TableCell>{row.label}</TableCell>
-                            <TableCell>{row.category}</TableCell>
-                            <TableCell>
+                                <TableCell>{row.pair}</TableCell>
+                                <TableCell>{row.label}</TableCell>
+                                <TableCell>{row.amount} €</TableCell>
+                                <TableCell>{row.category}</TableCell>
+                                <TableCell>
                                 <Tooltip title="Editer cette opération">
-                                        <IconButton onClick={() => {
+                                        <IconButton className="icon" onClick={() => {
                                             row.type === "Dépense"
                                                 ? openUpdateSpendingDialog(row)
                                                 : openUpdateRecipeDialog(row);
@@ -59,7 +70,7 @@ const ConnectedTableOperations = ({ rows, balance, openDeleteOperationDialog, op
                                         </IconButton>
                                 </Tooltip>
                                 <Tooltip title="Supprimer cette opération">
-                                        <IconButton onClick={() => openDeleteOperationDialog(row.periodId, row.operationId)}>
+                                        <IconButton className="icon" onClick={() => openDeleteOperationDialog(periodId, row.operationId)}>
                                         <DeleteIcon />
                                     </IconButton>
                                 </Tooltip>
@@ -68,11 +79,22 @@ const ConnectedTableOperations = ({ rows, balance, openDeleteOperationDialog, op
                     ))}
                 </TableBody>
                 </Table>
-                <div>{
+                <div className="wrapper">
+                    <div>
+                        <IconButton classes={{ root: 'operation-button' }} style={{ color: 'red' }} onClick={() => { openSpendingDialog(periodId); }}>
+                            <IconAddOperation /> Ajouter une dépense
+                        </IconButton>
+                        <IconButton classes={{ root: 'operation-button' }} style={{ color: 'green' }} onClick={() => { openRecipeDialog(periodId); }} >
+                            <IconAddOperation /> Ajouter une recette
+                        </IconButton>
+                    </div>
+                <div className="balance">                    
+                    {
                     (balance) 
-                        ? <p>{balance.by} doit la somme de {balance.amountDue} €</p>
+                        ? <p><span id="by">{balance.by}</span> doit la somme de <span id="amount-due">{balance.amountDue}</span> €</p>
                         : <p>No balance found</p>
                     }
+                    </div>
                 </div>
             </Paper>
          </div>       

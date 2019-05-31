@@ -1,0 +1,33 @@
+﻿.row-height {
+    height: 0 !important;
+}
+
+.icon {
+    padding: 0 !important;
+    outline: none !important;
+}
+
+.balance {
+    text-align: right;
+    margin-right: 20px;
+}
+
+#by {
+    font-weight: bold;
+}
+
+#amount-due {
+    font-weight: bold;
+}
+
+.wrapper {
+    display: grid;
+    grid-template-columns: 2fr auto;
+}
+
+.operation-button {
+    padding: 0 !important;
+    font-size: 12px !important;
+    border-radius: 0 !important;
+    outline: none !important;    
+}
