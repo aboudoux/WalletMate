@@ -48,7 +48,7 @@ And J'ai demandé la création d'une période pour le mois 1 et l'année 2001
 And J'ai demandé la création d'une période pour le mois 1 et l'année 2001
 	And J'ai ajouté des recettes dans l'application
 	| Periode | Montant | Libelle | Binome   | Categorie |
-	| 2001-01 | 100     | Test    | Aurélien | Commun        |
+	| 2001-01 | 100     | Test    | Aurélien | Commun    |
 	And La liste des opérations pour la période 2001-01 contient les elements suivants
 	| Type    | OperationId | Periode | Montant | Libelle | Binome   | Categorie |
 	| Recette | 1           | 2001-01 | 100     | Test    | Aurélien | Commun        |

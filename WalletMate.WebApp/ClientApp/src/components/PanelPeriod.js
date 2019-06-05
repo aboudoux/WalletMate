@@ -10,7 +10,8 @@ import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import LocalAtmIcon from '@material-ui/icons/LocalAtm';
 import { connect } from "react-redux";
-import { showPeriodPanel, collapsePeriodPanel} from './actions';
+import { showPeriodPanel, collapsePeriodPanel } from './actions';
+import Waiter from './Waiter';
 
 function mapDispatchToProps(dispatch) {
     return {
@@ -23,16 +24,22 @@ function mapStateToProps(state, ownProps) {
     return {        
         isExpanded: state.periodsData[ownProps.periodId] !== undefined ? state.periodsData[ownProps.periodId].expanded : false,
         operations: state.periodsData[ownProps.periodId] !== undefined ? state.periodsData[ownProps.periodId].operations : [],
-        balance: state.periodsData[ownProps.periodId] !== undefined ? state.periodsData[ownProps.periodId].balance : null
+        balance: state.periodsData[ownProps.periodId] !== undefined ? state.periodsData[ownProps.periodId].balance : null,
+        panelLoading: state.periodsData[ownProps.periodId] !== undefined ? state.periodsData[ownProps.periodId].isLoading : false
     };
 }
 
-const ConnectedPanelPeriod = ({ periodName, periodId, isExpanded, showPeriodPanel, operations, collapse, balance }) => {
+const ConnectedPanelPeriod = ({ periodName, periodId, isExpanded, showPeriodPanel, operations, collapse, balance, panelLoading }) => {
 
     return (
         <div>            
             <ExpansionPanel expanded={isExpanded} >
-                <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />} className="period-title" onClick={() => isExpanded ? collapse(periodId) : showPeriodPanel(periodId)}>
+                <ExpansionPanelSummary expandIcon=
+                    {
+                    panelLoading
+                        ? <Waiter id="panelWaiter" />
+                        : <ExpandMoreIcon />
+                    } className="period-title" onClick={() => isExpanded ? collapse(periodId) : showPeriodPanel(periodId)}>
                     <Grid container direction="row" spacing={16}>
                         <Grid item>
                             <AlarmOn />

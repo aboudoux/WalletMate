@@ -74,6 +74,12 @@ namespace WalletMate.WebApp.Controllers
             return await _queryBus.QueryAsync(new GetAllOperation(PeriodId.From(periodId)));
         }
 
+        [HttpGet("[action]")]
+        public async Task<IReadOnlyList<IPeriodOperation>> Search(string filter)
+        {
+            return await _queryBus.QueryAsync(new SearchOperation(filter));
+        }
+
         [HttpPost("[action]")]
         public async Task<IActionResult> Remove([FromBody]OperationToRemove input)
         {

@@ -15,5 +15,6 @@ namespace WalletMate.Application.Core
         void UpdateOperation(PeriodId periodId, OperationId operationId, Amount amount = null, Label label = null, Pair pair = null, RecipeCategory recipeCategory = null, SpendingCategory spendingCategory = null);
         Task<IPeriodBalance> GetBalance(PeriodId requestPeriodId);
         void UpdateBalance(PeriodId periodId, Amount amountDue, Pair by);
+        Task<IReadOnlyList<IPeriodOperation>> SearchOperation(string filter);
     }
 }

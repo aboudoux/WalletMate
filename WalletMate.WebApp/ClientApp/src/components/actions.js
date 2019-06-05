@@ -29,6 +29,14 @@ export function openUpdateSpendingDialog(row) {
     return { type: 'OPEN_UPDATE_SPENDING_DIALOG', row }
 }
 
+export function searchLoading() {
+    return { type: 'SEARCH_LOADING' }
+}
+
+export function panelLoading(periodId) {
+    return {type: 'PANEL_LOADING', periodId }
+}
+
 export function closeSpendingDialog() {
     return { type: 'CLOSE_SPENDING_DIALOG' }
 }
@@ -74,7 +82,8 @@ export function expandPeriodPanel(periodId) {
 }
 
 export function showPeriodPanel(periodId) {
-    return function (dispatch) {        
+    return function (dispatch) {      
+        dispatch(panelLoading(periodId));
         dispatch(getOperations(periodId));
         dispatch(getBalance(periodId));
     }
@@ -92,8 +101,21 @@ export function hideAllMenu() {
     return { type: "HIDE_ALL_MENU" }
 }
 
+export function setSearchResult(searchResult) {
+    return { type: "SET_SEARCH_RESULT", searchResult }
+}
+
 export function collapsePeriodPanel(periodId) {
     return { type: 'COLLAPSE_PERIOD_PANEL', periodId }
+}
+
+export function searchOperations(filter) {
+    return function (dispatch) {
+        dispatch(searchLoading());
+        Get('/api/Operation/Search?filter=' + filter)
+            .then(response => dispatch(setSearchResult(response.data)))
+            .catch((error) => handleError(error, dispatch));
+    }
 }
 
 export function removeOperation(periodId, operationId) {
@@ -120,7 +142,7 @@ export function createPeriod(month, year) {
 }
 
 export function getAllPeriod() {
-    return function(dispatch) {
+    return function (dispatch) {
         Get("/api/Period/All")
             .then(response => dispatch(setPeriods(response.data)))
             .catch((error) => handleError(error, dispatch));

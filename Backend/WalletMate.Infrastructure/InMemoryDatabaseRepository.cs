@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using WalletMate.Application.Core;
 using WalletMate.Application.Pairs;
 using WalletMate.Application.Periods.Queries;
+using WalletMate.Domain.Common;
 using WalletMate.Domain.Periods.ValueObjects;
 using WalletMate.Infrastructure.Dto;
 
@@ -92,5 +94,40 @@ namespace WalletMate.Infrastructure
 
             return Task.FromResult(result);
         }
+
+        private static CultureInfo frCulture = new CultureInfo("fr-FR");
+
+        public Task<IReadOnlyList<IPeriodOperation>> SearchOperation(string filter)
+        {
+            if (filter.IsEmpty())
+                return Task.FromResult((IReadOnlyList<IPeriodOperation>)new List<IPeriodOperation>());
+
+            var filterElements = filter.Split(new []{' '}, StringSplitOptions.RemoveEmptyEntries);
+
+            return Task.FromResult((IReadOnlyList<IPeriodOperation>)filterElements
+                    .Aggregate(_operations.SelectMany(a=>a.Value).ToList(), Filter));
+
+            List<IPeriodOperation> Filter(IReadOnlyList<IPeriodOperation> operations, string filterCriteria)
+            {
+                return operations
+                    .Where(operation => operation.Label.Match(filterCriteria) ||
+                                        operation.Amount.ToString(frCulture).Match(filterCriteria) ||
+                                        operation.Pair.Match(filterCriteria) ||
+                                        PeriodId.From(operation.PeriodId).ToPeriodName().ToString().Split(' ')[0].Match(filterCriteria) ||
+                                        operation.Category.Match(filterCriteria) ||
+                                        operation.Type.Match(filterCriteria))
+                    .ToList();
+            }
+
+            double GetNumber(string source)
+                => double.TryParse(source, out var result)
+                    ? result
+                    : -1;
+        }
+    }
+
+    internal static class StringExtensions {
+        public static bool Match(this string source, string dest)
+            => source.ToLower().Contains(dest.ToLower());
     }
 }
