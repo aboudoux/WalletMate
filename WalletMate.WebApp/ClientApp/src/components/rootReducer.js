@@ -9,10 +9,12 @@ const initialState = {
     recipeDialog: { isOpen: false, periodId: '', data:null },
     deleteDialog: { isOpen: false, periodId: '', operationId: 0 },
     createPeriodDialog: { isOpen: false },
-    mainMenu: { anchorLoginMenu: null, anchorActionMenu:null}
+    mainMenu: { anchorLoginMenu: null, anchorActionMenu: null },
+    searchResult: [],
+    searchLoading: false
 };
 
-const defaultData = { operations: [], expanded: false, balance: null }
+const defaultData = { operations: [], expanded: false, balance: null, isLoading:false }
 
 function rootReducer(state = initialState, action) {
 
@@ -89,10 +91,10 @@ function rootReducer(state = initialState, action) {
             newState.createPeriodDialog.isOpen = false;
             hideAllMainMenu();
             break;
-        case 'SET_OPERATIONS':    
+        case 'SET_OPERATIONS':
             newState.periodsData = {
                 ...state.periodsData,
-                [action.periodId]: { ...defaultData, ...state.periodsData[action.periodId], expanded: true, operations: action.operations } 
+                [action.periodId]: { ...defaultData, ...state.periodsData[action.periodId], expanded: true, operations: action.operations, isLoading: false } 
             }
             break;
         case 'SET_BALANCE':
@@ -100,9 +102,22 @@ function rootReducer(state = initialState, action) {
                 ...state.periodsData,
                 [action.periodId]: { ...defaultData, ...state.periodsData[action.periodId], balance: action.balance }
             }
-            break;        
+            break;
+        case 'PANEL_LOADING':
+            newState.periodsData = {
+                ...state.periodsData,
+                [action.periodId]: { ...defaultData, ...state.periodsData[action.periodId], isLoading: true }
+            }
+            break;
         case 'COLLAPSE_PERIOD_PANEL':
             newState.periodsData = { ...state.periodsData, [action.periodId]: defaultData }
+            break;
+        case 'SET_SEARCH_RESULT':
+            newState.searchResult = action.searchResult;
+            newState.searchLoading = false;
+            break;
+        case 'SEARCH_LOADING':
+            newState.searchLoading = true;
             break;
     default:
         return state;

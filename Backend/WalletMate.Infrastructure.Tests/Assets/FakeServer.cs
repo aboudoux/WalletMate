@@ -79,6 +79,12 @@ namespace WalletMate.Infrastructure.Tests.Assets
             return post.GetStatusCode();
         }
 
+        public async Task<IEnumerable<IPeriodOperation>> SearchOperation(string filter)
+        {
+            var result = await Get("/api/Operation/Search?Filter=" + filter);
+            return await result.ReadContentAs<IEnumerable<PeriodOperation>>();
+        }
+
         public async Task<IEnumerable<IPeriodOperation>> GetAllOperations(string periodId)
         {
             var result = await Get("/api/Operation/All?PeriodId="+periodId);
@@ -172,7 +178,7 @@ namespace WalletMate.Infrastructure.Tests.Assets
         public void Dispose()
         {
             _testServer?.Dispose();
-        }
+        }      
     }
 
     public class HttpServerError : Exception

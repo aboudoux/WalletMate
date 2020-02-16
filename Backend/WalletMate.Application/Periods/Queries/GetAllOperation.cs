@@ -27,3 +27,4 @@ namespace WalletMate.Application.Periods.Queries
         int CategoryValue { get; set; }
     }
 }
+

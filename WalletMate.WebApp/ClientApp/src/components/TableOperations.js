@@ -11,7 +11,8 @@ import SpendingIcon from '@material-ui/icons/ArrowForward';
 import EditIcon from '@material-ui/icons/Edit';
 import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
-import IconAddOperation from '@material-ui/icons/AttachMoney';
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
 import { connect } from 'react-redux';
 import './TableOperations.css'
 import { openDeleteOperationDialog, openUpdateSpendingDialog, openUpdateRecipeDialog, openSpendingDialog, openRecipeDialog} from './actions';
@@ -29,7 +30,7 @@ function mapDispatchToProps(dispatch) {
 const ConnectedTableOperations = ({ periodId, rows, balance, openDeleteOperationDialog, openUpdateSpendingDialog, openUpdateRecipeDialog, openSpendingDialog, openRecipeDialog }) => {
 
     return (
-        <div>
+        <div className="table-operations">
 
         <Paper >            
             <Table>
@@ -45,7 +46,7 @@ const ConnectedTableOperations = ({ periodId, rows, balance, openDeleteOperation
                 </TableHead>
                 <TableBody>
                         {rows.map(row => (
-                            <TableRow key={row.operationId} className="row-height" hover="true">
+                            <TableRow key={row.operationId} id="row-height" hover="true">
                                 <TableCell component="th" scope="row">
                                     {
                                         row.type === "Recette"
@@ -60,7 +61,7 @@ const ConnectedTableOperations = ({ periodId, rows, balance, openDeleteOperation
                                 <TableCell>{row.category}</TableCell>
                                 <TableCell>
                                 <Tooltip title="Editer cette opération">
-                                        <IconButton className="icon" onClick={() => {
+                                        <IconButton id="icon" onClick={() => {
                                             row.type === "Dépense"
                                                 ? openUpdateSpendingDialog(row)
                                                 : openUpdateRecipeDialog(row);
@@ -70,7 +71,7 @@ const ConnectedTableOperations = ({ periodId, rows, balance, openDeleteOperation
                                         </IconButton>
                                 </Tooltip>
                                 <Tooltip title="Supprimer cette opération">
-                                        <IconButton className="icon" onClick={() => openDeleteOperationDialog(periodId, row.operationId)}>
+                                        <IconButton id="icon" onClick={() => openDeleteOperationDialog(periodId, row.operationId)}>
                                         <DeleteIcon />
                                     </IconButton>
                                 </Tooltip>
@@ -80,20 +81,27 @@ const ConnectedTableOperations = ({ periodId, rows, balance, openDeleteOperation
                 </TableBody>
                 </Table>
                 <div className="wrapper">
-                    <div>
-                        <IconButton classes={{ root: 'operation-button' }} style={{ color: 'red' }} onClick={() => { openSpendingDialog(periodId); }}>
-                            <IconAddOperation /> Ajouter une dépense
-                        </IconButton>
-                        <IconButton classes={{ root: 'operation-button' }} style={{ color: 'green' }} onClick={() => { openRecipeDialog(periodId); }} >
-                            <IconAddOperation /> Ajouter une recette
-                        </IconButton>
+                    <div></div>
+                    <div className="balance">
+                        {
+                            (balance)
+                                ? balance.amountDue === 0
+                                    ? <p></p>
+                                    : <p><span id="by">{balance.by}</span> doit la somme de <span id="amount-due">{balance.amountDue}</span> €</p>
+                                : <p>No balance found</p>
+                        }
                     </div>
-                <div className="balance">                    
-                    {
-                    (balance) 
-                        ? <p><span id="by">{balance.by}</span> doit la somme de <span id="amount-due">{balance.amountDue}</span> €</p>
-                        : <p>No balance found</p>
-                    }
+                    <div>
+                        <Tooltip title="Ajouter un recette">
+                            <Fab size="small" id="add-recipe-button" aria-label="Add" onClick={() => { openRecipeDialog(periodId); }}>
+                                <AddIcon />
+                            </Fab>
+                        </ Tooltip>
+                        <Tooltip title="Ajouter un dépense">
+                            <Fab size="small" id="add-spending-button" aria-label="Add" onClick={() => { openSpendingDialog(periodId); }}>
+                                <AddIcon />
+                            </Fab>
+                        </ Tooltip>
                     </div>
                 </div>
             </Paper>

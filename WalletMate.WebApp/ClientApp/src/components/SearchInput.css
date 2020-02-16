@@ -1,0 +1,70 @@
+﻿.search-grid {
+    display: grid;
+    grid-template-columns: 1fr 30px;
+    padding: 5px 5px 5px 20px;
+    border: lightgray solid 2px;
+    border-radius: 20px;
+    background-color: white;
+}
+
+.search-grid > * {
+    display: inline;
+    vertical-align: middle;
+}
+
+.search-grid:hover {
+    border: gray solid 2px;
+}
+
+.search-input {
+    grid-column: 1;
+    border: none;
+    outline: none;    
+}
+
+.search-input::placeholder {
+    font-family: arial;
+    font-size: 14px;
+}
+
+.search-icon {
+    grid-column: 2;
+    color: gray;
+}
+
+.search-icon:hover {
+    background-color: lightgray;
+    border-radius: 20px;
+    width: 90%;
+    height: 90%;
+}
+
+.search-result thead td {
+    font-size: 14px;
+    background-color: rgb(241, 241, 241);
+    text-align: center;
+    border-right: lightgray solid 1px;
+    border-left: lightgray solid 1px;
+}
+
+.search-result tbody td {
+    text-align: center;
+    border-right: lightgray solid 1px;
+    border-left: lightgray solid 1px;
+}
+
+.search-result tbody:hover {
+    background-color: lavender;
+}
+
+.search-result > table {
+    margin-bottom: 20px;
+    margin-top: 20px;
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    border-bottom: lightgray solid 2px;
+    box-shadow: 0px 1px 5px 1px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 3px 1px -2px rgba(0,0,0,0.12);
+}
+
+

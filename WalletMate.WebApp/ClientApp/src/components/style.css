@@ -24,3 +24,24 @@
 .cancel-validate > Button {
   margin: 5px;
 }
+
+#searchWaiter {
+    height: 50px;
+    margin-left: 50%;
+    margin-right: 50%;
+    animation: rotation 1s infinite linear;
+}
+
+#panelWaiter {
+    height: 30px;
+    animation: rotation 1s infinite linear;
+}
+
+@keyframes rotation {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(359deg);
+    }
+}

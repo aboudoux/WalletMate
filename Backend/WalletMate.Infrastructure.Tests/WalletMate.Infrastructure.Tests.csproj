@@ -54,6 +54,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Pair.feature</DependentUpon>
     </Compile>
+    <Compile Update="Features\SearchOperation.feature.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>SearchOperation.feature</DependentUpon>
+    </Compile>
     <Compile Update="Steps\AuthenticationSteps.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -70,6 +75,10 @@
     <SpecFlowFeatureFiles Update="Features\Pair.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>Pair.feature.cs</LastGenOutput>
+    </SpecFlowFeatureFiles>
+    <SpecFlowFeatureFiles Update="Features\SearchOperation.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>SearchOperation.feature.cs</LastGenOutput>
     </SpecFlowFeatureFiles>
   </ItemGroup>
 

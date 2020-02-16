@@ -8,7 +8,8 @@ namespace WalletMate.Application.Periods.Queries {
     public class PeriodQueryHandler : 
         IQueryHandler<GetAllPeriod, IReadOnlyList<IPeriodResult>>,
         IQueryHandler<GetAllOperation, IReadOnlyList<IPeriodOperation>>,
-        IQueryHandler<GetPeriodBalance, IPeriodBalance>
+        IQueryHandler<GetPeriodBalance, IPeriodBalance>,
+        IQueryHandler<SearchOperation, IReadOnlyList<IPeriodOperation>>
     {
         private readonly IDatabaseRepository _repository;
 
@@ -30,6 +31,11 @@ namespace WalletMate.Application.Periods.Queries {
         public async Task<IPeriodBalance> Handle(GetPeriodBalance request, CancellationToken cancellationToken)
         {
             return await _repository.GetBalance(request.PeriodId);
+        }
+
+        public async Task<IReadOnlyList<IPeriodOperation>> Handle(SearchOperation request, CancellationToken cancellationToken)
+        {
+            return await _repository.SearchOperation(request.Filter);
         }
     }
 }

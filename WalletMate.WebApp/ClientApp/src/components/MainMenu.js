@@ -9,8 +9,10 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import DialogCreatePeriod from './DialogCreatePeriod';
+import { SearchInput, SearchResult }  from './SearchInput'
 import { connect } from "react-redux";
 import { openCreatePeriodPopup, closeCreatePeriodPopup, showActionMenu, showLoginMenu, hideAllMenu, disconnectUser } from './actions';
+import Waiter from './Waiter'
 
 function mapDispatchToProps(dispatch) {
     return {
@@ -24,41 +26,49 @@ function mapDispatchToProps(dispatch) {
 }
 
 function mapStateToProps(state) {
-    return { anchorLoginMenu: state.mainMenu.anchorLoginMenu, anchorActionMenu: state.mainMenu.anchorActionMenu};
+    return {
+        anchorLoginMenu: state.mainMenu.anchorLoginMenu,
+        anchorActionMenu: state.mainMenu.anchorActionMenu,
+        searchResult: state.searchResult,
+        searchLoading: state.searchLoading
+    };
 };
 
-const ConnectedMainMenu = ({ openCreatePeriodPopup, closeCreatePeriodPopup, anchorLoginMenu, anchorActionMenu, showActionMenu, showLoginMenu, hideAllMenu, disconnectUser }) =>
+const ConnectedMainMenu = ({ openCreatePeriodPopup, closeCreatePeriodPopup, anchorLoginMenu, anchorActionMenu, showActionMenu, showLoginMenu, hideAllMenu, disconnectUser, searchResult, searchLoading }) =>
 {
     return (
         <div className="root">
 
             <DialogCreatePeriod />
 
+            <div className="menu-bar-container">
             <AppBar position="static">
-                <Toolbar>
-                    <IconButton
-                        aria-owns={Boolean(anchorActionMenu) ? 'menu-action' : undefined}
-                        className="menu-button"
-                        color="inherit"
-                        aria-label="Menu"
-                        aria-haspopup="true"
-                        onClick={event => showActionMenu(event.currentTarget)}>
-                        <MenuIcon />
-                    </IconButton>
-                    <Menu
-                        id="menu-action"
-                        anchorEl={anchorActionMenu}
-                        open={Boolean(anchorActionMenu)}
-                        onClose={hideAllMenu}>
-                        <MenuItem onClick={openCreatePeriodPopup}>Créer une période</MenuItem>
-                        <MenuItem onClick={closeCreatePeriodPopup}>Ajouter la prochaine période</MenuItem>
-                    </Menu>
-
-                    <Typography variant="h6" color="inherit" className="grow">
-                        Gestion des dépenses
-                    </Typography>
-                    <div>
+                <Toolbar id="grid-content">
+                    <div id="item1">
                         <IconButton
+                            aria-owns={Boolean(anchorActionMenu) ? 'menu-action' : undefined}
+                            className="menu-button"
+                            color="inherit"
+                            aria-label="Menu"
+                            aria-haspopup="true"
+                            onClick={event => showActionMenu(event.currentTarget)}>
+                            <MenuIcon />
+                        </IconButton>
+                        <Menu
+                            id="menu-action"
+                            anchorEl={anchorActionMenu}
+                            open={Boolean(anchorActionMenu)}
+                            onClose={hideAllMenu}>
+                            <MenuItem onClick={openCreatePeriodPopup}>Créer une période</MenuItem>
+                            <MenuItem onClick={closeCreatePeriodPopup}>Ajouter la prochaine période</MenuItem>
+                            </Menu>
+                        <Typography variant="h6" color="inherit">
+                            Gestion des dépenses
+                        </Typography>
+                    </div>
+                    <SearchInput id="item2" />
+                    <div id="item3">
+                        <IconButton id="login"
                             aria-owns={Boolean(anchorLoginMenu) ? 'menu-appbar' : undefined}
                             aria-haspopup="true"
                             onClick={event => showLoginMenu(event.currentTarget)}
@@ -78,7 +88,15 @@ const ConnectedMainMenu = ({ openCreatePeriodPopup, closeCreatePeriodPopup, anch
                         </Menu>
                     </div>
                 </Toolbar>
-            </AppBar>
+                </AppBar>
+                {
+                    searchLoading
+                        ? <Waiter id="searchWaiter" />
+                        : searchResult.length > 0
+                            ? <SearchResult />
+                            : ''
+                }
+            </div>
         </div>
     );
 };

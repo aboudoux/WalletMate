@@ -1,15 +1,19 @@
-﻿.row-height {
-    height: 0 !important;
+﻿#row-height {
+    height: 0;
 }
 
-.icon {
-    padding: 0 !important;
-    outline: none !important;
+#icon {
+    padding: 0;
+    outline: none;
 }
 
 .balance {
-    text-align: right;
-    margin-right: 20px;
+    height: 0;
+}
+
+.balance > p {
+    text-align: center;
+    line-height: 60px;
 }
 
 #by {
@@ -22,12 +26,22 @@
 
 .wrapper {
     display: grid;
-    grid-template-columns: 2fr auto;
+    grid-template-columns: 30px auto 150px;
 }
 
-.operation-button {
-    padding: 0 !important;
-    font-size: 12px !important;
-    border-radius: 0 !important;
-    outline: none !important;    
+#add-recipe-button {
+    color: white;
+    margin: 10px;
+    background-color: green;
+}
+
+#add-spending-button {
+    color: white;
+    margin: 10px;
+    background-color: red;
+}
+
+.table-operations {
+    margin-left: auto;
+    margin-right: auto;
 }

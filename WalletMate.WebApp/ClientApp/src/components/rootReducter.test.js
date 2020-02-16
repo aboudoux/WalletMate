@@ -3,7 +3,7 @@ import {
     setPair, setPeriods, openSpendingDialog, openRecipeDialog,
     setOperations, setBalance, setConnectedUser,
     disconnectUser, showActionMenu, showLoginMenu,
-    hideAllMenu
+    hideAllMenu, panelLoading
 } from './actions'
 
 var redux;
@@ -63,6 +63,13 @@ test("Set balance when calling SET_BALANCE",
         redux.dispatch(setBalance(periodId, balance));
         expect(redux.state.periodsData[periodId].balance).toEqual(balance);
         expect(redux.state.periodsData[periodId].operations).toEqual([]);
+    });
+
+test("Set panelLoading when calling PANEL_LOADDING",
+    () => {
+        const periodId = "2007-01";
+        redux.dispatch(panelLoading(periodId));
+        expect(redux.state.periodsData[periodId].isLoading).toBe(true);
     });
 
 test("Set operations and balance when calling each other",
