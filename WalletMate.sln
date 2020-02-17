@@ -19,6 +19,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Backend", "Backend", "{D55B
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WalletMate.BlazorApp", "WalletMate.BlazorApp\WalletMate.BlazorApp.csproj", "{0B96670D-2CE6-448F-9261-C6B6611039C5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WalletMate.Infrastructure.Tests", "WalletMate.Infrastructure.Tests\WalletMate.Infrastructure.Tests.csproj", "{FC5B8AC4-28D4-41B5-9491-723179E9B8B2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,6 +55,10 @@ Global
 		{0B96670D-2CE6-448F-9261-C6B6611039C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0B96670D-2CE6-448F-9261-C6B6611039C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0B96670D-2CE6-448F-9261-C6B6611039C5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC5B8AC4-28D4-41B5-9491-723179E9B8B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC5B8AC4-28D4-41B5-9491-723179E9B8B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC5B8AC4-28D4-41B5-9491-723179E9B8B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC5B8AC4-28D4-41B5-9491-723179E9B8B2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -63,6 +69,7 @@ Global
 		{F8FA04AC-EC89-4DD5-9885-3C8EF83288C9} = {D55B8389-B28A-4492-AE88-8EBEB777CE5C}
 		{5F726AB9-E790-440E-AE24-F1ABA123F018} = {D55B8389-B28A-4492-AE88-8EBEB777CE5C}
 		{ACBFCB77-035C-4CEC-9D02-DC5CD3BC0A3F} = {D55B8389-B28A-4492-AE88-8EBEB777CE5C}
+		{FC5B8AC4-28D4-41B5-9491-723179E9B8B2} = {D55B8389-B28A-4492-AE88-8EBEB777CE5C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6E8F3BFB-8C9C-4DF3-860F-0B09E9D5B054}
