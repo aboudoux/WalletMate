@@ -1,6 +1,6 @@
 ﻿using WalletMate.Application.Core;
 
-namespace WalletMate.Application.Pairs
+namespace WalletMate.Application.Pairs.Queries
 {
     public class GetConfiguredPair : IQuery<IConfiguredPair>
     {

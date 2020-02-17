@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using WalletMate.Application.Core;
+using WalletMate.Application.Pairs.Queries;
 
 namespace WalletMate.Application.Pairs
 {

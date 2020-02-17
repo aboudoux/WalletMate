@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using WalletMate.Application.Pairs;
+using WalletMate.Application.Pairs.Queries;
 using WalletMate.Infrastructure.Dto;
 
 namespace WalletMate.Infrastructure.WebAppTests.Assets

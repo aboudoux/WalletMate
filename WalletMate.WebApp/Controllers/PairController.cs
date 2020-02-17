@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using WalletMate.Application.Core;
 using WalletMate.Application.Pairs;
+using WalletMate.Application.Pairs.Queries;
 
 namespace WalletMate.WebApp.Controllers
 {

@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WalletMate.Infrastructure.Dto;
-using IAuthorizationService = WalletMate.Infrastructure.Services.IAuthorizationService;
+using IAuthorizationService = WalletMate.Application.Core.IAuthorizationService;
 
 namespace WalletMate.WebApp.Controllers
 {

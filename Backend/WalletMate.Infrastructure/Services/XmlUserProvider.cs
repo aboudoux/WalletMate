@@ -2,6 +2,7 @@
 using System.IO;
 using System.Reflection;
 using WalletMate.Application.Pairs;
+using WalletMate.Application.Pairs.Queries;
 using WalletMate.Domain.Common;
 using WalletMate.Infrastructure.Dto;
 

@@ -1,12 +1,14 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using WalletMate.BlazorApp.Data;
 using WalletMate.Infrastructure;
-using WalletMate.WebApp;
 
 namespace WalletMate.BlazorApp
 {
@@ -30,7 +32,7 @@ namespace WalletMate.BlazorApp
 			services.AddAuthentication("GuidAuthentication")
 				.AddScheme<AuthenticationSchemeOptions, GuidAuthenticationHandler>("GuidAuthentication", null);
 
-			//services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+			services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
 			services.RegisterDependencies();
 		}

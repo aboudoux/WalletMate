@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using WalletMate.Infrastructure.Services;
+using WalletMate.Application.Core;
 
-namespace WalletMate.WebApp
+namespace WalletMate.BlazorApp
 {
     public class GuidAuthenticationHandler : AuthenticationHandler<AuthenticationSchemeOptions> {
         private readonly IAuthorizationService _authorizationService;

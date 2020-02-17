@@ -1,4 +1,5 @@
 using WalletMate.Application.Pairs;
+using WalletMate.Application.Pairs.Queries;
 
 namespace WalletMate.Infrastructure.Dto
 {

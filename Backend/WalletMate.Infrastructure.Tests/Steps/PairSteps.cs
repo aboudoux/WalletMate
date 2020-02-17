@@ -2,6 +2,7 @@
 using FluentAssertions;
 using TechTalk.SpecFlow;
 using WalletMate.Application.Pairs;
+using WalletMate.Application.Pairs.Queries;
 using WalletMate.Infrastructure.WebAppTests.Assets;
 
 namespace WalletMate.Infrastructure.WebAppTests.Steps

@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using WalletMate.Application.Pairs;
+using WalletMate.Application.Pairs.Queries;
 using WalletMate.Application.Periods.Queries;
 using WalletMate.Domain.Common;
 using WalletMate.Domain.Common.Events;

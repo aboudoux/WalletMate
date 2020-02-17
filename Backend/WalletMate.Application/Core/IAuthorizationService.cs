@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace WalletMate.Infrastructure.Services
+namespace WalletMate.Application.Core
 {
     public interface IAuthorizationService
     {
