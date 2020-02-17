@@ -10,4 +10,10 @@
     <ProjectReference Include="..\Backend\WalletMate.Infrastructure\WalletMate.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="wwwroot\Images\man.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

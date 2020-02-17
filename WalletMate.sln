@@ -17,9 +17,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WalletMate.Infrastructure.W
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Backend", "Backend", "{D55B8389-B28A-4492-AE88-8EBEB777CE5C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WalletMate.BlazorApp", "WalletMate.BlazorApp\WalletMate.BlazorApp.csproj", "{0B96670D-2CE6-448F-9261-C6B6611039C5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WalletMate.BlazorApp", "WalletMate.BlazorApp\WalletMate.BlazorApp.csproj", "{0B96670D-2CE6-448F-9261-C6B6611039C5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WalletMate.Infrastructure.Tests", "WalletMate.Infrastructure.Tests\WalletMate.Infrastructure.Tests.csproj", "{FC5B8AC4-28D4-41B5-9491-723179E9B8B2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WalletMate.Infrastructure.Tests", "WalletMate.Infrastructure.Tests\WalletMate.Infrastructure.Tests.csproj", "{FC5B8AC4-28D4-41B5-9491-723179E9B8B2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
