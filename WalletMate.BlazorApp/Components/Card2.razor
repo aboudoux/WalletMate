@@ -1,0 +1,65 @@
+﻿@namespace WalletMate.BlazorApp.Components
+
+    <div class="container text-white-50 border rounded border-white shadow @Animation" @onmouseover="MouseEnter" @onmouseout="MouseOut" @onclick="Clicked">
+        <div class="row">
+            <div class="col text-center">
+                <img class="rounded-circle border" src="@Icon">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col text-center">
+                <strong class="text-secondary" style="font-size: 21px;filter: contrast(126%) grayscale(0%);">@Name</strong>
+            </div>
+        </div>
+        @if (ShowPassword)
+        {
+            <div class="row">
+                <div class="col text-center"><input type="password" class="border rounded animated bounce fast" placeholder="Entrez votre mot de passe" autofocus required style="margin-top: 20px;" /></div>
+            </div>
+        }
+    </div>
+
+
+@code {
+
+    [Parameter]
+    public string Id { get; set; }
+
+    [Parameter]
+    public string Icon { get; set; } = "Images/man.jpg";
+
+    [Parameter]
+    public string Name { get; set; } = "Bob LEPONGE";
+
+    private string Animation { get; set; }
+
+    private bool ShowPassword { get; set; }
+
+
+    private void Clicked()
+    {
+        Console.WriteLine("ok");
+        ShowPassword = true;
+    }
+
+    private void MouseEnter(MouseEventArgs arg)
+    {
+        Animation = "animated pulse faster";
+    }
+
+    private void MouseOut(MouseEventArgs arg)
+    {
+        Animation = string.Empty;
+    }
+}
+
+<style>
+
+    input[type="password"] {
+        text-align: center;
+    }
+
+    input[type="password"]::placeholder {  
+        text-align: center; 
+    } 
+</style>
