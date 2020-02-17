@@ -1,7 +1,7 @@
 ﻿using System;
-using WalletMate.Infrastructure.Tests.Assets;
+using WalletMate.Infrastructure.WebAppTests.Assets;
 
-namespace WalletMate.Infrastructure.Tests.Steps
+namespace WalletMate.Infrastructure.WebAppTests.Steps
 {
     public abstract class StepBase
     {

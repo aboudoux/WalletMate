@@ -5,10 +5,10 @@ using WalletMate.Domain.Common;
 using WalletMate.Domain.Periods;
 using WalletMate.Domain.Periods.Events;
 using WalletMate.Domain.Periods.ValueObjects;
-using WalletMate.Infrastructure.Tests.Tools;
+using WalletMate.Infrastructure.WebAppTests.Tools;
 using Xunit;
 
-namespace WalletMate.Infrastructure.Tests
+namespace WalletMate.Infrastructure.WebAppTests
 {
     public class FileEventStoreShould
     {

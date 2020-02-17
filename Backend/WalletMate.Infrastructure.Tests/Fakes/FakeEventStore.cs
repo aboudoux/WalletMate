@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using WalletMate.Domain.Common.Events;
 
-namespace WalletMate.Infrastructure.Tests.Fakes 
+namespace WalletMate.Infrastructure.WebAppTests.Fakes 
 {
     public class FakeEventStore : IEventStore
     {

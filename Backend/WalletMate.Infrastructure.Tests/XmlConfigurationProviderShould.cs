@@ -7,10 +7,10 @@ using FluentAssertions;
 using WalletMate.Infrastructure.Dto;
 using WalletMate.Infrastructure.Services;
 using WalletMate.Infrastructure.Services.Exceptions;
-using WalletMate.Infrastructure.Tests.Tools;
+using WalletMate.Infrastructure.WebAppTests.Tools;
 using Xunit;
 
-namespace WalletMate.Infrastructure.Tests
+namespace WalletMate.Infrastructure.WebAppTests
 {
     public class XmlConfigurationProviderShould
     {

@@ -10,7 +10,7 @@
 // ------------------------------------------------------------------------------
 #region Designer generated code
 #pragma warning disable
-namespace WalletMate.Infrastructure.Tests.Features
+namespace WalletMate.Infrastructure.WebAppTests.Features
 {
     using TechTalk.SpecFlow;
     

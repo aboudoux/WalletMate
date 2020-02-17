@@ -1,10 +1,10 @@
 using System.Net;
 using System.Threading.Tasks;
 using FluentAssertions;
-using WalletMate.Infrastructure.Tests.Assets;
+using WalletMate.Infrastructure.WebAppTests.Assets;
 using Xunit;
 
-namespace WalletMate.Infrastructure.Tests
+namespace WalletMate.Infrastructure.WebAppTests
 {
     public class FakeServerShould
     {

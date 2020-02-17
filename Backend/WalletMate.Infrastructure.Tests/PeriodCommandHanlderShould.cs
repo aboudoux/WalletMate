@@ -6,11 +6,11 @@ using WalletMate.Application.Periods;
 using WalletMate.Domain.Common;
 using WalletMate.Domain.Common.Events;
 using WalletMate.Domain.Periods.ValueObjects;
-using WalletMate.Infrastructure.Tests.Assets;
-using WalletMate.Infrastructure.Tests.Fakes;
+using WalletMate.Infrastructure.WebAppTests.Assets;
+using WalletMate.Infrastructure.WebAppTests.Fakes;
 using Xunit;
 
-namespace WalletMate.Infrastructure.Tests
+namespace WalletMate.Infrastructure.WebAppTests
 {
     public class PeriodCommandHanlderShould
     {

@@ -1,4 +1,4 @@
-﻿namespace WalletMate.Infrastructure.Tests.Assets
+﻿namespace WalletMate.Infrastructure.WebAppTests.Assets
 {
     public class TestContext
     {

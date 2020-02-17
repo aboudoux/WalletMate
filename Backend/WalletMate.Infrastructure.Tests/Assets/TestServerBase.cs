@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace WalletMate.Infrastructure.Tests.Assets
+namespace WalletMate.Infrastructure.WebAppTests.Assets
 {
     public class TestServerBase<TStartup> : IDisposable where TStartup : class
     {

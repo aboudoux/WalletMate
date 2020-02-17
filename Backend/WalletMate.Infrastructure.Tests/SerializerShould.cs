@@ -2,7 +2,7 @@ using FluentAssertions;
 using WalletMate.Domain.Periods.ValueObjects;
 using Xunit;
 
-namespace WalletMate.Infrastructure.Tests
+namespace WalletMate.Infrastructure.WebAppTests
 {
     public class SerializerShould
     {

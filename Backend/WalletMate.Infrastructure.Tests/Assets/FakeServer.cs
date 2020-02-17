@@ -15,7 +15,7 @@ using WalletMate.Domain.Common.Events;
 using WalletMate.Infrastructure.Dto;
 using WalletMate.WebApp;
 
-namespace WalletMate.Infrastructure.Tests.Assets
+namespace WalletMate.Infrastructure.WebAppTests.Assets
 {
     public class FakeServer : IDisposable
     {

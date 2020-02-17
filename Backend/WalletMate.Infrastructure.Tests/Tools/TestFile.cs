@@ -3,7 +3,7 @@ using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
 
-namespace WalletMate.Infrastructure.Tests.Tools
+namespace WalletMate.Infrastructure.WebAppTests.Tools
 {
     public class TestFile
     {

@@ -7,9 +7,9 @@ using TechTalk.SpecFlow;
 using WalletMate.Application.Periods.Queries;
 using WalletMate.Domain.Common;
 using WalletMate.Infrastructure.Dto;
-using WalletMate.Infrastructure.Tests.Assets;
+using WalletMate.Infrastructure.WebAppTests.Assets;
 
-namespace WalletMate.Infrastructure.Tests.Steps
+namespace WalletMate.Infrastructure.WebAppTests.Steps
 {
     [Binding]
     public sealed class OperationSteps : StepBase

@@ -3,7 +3,7 @@ using TechTalk.SpecFlow;
 using TechTalk.SpecFlow.Assist;
 using WalletMate.Infrastructure.Dto;
 
-namespace WalletMate.Infrastructure.Tests.Steps
+namespace WalletMate.Infrastructure.WebAppTests.Steps
 {
     [Binding]
     public sealed class StepTransformations

@@ -2,7 +2,7 @@
 using WalletMate.Application.Pairs;
 using WalletMate.Infrastructure.Dto;
 
-namespace WalletMate.Infrastructure.Tests.Assets
+namespace WalletMate.Infrastructure.WebAppTests.Assets
 {
     public class FakeServerUserProvider : IUserProvider
     {

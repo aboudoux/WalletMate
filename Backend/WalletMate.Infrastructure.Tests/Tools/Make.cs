@@ -1,4 +1,4 @@
-namespace WalletMate.Infrastructure.Tests.Tools
+namespace WalletMate.Infrastructure.WebAppTests.Tools
 {
     public class Make
     {

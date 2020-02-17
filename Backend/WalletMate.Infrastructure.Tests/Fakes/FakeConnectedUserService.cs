@@ -1,6 +1,6 @@
 ﻿using WalletMate.Domain.Common;
 
-namespace WalletMate.Infrastructure.Tests.Fakes
+namespace WalletMate.Infrastructure.WebAppTests.Fakes
 {
     public class FakeConnectedUserService : IConnectedUserService
     {

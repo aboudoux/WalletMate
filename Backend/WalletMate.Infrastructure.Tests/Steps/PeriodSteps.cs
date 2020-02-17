@@ -2,9 +2,9 @@
 using FluentAssertions;
 using TechTalk.SpecFlow;
 using WalletMate.Infrastructure.Dto;
-using WalletMate.Infrastructure.Tests.Assets;
+using WalletMate.Infrastructure.WebAppTests.Assets;
 
-namespace WalletMate.Infrastructure.Tests.Steps
+namespace WalletMate.Infrastructure.WebAppTests.Steps
 {
     [Binding]
     public sealed class PeriodSteps : StepBase
