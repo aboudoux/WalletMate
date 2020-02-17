@@ -19,20 +19,25 @@ namespace WalletMate.Infrastructure.Tests.Features
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "3.1.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [NUnit.Framework.TestFixtureAttribute()]
-    [NUnit.Framework.DescriptionAttribute("Rechercher une opération")]
-    public partial class RechercherUneOperationFeature
+    public partial class RechercherUneOperationFeature : object, Xunit.IClassFixture<RechercherUneOperationFeature.FixtureData>, System.IDisposable
     {
         
-        private TechTalk.SpecFlow.ITestRunner testRunner;
+        private static TechTalk.SpecFlow.ITestRunner testRunner;
         
         private string[] _featureTags = ((string[])(null));
+        
+        private Xunit.Abstractions.ITestOutputHelper _testOutputHelper;
         
 #line 1 "SearchOperation.feature"
 #line hidden
         
-        [NUnit.Framework.OneTimeSetUpAttribute()]
-        public virtual void FeatureSetup()
+        public RechercherUneOperationFeature(RechercherUneOperationFeature.FixtureData fixtureData, WalletMate_Infrastructure_Tests_XUnitAssemblyFixture assemblyFixture, Xunit.Abstractions.ITestOutputHelper testOutputHelper)
+        {
+            this._testOutputHelper = testOutputHelper;
+            this.TestInitialize();
+        }
+        
+        public static void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
             TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Rechercher une opération", "\tEn tant qu\'utilisateur\r\n\tJe veux pouvoir rechercher un opération dans l\'applicat" +
@@ -40,19 +45,16 @@ namespace WalletMate.Infrastructure.Tests.Features
             testRunner.OnFeatureStart(featureInfo);
         }
         
-        [NUnit.Framework.OneTimeTearDownAttribute()]
-        public virtual void FeatureTearDown()
+        public static void FeatureTearDown()
         {
             testRunner.OnFeatureEnd();
             testRunner = null;
         }
         
-        [NUnit.Framework.SetUpAttribute()]
         public virtual void TestInitialize()
         {
         }
         
-        [NUnit.Framework.TearDownAttribute()]
         public virtual void TestTearDown()
         {
             testRunner.OnScenarioEnd();
@@ -61,7 +63,7 @@ namespace WalletMate.Infrastructure.Tests.Features
         public virtual void ScenarioInitialize(TechTalk.SpecFlow.ScenarioInfo scenarioInfo)
         {
             testRunner.OnScenarioInitialize(scenarioInfo);
-            testRunner.ScenarioContext.ScenarioContainer.RegisterInstanceAs<NUnit.Framework.TestContext>(NUnit.Framework.TestContext.CurrentContext);
+            testRunner.ScenarioContext.ScenarioContainer.RegisterInstanceAs<Xunit.Abstractions.ITestOutputHelper>(_testOutputHelper);
         }
         
         public virtual void ScenarioStart()
@@ -168,8 +170,14 @@ namespace WalletMate.Infrastructure.Tests.Features
 #line hidden
         }
         
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Recherche par la période")]
+        void System.IDisposable.Dispose()
+        {
+            this.TestTearDown();
+        }
+        
+        [Xunit.SkippableFactAttribute(DisplayName="Recherche par la période")]
+        [Xunit.TraitAttribute("FeatureTitle", "Rechercher une opération")]
+        [Xunit.TraitAttribute("Description", "Recherche par la période")]
         public virtual void RechercheParLaPeriode()
         {
             string[] tagsOfScenario = ((string[])(null));
@@ -223,8 +231,9 @@ this.FeatureBackground();
             this.ScenarioCleanup();
         }
         
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Recherche par le montant")]
+        [Xunit.SkippableFactAttribute(DisplayName="Recherche par le montant")]
+        [Xunit.TraitAttribute("FeatureTitle", "Rechercher une opération")]
+        [Xunit.TraitAttribute("Description", "Recherche par le montant")]
         public virtual void RechercheParLeMontant()
         {
             string[] tagsOfScenario = ((string[])(null));
@@ -286,13 +295,14 @@ this.FeatureBackground();
             this.ScenarioCleanup();
         }
         
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Recherche par une parite du montant")]
-        [NUnit.Framework.TestCaseAttribute("12", null)]
-        [NUnit.Framework.TestCaseAttribute("123", null)]
-        [NUnit.Framework.TestCaseAttribute("1234", null)]
-        [NUnit.Framework.TestCaseAttribute("1234,5", null)]
-        [NUnit.Framework.TestCaseAttribute("1234,56", null)]
+        [Xunit.SkippableTheoryAttribute(DisplayName="Recherche par une parite du montant")]
+        [Xunit.TraitAttribute("FeatureTitle", "Rechercher une opération")]
+        [Xunit.TraitAttribute("Description", "Recherche par une parite du montant")]
+        [Xunit.InlineDataAttribute("12", new string[0])]
+        [Xunit.InlineDataAttribute("123", new string[0])]
+        [Xunit.InlineDataAttribute("1234", new string[0])]
+        [Xunit.InlineDataAttribute("1234,5", new string[0])]
+        [Xunit.InlineDataAttribute("1234,56", new string[0])]
         public virtual void RechercheParUnePariteDuMontant(string filtre, string[] exampleTags)
         {
             string[] tagsOfScenario = exampleTags;
@@ -346,8 +356,9 @@ this.FeatureBackground();
             this.ScenarioCleanup();
         }
         
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Recherche par le label")]
+        [Xunit.SkippableFactAttribute(DisplayName="Recherche par le label")]
+        [Xunit.TraitAttribute("FeatureTitle", "Rechercher une opération")]
+        [Xunit.TraitAttribute("Description", "Recherche par le label")]
         public virtual void RechercheParLeLabel()
         {
             string[] tagsOfScenario = ((string[])(null));
@@ -401,8 +412,9 @@ this.FeatureBackground();
             this.ScenarioCleanup();
         }
         
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Recherche par le binôme")]
+        [Xunit.SkippableFactAttribute(DisplayName="Recherche par le binôme")]
+        [Xunit.TraitAttribute("FeatureTitle", "Rechercher une opération")]
+        [Xunit.TraitAttribute("Description", "Recherche par le binôme")]
         public virtual void RechercheParLeBinome()
         {
             string[] tagsOfScenario = ((string[])(null));
@@ -488,8 +500,9 @@ this.FeatureBackground();
             this.ScenarioCleanup();
         }
         
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Recherche par la catégorie")]
+        [Xunit.SkippableFactAttribute(DisplayName="Recherche par la catégorie")]
+        [Xunit.TraitAttribute("FeatureTitle", "Rechercher une opération")]
+        [Xunit.TraitAttribute("Description", "Recherche par la catégorie")]
         public virtual void RechercheParLaCategorie()
         {
             string[] tagsOfScenario = ((string[])(null));
@@ -543,8 +556,9 @@ this.FeatureBackground();
             this.ScenarioCleanup();
         }
         
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Recherche par le type")]
+        [Xunit.SkippableFactAttribute(DisplayName="Recherche par le type")]
+        [Xunit.TraitAttribute("FeatureTitle", "Rechercher une opération")]
+        [Xunit.TraitAttribute("Description", "Recherche par le type")]
         public virtual void RechercheParLeType()
         {
             string[] tagsOfScenario = ((string[])(null));
@@ -614,8 +628,9 @@ this.FeatureBackground();
             this.ScenarioCleanup();
         }
         
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Recherche combinée par type et montant")]
+        [Xunit.SkippableFactAttribute(DisplayName="Recherche combinée par type et montant")]
+        [Xunit.TraitAttribute("FeatureTitle", "Rechercher une opération")]
+        [Xunit.TraitAttribute("Description", "Recherche combinée par type et montant")]
         public virtual void RechercheCombineeParTypeEtMontant()
         {
             string[] tagsOfScenario = ((string[])(null));
@@ -669,8 +684,9 @@ this.FeatureBackground();
             this.ScenarioCleanup();
         }
         
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Recherche combinée par période et libellé")]
+        [Xunit.SkippableFactAttribute(DisplayName="Recherche combinée par période et libellé")]
+        [Xunit.TraitAttribute("FeatureTitle", "Rechercher une opération")]
+        [Xunit.TraitAttribute("Description", "Recherche combinée par période et libellé")]
         public virtual void RechercheCombineeParPeriodeEtLibelle()
         {
             string[] tagsOfScenario = ((string[])(null));
@@ -724,8 +740,9 @@ testRunner.When("Je lance une recherche d\'opérations avec le filtre \"mars cad
             this.ScenarioCleanup();
         }
         
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Recherche combinée avec tous les critères")]
+        [Xunit.SkippableFactAttribute(DisplayName="Recherche combinée avec tous les critères")]
+        [Xunit.TraitAttribute("FeatureTitle", "Rechercher une opération")]
+        [Xunit.TraitAttribute("Description", "Recherche combinée avec tous les critères")]
         public virtual void RechercheCombineeAvecTousLesCriteres()
         {
             string[] tagsOfScenario = ((string[])(null));
@@ -780,8 +797,9 @@ testRunner.When("Je lance une recherche d\'opérations avec le filtre \"100 Mari
             this.ScenarioCleanup();
         }
         
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("La recherche ne tiens pas compte de l\'année de la période")]
+        [Xunit.SkippableFactAttribute(DisplayName="La recherche ne tiens pas compte de l\'année de la période")]
+        [Xunit.TraitAttribute("FeatureTitle", "Rechercher une opération")]
+        [Xunit.TraitAttribute("Description", "La recherche ne tiens pas compte de l\'année de la période")]
         public virtual void LaRechercheNeTiensPasCompteDeLanneeDeLaPeriode()
         {
             string[] tagsOfScenario = ((string[])(null));
@@ -835,8 +853,9 @@ this.FeatureBackground();
             this.ScenarioCleanup();
         }
         
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Une recherche vide ne retourne rien")]
+        [Xunit.SkippableFactAttribute(DisplayName="Une recherche vide ne retourne rien")]
+        [Xunit.TraitAttribute("FeatureTitle", "Rechercher une opération")]
+        [Xunit.TraitAttribute("Description", "Une recherche vide ne retourne rien")]
         public virtual void UneRechercheVideNeRetourneRien()
         {
             string[] tagsOfScenario = ((string[])(null));
@@ -872,6 +891,22 @@ this.FeatureBackground();
 #line hidden
             }
             this.ScenarioCleanup();
+        }
+        
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "3.1.0.0")]
+        [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
+        public class FixtureData : System.IDisposable
+        {
+            
+            public FixtureData()
+            {
+                RechercherUneOperationFeature.FeatureSetup();
+            }
+            
+            void System.IDisposable.Dispose()
+            {
+                RechercherUneOperationFeature.FeatureTearDown();
+            }
         }
     }
 }

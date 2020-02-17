@@ -19,20 +19,25 @@ namespace WalletMate.Infrastructure.Tests.Features
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "3.1.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [NUnit.Framework.TestFixtureAttribute()]
-    [NUnit.Framework.DescriptionAttribute("Obtention du binôme configuré")]
-    public partial class ObtentionDuBinomeConfigureFeature
+    public partial class ObtentionDuBinomeConfigureFeature : object, Xunit.IClassFixture<ObtentionDuBinomeConfigureFeature.FixtureData>, System.IDisposable
     {
         
-        private TechTalk.SpecFlow.ITestRunner testRunner;
+        private static TechTalk.SpecFlow.ITestRunner testRunner;
         
         private string[] _featureTags = ((string[])(null));
+        
+        private Xunit.Abstractions.ITestOutputHelper _testOutputHelper;
         
 #line 1 "Pair.feature"
 #line hidden
         
-        [NUnit.Framework.OneTimeSetUpAttribute()]
-        public virtual void FeatureSetup()
+        public ObtentionDuBinomeConfigureFeature(ObtentionDuBinomeConfigureFeature.FixtureData fixtureData, WalletMate_Infrastructure_Tests_XUnitAssemblyFixture assemblyFixture, Xunit.Abstractions.ITestOutputHelper testOutputHelper)
+        {
+            this._testOutputHelper = testOutputHelper;
+            this.TestInitialize();
+        }
+        
+        public static void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
             TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Obtention du binôme configuré", "\tLe binôme peut dorénavant être configuré sous la forme d\'utilisateurs dans un fi" +
@@ -42,19 +47,16 @@ namespace WalletMate.Infrastructure.Tests.Features
             testRunner.OnFeatureStart(featureInfo);
         }
         
-        [NUnit.Framework.OneTimeTearDownAttribute()]
-        public virtual void FeatureTearDown()
+        public static void FeatureTearDown()
         {
             testRunner.OnFeatureEnd();
             testRunner = null;
         }
         
-        [NUnit.Framework.SetUpAttribute()]
         public virtual void TestInitialize()
         {
         }
         
-        [NUnit.Framework.TearDownAttribute()]
         public virtual void TestTearDown()
         {
             testRunner.OnScenarioEnd();
@@ -63,7 +65,7 @@ namespace WalletMate.Infrastructure.Tests.Features
         public virtual void ScenarioInitialize(TechTalk.SpecFlow.ScenarioInfo scenarioInfo)
         {
             testRunner.OnScenarioInitialize(scenarioInfo);
-            testRunner.ScenarioContext.ScenarioContainer.RegisterInstanceAs<NUnit.Framework.TestContext>(NUnit.Framework.TestContext.CurrentContext);
+            testRunner.ScenarioContext.ScenarioContainer.RegisterInstanceAs<Xunit.Abstractions.ITestOutputHelper>(_testOutputHelper);
         }
         
         public virtual void ScenarioStart()
@@ -76,8 +78,14 @@ namespace WalletMate.Infrastructure.Tests.Features
             testRunner.CollectScenarioErrors();
         }
         
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Obtenir les binômes configurés")]
+        void System.IDisposable.Dispose()
+        {
+            this.TestTearDown();
+        }
+        
+        [Xunit.SkippableFactAttribute(DisplayName="Obtenir les binômes configurés")]
+        [Xunit.TraitAttribute("FeatureTitle", "Obtention du binôme configuré")]
+        [Xunit.TraitAttribute("Description", "Obtenir les binômes configurés")]
         public virtual void ObtenirLesBinomesConfigures()
         {
             string[] tagsOfScenario = ((string[])(null));
@@ -110,6 +118,22 @@ testRunner.Then("Le premier binôme est \"Aurélien\" et le second est \"Marie\"
 #line hidden
             }
             this.ScenarioCleanup();
+        }
+        
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "3.1.0.0")]
+        [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
+        public class FixtureData : System.IDisposable
+        {
+            
+            public FixtureData()
+            {
+                ObtentionDuBinomeConfigureFeature.FeatureSetup();
+            }
+            
+            void System.IDisposable.Dispose()
+            {
+                ObtentionDuBinomeConfigureFeature.FeatureTearDown();
+            }
         }
     }
 }

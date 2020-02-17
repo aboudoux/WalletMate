@@ -19,20 +19,25 @@ namespace WalletMate.Infrastructure.Tests.Features
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "3.1.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [NUnit.Framework.TestFixtureAttribute()]
-    [NUnit.Framework.DescriptionAttribute("Gestion des périodes")]
-    public partial class GestionDesPeriodesFeature
+    public partial class GestionDesPeriodesFeature : object, Xunit.IClassFixture<GestionDesPeriodesFeature.FixtureData>, System.IDisposable
     {
         
-        private TechTalk.SpecFlow.ITestRunner testRunner;
+        private static TechTalk.SpecFlow.ITestRunner testRunner;
         
         private string[] _featureTags = ((string[])(null));
+        
+        private Xunit.Abstractions.ITestOutputHelper _testOutputHelper;
         
 #line 1 "Period.feature"
 #line hidden
         
-        [NUnit.Framework.OneTimeSetUpAttribute()]
-        public virtual void FeatureSetup()
+        public GestionDesPeriodesFeature(GestionDesPeriodesFeature.FixtureData fixtureData, WalletMate_Infrastructure_Tests_XUnitAssemblyFixture assemblyFixture, Xunit.Abstractions.ITestOutputHelper testOutputHelper)
+        {
+            this._testOutputHelper = testOutputHelper;
+            this.TestInitialize();
+        }
+        
+        public static void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
             TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Gestion des périodes", "\tUne période représente un mois dans lequel nous allons pouvoir ajouter des dépen" +
@@ -41,19 +46,16 @@ namespace WalletMate.Infrastructure.Tests.Features
             testRunner.OnFeatureStart(featureInfo);
         }
         
-        [NUnit.Framework.OneTimeTearDownAttribute()]
-        public virtual void FeatureTearDown()
+        public static void FeatureTearDown()
         {
             testRunner.OnFeatureEnd();
             testRunner = null;
         }
         
-        [NUnit.Framework.SetUpAttribute()]
         public virtual void TestInitialize()
         {
         }
         
-        [NUnit.Framework.TearDownAttribute()]
         public virtual void TestTearDown()
         {
             testRunner.OnScenarioEnd();
@@ -62,7 +64,7 @@ namespace WalletMate.Infrastructure.Tests.Features
         public virtual void ScenarioInitialize(TechTalk.SpecFlow.ScenarioInfo scenarioInfo)
         {
             testRunner.OnScenarioInitialize(scenarioInfo);
-            testRunner.ScenarioContext.ScenarioContainer.RegisterInstanceAs<NUnit.Framework.TestContext>(NUnit.Framework.TestContext.CurrentContext);
+            testRunner.ScenarioContext.ScenarioContainer.RegisterInstanceAs<Xunit.Abstractions.ITestOutputHelper>(_testOutputHelper);
         }
         
         public virtual void ScenarioStart()
@@ -85,8 +87,14 @@ namespace WalletMate.Infrastructure.Tests.Features
 #line hidden
         }
         
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Création d\'une nouvelle période")]
+        void System.IDisposable.Dispose()
+        {
+            this.TestTearDown();
+        }
+        
+        [Xunit.SkippableFactAttribute(DisplayName="Création d\'une nouvelle période")]
+        [Xunit.TraitAttribute("FeatureTitle", "Gestion des périodes")]
+        [Xunit.TraitAttribute("Description", "Création d\'une nouvelle période")]
         public virtual void CreationDuneNouvellePeriode()
         {
             string[] tagsOfScenario = ((string[])(null));
@@ -124,8 +132,9 @@ this.FeatureBackground();
             this.ScenarioCleanup();
         }
         
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Intérdire la création de deux mêmes périodes")]
+        [Xunit.SkippableFactAttribute(DisplayName="Intérdire la création de deux mêmes périodes")]
+        [Xunit.TraitAttribute("FeatureTitle", "Gestion des périodes")]
+        [Xunit.TraitAttribute("Description", "Intérdire la création de deux mêmes périodes")]
         public virtual void InterdireLaCreationDeDeuxMemesPeriodes()
         {
             string[] tagsOfScenario = ((string[])(null));
@@ -167,8 +176,9 @@ this.FeatureBackground();
             this.ScenarioCleanup();
         }
         
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Ajouter une dépense à une période")]
+        [Xunit.SkippableFactAttribute(DisplayName="Ajouter une dépense à une période")]
+        [Xunit.TraitAttribute("FeatureTitle", "Gestion des périodes")]
+        [Xunit.TraitAttribute("Description", "Ajouter une dépense à une période")]
         public virtual void AjouterUneDepenseAUnePeriode()
         {
             string[] tagsOfScenario = ((string[])(null));
@@ -237,8 +247,9 @@ this.FeatureBackground();
             this.ScenarioCleanup();
         }
         
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Ajouter une recette à une période")]
+        [Xunit.SkippableFactAttribute(DisplayName="Ajouter une recette à une période")]
+        [Xunit.TraitAttribute("FeatureTitle", "Gestion des périodes")]
+        [Xunit.TraitAttribute("Description", "Ajouter une recette à une période")]
         public virtual void AjouterUneRecetteAUnePeriode()
         {
             string[] tagsOfScenario = ((string[])(null));
@@ -307,8 +318,9 @@ this.FeatureBackground();
             this.ScenarioCleanup();
         }
         
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Supprimer une dépense d\'une période")]
+        [Xunit.SkippableFactAttribute(DisplayName="Supprimer une dépense d\'une période")]
+        [Xunit.TraitAttribute("FeatureTitle", "Gestion des périodes")]
+        [Xunit.TraitAttribute("Description", "Supprimer une dépense d\'une période")]
         public virtual void SupprimerUneDepenseDunePeriode()
         {
             string[] tagsOfScenario = ((string[])(null));
@@ -383,8 +395,9 @@ testRunner.And("J\'ai demandé la création d\'une période pour le mois 1 et l\
             this.ScenarioCleanup();
         }
         
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Supprimer une recette d\'une période")]
+        [Xunit.SkippableFactAttribute(DisplayName="Supprimer une recette d\'une période")]
+        [Xunit.TraitAttribute("FeatureTitle", "Gestion des périodes")]
+        [Xunit.TraitAttribute("Description", "Supprimer une recette d\'une période")]
         public virtual void SupprimerUneRecetteDunePeriode()
         {
             string[] tagsOfScenario = ((string[])(null));
@@ -459,8 +472,9 @@ testRunner.And("J\'ai demandé la création d\'une période pour le mois 1 et l\
             this.ScenarioCleanup();
         }
         
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Modifier le montant d\'une opération de recette")]
+        [Xunit.SkippableFactAttribute(DisplayName="Modifier le montant d\'une opération de recette")]
+        [Xunit.TraitAttribute("FeatureTitle", "Gestion des périodes")]
+        [Xunit.TraitAttribute("Description", "Modifier le montant d\'une opération de recette")]
         public virtual void ModifierLeMontantDuneOperationDeRecette()
         {
             string[] tagsOfScenario = ((string[])(null));
@@ -539,8 +553,9 @@ testRunner.And("J\'ai demandé la création d\'une période pour le mois 1 et l\
             this.ScenarioCleanup();
         }
         
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Modifier le libellé d\'une opération de recette")]
+        [Xunit.SkippableFactAttribute(DisplayName="Modifier le libellé d\'une opération de recette")]
+        [Xunit.TraitAttribute("FeatureTitle", "Gestion des périodes")]
+        [Xunit.TraitAttribute("Description", "Modifier le libellé d\'une opération de recette")]
         public virtual void ModifierLeLibelleDuneOperationDeRecette()
         {
             string[] tagsOfScenario = ((string[])(null));
@@ -619,8 +634,9 @@ testRunner.And("J\'ai demandé la création d\'une période pour le mois 1 et l\
             this.ScenarioCleanup();
         }
         
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Modifier le binôme d\'une opération de recette")]
+        [Xunit.SkippableFactAttribute(DisplayName="Modifier le binôme d\'une opération de recette")]
+        [Xunit.TraitAttribute("FeatureTitle", "Gestion des périodes")]
+        [Xunit.TraitAttribute("Description", "Modifier le binôme d\'une opération de recette")]
         public virtual void ModifierLeBinomeDuneOperationDeRecette()
         {
             string[] tagsOfScenario = ((string[])(null));
@@ -699,8 +715,9 @@ testRunner.And("J\'ai demandé la création d\'une période pour le mois 1 et l\
             this.ScenarioCleanup();
         }
         
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Modifier le type d\'une opération de recette")]
+        [Xunit.SkippableFactAttribute(DisplayName="Modifier le type d\'une opération de recette")]
+        [Xunit.TraitAttribute("FeatureTitle", "Gestion des périodes")]
+        [Xunit.TraitAttribute("Description", "Modifier le type d\'une opération de recette")]
         public virtual void ModifierLeTypeDuneOperationDeRecette()
         {
             string[] tagsOfScenario = ((string[])(null));
@@ -779,8 +796,9 @@ testRunner.And("J\'ai demandé la création d\'une période pour le mois 1 et l\
             this.ScenarioCleanup();
         }
         
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Modifier le montant d\'une opération de dépense")]
+        [Xunit.SkippableFactAttribute(DisplayName="Modifier le montant d\'une opération de dépense")]
+        [Xunit.TraitAttribute("FeatureTitle", "Gestion des périodes")]
+        [Xunit.TraitAttribute("Description", "Modifier le montant d\'une opération de dépense")]
         public virtual void ModifierLeMontantDuneOperationDeDepense()
         {
             string[] tagsOfScenario = ((string[])(null));
@@ -859,8 +877,9 @@ testRunner.And("J\'ai demandé la création d\'une période pour le mois 1 et l\
             this.ScenarioCleanup();
         }
         
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Modifier le libellé d\'une opération de dépense")]
+        [Xunit.SkippableFactAttribute(DisplayName="Modifier le libellé d\'une opération de dépense")]
+        [Xunit.TraitAttribute("FeatureTitle", "Gestion des périodes")]
+        [Xunit.TraitAttribute("Description", "Modifier le libellé d\'une opération de dépense")]
         public virtual void ModifierLeLibelleDuneOperationDeDepense()
         {
             string[] tagsOfScenario = ((string[])(null));
@@ -939,8 +958,9 @@ testRunner.And("J\'ai demandé la création d\'une période pour le mois 1 et l\
             this.ScenarioCleanup();
         }
         
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Modifier le binôme d\'une opération de dépense")]
+        [Xunit.SkippableFactAttribute(DisplayName="Modifier le binôme d\'une opération de dépense")]
+        [Xunit.TraitAttribute("FeatureTitle", "Gestion des périodes")]
+        [Xunit.TraitAttribute("Description", "Modifier le binôme d\'une opération de dépense")]
         public virtual void ModifierLeBinomeDuneOperationDeDepense()
         {
             string[] tagsOfScenario = ((string[])(null));
@@ -1019,8 +1039,9 @@ testRunner.And("J\'ai demandé la création d\'une période pour le mois 1 et l\
             this.ScenarioCleanup();
         }
         
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Modifier le type d\'une opération de dépense")]
+        [Xunit.SkippableFactAttribute(DisplayName="Modifier le type d\'une opération de dépense")]
+        [Xunit.TraitAttribute("FeatureTitle", "Gestion des périodes")]
+        [Xunit.TraitAttribute("Description", "Modifier le type d\'une opération de dépense")]
         public virtual void ModifierLeTypeDuneOperationDeDepense()
         {
             string[] tagsOfScenario = ((string[])(null));
@@ -1099,8 +1120,9 @@ testRunner.And("J\'ai demandé la création d\'une période pour le mois 1 et l\
             this.ScenarioCleanup();
         }
         
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Obtenir le solde d\'une période après de multiples opérations")]
+        [Xunit.SkippableFactAttribute(DisplayName="Obtenir le solde d\'une période après de multiples opérations")]
+        [Xunit.TraitAttribute("FeatureTitle", "Gestion des périodes")]
+        [Xunit.TraitAttribute("Description", "Obtenir le solde d\'une période après de multiples opérations")]
         public virtual void ObtenirLeSoldeDunePeriodeApresDeMultiplesOperations()
         {
             string[] tagsOfScenario = ((string[])(null));
@@ -1186,8 +1208,9 @@ this.FeatureBackground();
             this.ScenarioCleanup();
         }
         
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("La liste des périodes doit être dans un ordre déscendant")]
+        [Xunit.SkippableFactAttribute(DisplayName="La liste des périodes doit être dans un ordre déscendant")]
+        [Xunit.TraitAttribute("FeatureTitle", "Gestion des périodes")]
+        [Xunit.TraitAttribute("Description", "La liste des périodes doit être dans un ordre déscendant")]
         public virtual void LaListeDesPeriodesDoitEtreDansUnOrdreDescendant()
         {
             string[] tagsOfScenario = ((string[])(null));
@@ -1238,6 +1261,22 @@ this.FeatureBackground();
 #line hidden
             }
             this.ScenarioCleanup();
+        }
+        
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "3.1.0.0")]
+        [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
+        public class FixtureData : System.IDisposable
+        {
+            
+            public FixtureData()
+            {
+                GestionDesPeriodesFeature.FeatureSetup();
+            }
+            
+            void System.IDisposable.Dispose()
+            {
+                GestionDesPeriodesFeature.FeatureTearDown();
+            }
         }
     }
 }

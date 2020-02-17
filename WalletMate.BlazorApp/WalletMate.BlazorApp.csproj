@@ -4,4 +4,10 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Backend\WalletMate.Application\WalletMate.Application.csproj" />
+    <ProjectReference Include="..\Backend\WalletMate.Domain\WalletMate.Domain.csproj" />
+    <ProjectReference Include="..\Backend\WalletMate.Infrastructure\WalletMate.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>
