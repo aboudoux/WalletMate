@@ -44,7 +44,7 @@ namespace WalletMate.Infrastructure.Services
             string Encode(string password)
             {
                 isPlaintextPassword = true;
-                return "secret:" + Convert.ToBase64String(EncryptStringToBytes_Aes(GetSha1(password), Key, Iv));
+                return "secret:" + Convert.ToBase64String(EncryptStringToBytes_Aes(password.ToSha1(), Key, Iv));
             }
         }
 
@@ -131,15 +131,18 @@ namespace WalletMate.Infrastructure.Services
 
             return plaintext;
         }
+    }
 
-        private static string GetSha1(string s)
-        {
-            var bytes = Encoding.UTF8.GetBytes(s);
-            using (var sha1 = SHA1.Create())
-            {
-                var hashBytes = sha1.ComputeHash(bytes);
-                return hashBytes.Aggregate(string.Empty, (seed, item) => seed + item.ToString("x2"));
-            }
-        }
+    public static class Sha1Extension
+    {
+	    public static string ToSha1(this string s)
+	    {
+		    var bytes = Encoding.UTF8.GetBytes(s);
+		    using (var sha1 = SHA1.Create())
+		    {
+			    var hashBytes = sha1.ComputeHash(bytes);
+			    return hashBytes.Aggregate(string.Empty, (seed, item) => seed + item.ToString("x2"));
+		    }
+	    }
     }
 }

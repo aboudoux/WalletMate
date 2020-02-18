@@ -1,9 +1,33 @@
-﻿@using WalletMate.BlazorApp.Components
+﻿@using WalletMate.Application.Pairs.Queries
+@using WalletMate.BlazorApp.Components
+@using WalletMate.Domain.Periods.ValueObjects
+@inject WalletMate.Application.Core.IQueryBus QueryBus;
 @page "/"
 
-<h1>Hello, world!</h1>
+@if (_configuredPair == null)
+{
+    <h1>Loading...</h1>
+}
+else
+{
+    <div class="container" style="padding-top: 10px;">
+        <div class="row">
+            <PairCard Name="@_configuredPair.FirstPairName" Pair="@Pair.First" />
+        </div>
+        <div class="row" style="padding-top: 20px;">
+            <PairCard Name="@_configuredPair.SecondPairName" Pair="@Pair.Second" />
+        </div>
+    </div>
+}
 
-Welcome to your new app.
+@code
+{
+    private IConfiguredPair _configuredPair;
 
-<Card2 />
 
+    protected override async Task OnInitializedAsync()
+    {
+        _configuredPair = await QueryBus.QueryAsync(new GetConfiguredPair());
+    }
+
+}
