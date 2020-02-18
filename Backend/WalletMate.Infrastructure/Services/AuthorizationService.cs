@@ -22,9 +22,10 @@ namespace WalletMate.Infrastructure.Services
 
         public Task<Guid> Authenticate(string username, string password)
         {
+	        var hashedPassword = password.ToSha1();
             if (_users.Any(x =>
                 string.Equals(x.Username, username, StringComparison.CurrentCultureIgnoreCase) &&
-                string.Equals(x.Password, password, StringComparison.CurrentCultureIgnoreCase)))
+                string.Equals(x.Password, hashedPassword, StringComparison.CurrentCultureIgnoreCase)))
             {
                 var authKey = Guid.NewGuid();
                 _connectedUsers.Add(authKey, username);

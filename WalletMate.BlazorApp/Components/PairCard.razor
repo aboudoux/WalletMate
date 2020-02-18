@@ -21,10 +21,10 @@
                 <strong class="text-secondary" style="font-size: 21px;filter: contrast(126%) grayscale(0%);">@Name</strong>
             </div>
         </div>
-        @if (ShowPassword)
+        @if (_passwordInput.IsVisible)
         {
             <div class="row">
-                <div class="col text-center"><input type="password" class="border rounded animated bounce fast" placeholder="Mot de passe" autofocus required style="margin: 20px;" /></div>
+                <div class="col text-center"><input type="password" @oninput="@(a => _passwordInput.Value = a.Value.ToString())" class="border rounded @_passwordInput.CssClass" animationend="AnimationEnd" placeholder="Mot de passe" autofocus required style="margin: 20px;" /></div>
             </div>
             <div class="row">
                 <div class="col text-center">
@@ -46,19 +46,23 @@
     public Pair Pair { get; set; }
 
     [Parameter]
-    public string Icon { get; set; } = "Images/man.jpg";
+    public string Name { get; set; }
 
-    [Parameter]
-    public string Name { get; set; } = "Bob LEPONGE";
+    private readonly PasswordInput _passwordInput = new PasswordInput();
 
-    private bool ShowPassword { get; set; }
+    private EventCallback AnimationEnd()
+    {
+        Console.WriteLine("END Animation");
+        return EventCallback.Empty;
+    }
+
 
     private string ContainerClass { get; set; } = "border-white shadow";
 
     private void Clicked()
     {
         if(!Cancel)
-            ShowPassword = true;
+            _passwordInput.IsVisible = true;
         Cancel = false;
         ContainerClass = "border-white shadow";
     }
@@ -71,13 +75,43 @@
 
     private async void OkClicked()
     {
-        var authenticationId = await AuthorizationService.Authenticate(Name, "1234".ToSha1());
+        var authenticationId = await AuthorizationService.Authenticate(Name, _passwordInput.Value);
+        if (authenticationId == Guid.Empty)
+        {
+            _passwordInput.AnimateError();
+            StateHasChanged();
+        }
     }
 
     private void CancelClicked()
     {
         Cancel = true;
-        ShowPassword = false;
+        _passwordInput.IsVisible = false;
+    }
+
+
+    private class PasswordInput
+    {
+        private string _value;
+
+        private const string AnimationEnter = "animated bounce fast";
+        private const string AnimationError = "animated shake fast";
+
+        public bool IsVisible { get; set; }
+
+        public string Value
+        {
+            get => _value;
+            set
+            {
+                CssClass = string.Empty;
+                _value = value;
+            } 
+        }
+
+        public string CssClass { get; set; } = AnimationEnter;
+
+        public void AnimateError() => CssClass = AnimationError;
     }
 
 }
