@@ -10,24 +10,39 @@
 }
 else
 {
-    <div class="container" style="padding-top: 10px;">
-        <div class="row">
-            <PairCard Name="@_configuredPair.FirstPairName" Pair="@Pair.First" />
+    if (State.IsConnected)
+    {
+        <p>Connected</p>
+        <button @onclick="DisconnectClicked">Disconnect</button>
+        <Datatable/>
+    }
+    else
+    {
+        <div class="container" style="margin-top: 20px;">
+            <div class="row">
+                <div class="col text-center">
+                    <PairCard Name="@_configuredPair.FirstPairName" Pair="@Pair.First"/>
+                </div>
+                <div class="col text-center" style="margin-left: 20px;">
+                    <PairCard Name="@_configuredPair.SecondPairName" Pair="@Pair.Second"/>
+                </div>
+            </div>
         </div>
-        <div class="row" style="padding-top: 20px;">
-            <PairCard Name="@_configuredPair.SecondPairName" Pair="@Pair.Second" />
-        </div>
-    </div>
+    }
 }
 
 @code
 {
-    private IConfiguredPair _configuredPair;
+    [CascadingParameter]
+    private GlobalStateProvider State { get; set; }
 
+    private IConfiguredPair _configuredPair;
 
     protected override async Task OnInitializedAsync()
     {
         _configuredPair = await QueryBus.QueryAsync(new GetConfiguredPair());
     }
+
+    private void DisconnectClicked() => State.IsConnected = false;
 
 }

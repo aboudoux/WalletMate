@@ -3,44 +3,50 @@
 @namespace WalletMate.BlazorApp.Components
 @inject WalletMate.Application.Core.IAuthorizationService AuthorizationService;
 
-    <div class="container text-white-50 border rounded @ContainerClass" @onclick="Clicked" @onmouseover="MouseOver" @onmouseout="MouseOut">
+<div class="container text-white-50 border rounded @_mainContainer.CssClass" @onclick="ContainerClicked" @onmouseover="_mainContainer.MouseOver" @onmouseout="_mainContainer.MouseOut">
+    <div class="row">
+        <div class="col text-center">
+            @if (Pair == Pair.First)
+            {
+                <i class="fa fa-user-circle" style="font-size: 80px;color: rgb(39,102,166);"></i>
+            }
+            else
+            {
+                <i class="fa fa-user-circle-o" style="font-size: 80px;color: rgb(39,166,105);"></i>
+            }
+        </div>
+    </div>
+    <div class="row">
+        <div class="col text-center">
+            <strong class="text-secondary" style="font-size: 21px;filter: contrast(126%) grayscale(0%);">@Name</strong>
+        </div>
+    </div>
+    @if (_passwordInput.IsVisible)
+    {
         <div class="row">
-            <div class="col text-center">
-                @if (Pair == Pair.First)
-                {
-                    <i class="fa fa-user-circle" style="font-size: 80px;color: rgb(39,102,166);"></i>
-                }
-                else
-                {
-                    <i class="fa fa-user-circle-o" style="font-size: 80px;color: rgb(39,166,105);"></i>
-                }
-            </div>
+            <div class="col text-center"><input type="password" @oninput="@(a => _passwordInput.Value = a.Value.ToString())" class="border rounded @_passwordInput.CssClass" placeholder="Mot de passe" autofocus required style="margin: 20px;" /></div>
         </div>
         <div class="row">
             <div class="col text-center">
-                <strong class="text-secondary" style="font-size: 21px;filter: contrast(126%) grayscale(0%);">@Name</strong>
-            </div>
-        </div>
-        @if (_passwordInput.IsVisible)
-        {
-            <div class="row">
-                <div class="col text-center"><input type="password" @oninput="@(a => _passwordInput.Value = a.Value.ToString())" class="border rounded @_passwordInput.CssClass" animationend="AnimationEnd" placeholder="Mot de passe" autofocus required style="margin: 20px;" /></div>
-            </div>
-            <div class="row">
-                <div class="col text-center">
-                    <div role="group" class="btn-group btn-group-sm" style="margin: 10px;">
-                        <button class="btn btn-success" type="button" style="width: 70px;" @onclick="OkClicked">OK</button>
-                        <button class="btn btn-danger" type="button" style="width: 70px;;" @onclick="CancelClicked">Annuler</button>
-                    </div>
+                <div role="group" class="btn-group btn-group-sm" style="margin: 10px;">
+                    <button class="btn btn-success" type="button" style="width: 70px;" @onclick="PasswordOkClicked" @onclick:stopPropagation >OK</button>
+                    <button class="btn btn-danger" type="button" style="width: 70px;;" @onclick="PasswordCancelClicked" @onclick:stopPropagation>Annuler</button>
                 </div>
             </div>
-        }
-    </div>
+        </div>
+    }
+
+</div>
 
 @code {
 
-    [Parameter]
-    public string Id { get; set; }
+    protected override void OnAfterRender(bool firstRender)
+    {
+        _passwordInput.Reset();
+    }
+
+    [CascadingParameter]
+    private GlobalStateProvider State { get; set; }
 
     [Parameter]
     public Pair Pair { get; set; }
@@ -49,31 +55,19 @@
     public string Name { get; set; }
 
     private readonly PasswordInput _passwordInput = new PasswordInput();
-
-    private EventCallback AnimationEnd()
-    {
-        Console.WriteLine("END Animation");
-        return EventCallback.Empty;
-    }
+    private readonly MainContainer _mainContainer = new MainContainer();
 
 
     private string ContainerClass { get; set; } = "border-white shadow";
 
-    private void Clicked()
+    private void ContainerClicked()
     {
-        if(!Cancel)
-            _passwordInput.IsVisible = true;
-        Cancel = false;
-        ContainerClass = "border-white shadow";
+        _passwordInput.IsVisible = true;
+        _mainContainer.MouseOut();
     }
 
-    private bool Cancel { get; set; }
 
-    private void MouseOver() => ContainerClass = "border-dark";
-
-    private void MouseOut() => ContainerClass = "border-white shadow";
-
-    private async void OkClicked()
+    private async void PasswordOkClicked()
     {
         var authenticationId = await AuthorizationService.Authenticate(Name, _passwordInput.Value);
         if (authenticationId == Guid.Empty)
@@ -81,35 +75,45 @@
             _passwordInput.AnimateError();
             StateHasChanged();
         }
+        else
+        {
+            State.IsConnected = true;
+            State.ConnectedPair = Pair;
+        }
     }
 
-    private void CancelClicked()
+    private void PasswordCancelClicked()
     {
-        Cancel = true;
         _passwordInput.IsVisible = false;
+    }
+
+    private class MainContainer
+    {
+        private const string Over = "border-light shadow";
+        private const string Out = "border-light shadow-sm";
+
+        public string CssClass { get; set; }
+
+        public void MouseOver() => CssClass = Over;
+        public void MouseOut() => CssClass = Out;
     }
 
 
     private class PasswordInput
     {
-        private string _value;
-
-        private const string AnimationEnter = "animated bounce fast";
         private const string AnimationError = "animated shake fast";
 
         public bool IsVisible { get; set; }
 
-        public string Value
+        public string Value { get; set; }
+        
+
+        public void Reset()
         {
-            get => _value;
-            set
-            {
-                CssClass = string.Empty;
-                _value = value;
-            } 
+            CssClass = string.Empty;
         }
 
-        public string CssClass { get; set; } = AnimationEnter;
+        public string CssClass { get; set; }
 
         public void AnimateError() => CssClass = AnimationError;
     }
