@@ -14,4 +14,8 @@
     <Folder Include="wwwroot\Images\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Blazor.Fluxor" Version="1.4.1" />
+  </ItemGroup>
+
 </Project>

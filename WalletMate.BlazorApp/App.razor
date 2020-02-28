@@ -1,4 +1,7 @@
 @using WalletMate.BlazorApp.Components
+@inject Blazor.Fluxor.IStore Store
+
+@Store.Initialize()
 <GlobalStateProvider>
     <Router AppAssembly="@typeof(Program).Assembly">
         <Found Context="routeData">

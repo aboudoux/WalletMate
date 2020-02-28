@@ -1,17 +1,17 @@
-﻿@using WalletMate.Domain.Periods.ValueObjects
-@using WalletMate.Infrastructure.Services
+﻿@using WalletMate.BlazorApp.Store.Login
+@using WalletMate.Domain.Periods.ValueObjects
 @namespace WalletMate.BlazorApp.Components
 @inject WalletMate.Application.Core.IAuthorizationService AuthorizationService;
+@inject IState<LoginState> LoginState;
+@inject IDispatcher Dispatcher
 
 <div class="container text-white-50 border rounded @_mainContainer.CssClass" @onclick="ContainerClicked" @onmouseover="_mainContainer.MouseOver" @onmouseout="_mainContainer.MouseOut">
     <div class="row">
         <div class="col text-center">
-            @if (Pair == Pair.First)
-            {
+            @if (Pair == Pair.First) {
                 <i class="fa fa-user-circle" style="font-size: 80px;color: rgb(39,102,166);"></i>
             }
-            else
-            {
+            else {
                 <i class="fa fa-user-circle-o" style="font-size: 80px;color: rgb(39,166,105);"></i>
             }
         </div>
@@ -21,15 +21,16 @@
             <strong class="text-secondary" style="font-size: 21px;filter: contrast(126%) grayscale(0%);">@Name</strong>
         </div>
     </div>
-    @if (_passwordInput.IsVisible)
-    {
+    @if (_passwordInput.IsVisible) {
         <div class="row">
-            <div class="col text-center"><input type="password" @oninput="@(a => _passwordInput.Value = a.Value.ToString())" class="border rounded @_passwordInput.CssClass" placeholder="Mot de passe" autofocus required style="margin: 20px;" /></div>
+            <div class="col text-center">
+                <InputPassword @ref="_inputPassword" Shake="@LoginState.Value.BadPassword" style="margin: 20px;" />
+            </div>
         </div>
         <div class="row">
             <div class="col text-center">
                 <div role="group" class="btn-group btn-group-sm" style="margin: 10px;">
-                    <button class="btn btn-success" type="button" style="width: 70px;" @onclick="PasswordOkClicked" @onclick:stopPropagation >OK</button>
+                    <button class="btn btn-success" type="button" style="width: 70px;" @onclick="PasswordOkClicked" @onclick:stopPropagation>OK</button>
                     <button class="btn btn-danger" type="button" style="width: 70px;;" @onclick="PasswordCancelClicked" @onclick:stopPropagation>Annuler</button>
                 </div>
             </div>
@@ -40,11 +41,15 @@
 
 @code {
 
-    protected override void OnAfterRender(bool firstRender)
+    InputPassword _inputPassword;
+
+    protected override void OnAfterRender(bool firstRender) 
     {
-        _passwordInput.Reset();
+        if(LoginState.Value.BadPassword)
+            Dispatcher.Dispatch(new BadPasswordNotified());
     }
 
+  
     [CascadingParameter]
     private GlobalStateProvider State { get; set; }
 
@@ -58,37 +63,28 @@
     private readonly MainContainer _mainContainer = new MainContainer();
 
 
-    private string ContainerClass { get; set; } = "border-white shadow";
-
-    private void ContainerClicked()
-    {
+    private void ContainerClicked() {
         _passwordInput.IsVisible = true;
         _mainContainer.MouseOut();
     }
 
 
-    private async void PasswordOkClicked()
-    {
-        var authenticationId = await AuthorizationService.Authenticate(Name, _passwordInput.Value);
-        if (authenticationId == Guid.Empty)
-        {
-            _passwordInput.AnimateError();
-            StateHasChanged();
+    private async void PasswordOkClicked() {
+        var authenticationId = await AuthorizationService.Authenticate(Name, _inputPassword.Value);
+        if (authenticationId == Guid.Empty) {
+            Dispatcher.Dispatch(new NotifyBadLogin());
         }
-        else
-        {
+        else {
             State.IsConnected = true;
             State.ConnectedPair = Pair;
         }
     }
 
-    private void PasswordCancelClicked()
-    {
+    private void PasswordCancelClicked() {
         _passwordInput.IsVisible = false;
     }
 
-    private class MainContainer
-    {
+    private class MainContainer {
         private const string Over = "border-light shadow";
         private const string Out = "border-light shadow-sm";
 
@@ -99,17 +95,15 @@
     }
 
 
-    private class PasswordInput
-    {
+    private class PasswordInput {
         private const string AnimationError = "animated shake fast";
 
         public bool IsVisible { get; set; }
 
         public string Value { get; set; }
-        
 
-        public void Reset()
-        {
+
+        public void Reset() {
             CssClass = string.Empty;
         }
 

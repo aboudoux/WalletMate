@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using WalletMate.Application.Core;
 using WalletMate.Application.Pairs;
+using WalletMate.Domain.Common;
 
 namespace WalletMate.Infrastructure.Services
 {
@@ -22,7 +23,8 @@ namespace WalletMate.Infrastructure.Services
 
         public Task<Guid> Authenticate(string username, string password)
         {
-	        var hashedPassword = password.ToSha1();
+	        if (password.IsEmpty()) return Task.FromResult(Guid.Empty);
+            var hashedPassword = password.ToSha1();
             if (_users.Any(x =>
                 string.Equals(x.Username, username, StringComparison.CurrentCultureIgnoreCase) &&
                 string.Equals(x.Password, hashedPassword, StringComparison.CurrentCultureIgnoreCase)))
