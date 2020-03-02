@@ -6,6 +6,21 @@ using WalletMate.BlazorApp.Store.Actions;
 
 namespace WalletMate.BlazorApp.Store.Login
 {
+	public class ShowPasswordReducer : ActionHandler<LoginState.ShowPassword>
+	{
+		private LoginState State => Store.GetState<LoginState>();
+
+		public ShowPasswordReducer(IStore aStore) : base(aStore)
+		{
+		}
+
+		public override Task<Unit> Handle(LoginState.ShowPassword action, CancellationToken aCancellationToken)
+		{
+			State.SetVisiblePassword(action.Pair);
+			return Unit.Task;
+		}
+	}
+
 	public class NotifyBadLoginReducer : ActionHandler<NotifyBadLogin>
 	{
 		private LoginState State => Store.GetState<LoginState>();
@@ -25,9 +40,6 @@ namespace WalletMate.BlazorApp.Store.Login
 			state.CurrentPairState(action.Pair).BadPassword = false;
 			return state;
 		}
-
-		public static LoginState Handle(LoginState state, ShowPassword action) 
-			=> state.SetVisiblePassword(action.Pair);
 
 		public static LoginState Handle(LoginState state, HidePassword action)
 		{

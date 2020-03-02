@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using BlazorState;
 using WalletMate.Application.Pairs.Queries;
+using WalletMate.BlazorApp.Store.Actions;
 using WalletMate.Domain.Periods.ValueObjects;
 
 namespace WalletMate.BlazorApp.Store.Login {
@@ -42,6 +43,11 @@ namespace WalletMate.BlazorApp.Store.Login {
 
 			public ConfiguredPairRetrieved(IConfiguredPair configuredPair) {
 				ConfiguredPair = configuredPair ?? throw new ArgumentNullException(nameof(configuredPair));
+			}
+		}
+
+		public class ShowPassword : LoginAction {
+			public ShowPassword(Pair pair) : base(pair) {
 			}
 		}
 	}

@@ -37,6 +37,7 @@ else {
     {
         var configuredPair = await QueryBus.QueryAsync(new GetConfiguredPair());
         await Mediator.Send(new LoginState.ConfiguredPairRetrieved(configuredPair));
+
     }
 
     private void DisconnectClicked() => Mediator.Send(new Disconnect());

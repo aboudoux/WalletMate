@@ -62,7 +62,7 @@
     private readonly MainContainer _mainContainer = new MainContainer();
 
     private void ContainerClicked() {
-        Mediator.Send(new ShowPassword(Pair));
+        Mediator.Send(new LoginState.ShowPassword(Pair));
         _mainContainer.MouseOut();
     }
 
