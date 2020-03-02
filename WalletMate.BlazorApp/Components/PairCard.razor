@@ -1,9 +1,6 @@
-﻿@using WalletMate.BlazorApp.Store.Login
-@using WalletMate.Domain.Periods.ValueObjects
-@namespace WalletMate.BlazorApp.Components
+﻿@namespace WalletMate.BlazorApp.Components
 @inject WalletMate.Application.Core.IAuthorizationService AuthorizationService;
-@inject IState<LoginState> LoginState;
-@inject IDispatcher Dispatcher
+@inherits BlazorState.BlazorStateComponent
 
 <div class="container text-white-50 border rounded @_mainContainer.CssClass" @onclick="ContainerClicked" @onmouseover="_mainContainer.MouseOver" @onmouseout="_mainContainer.MouseOut">
     <div class="row">
@@ -21,10 +18,10 @@
             <strong class="text-secondary" style="font-size: 21px;filter: contrast(126%) grayscale(0%);">@Name</strong>
         </div>
     </div>
-    @if (_passwordInput.IsVisible) {
+    @if (VisiblePassword) {
         <div class="row">
             <div class="col text-center">
-                <InputPassword @ref="_inputPassword" Shake="@LoginState.Value.BadPassword" style="margin: 20px;" />
+                <InputPassword @ref="_inputPassword" Shake="@BadPassword" style="margin: 20px;" />
             </div>
         </div>
         <div class="row">
@@ -45,43 +42,43 @@
 
     protected override void OnAfterRender(bool firstRender) 
     {
-        if(LoginState.Value.BadPassword)
-            Dispatcher.Dispatch(new BadPasswordNotified());
+        if(BadPassword)
+            Mediator.Send(new BadPasswordNotified(Pair));
     }
 
   
-    [CascadingParameter]
-    private GlobalStateProvider State { get; set; }
-
     [Parameter]
     public Pair Pair { get; set; }
 
     [Parameter]
     public string Name { get; set; }
 
-    private readonly PasswordInput _passwordInput = new PasswordInput();
+    [Parameter]
+    public bool BadPassword { get; set; }
+
+    [Parameter]
+    public bool VisiblePassword { get; set; }
+
     private readonly MainContainer _mainContainer = new MainContainer();
 
-
     private void ContainerClicked() {
-        _passwordInput.IsVisible = true;
+        Mediator.Send(new ShowPassword(Pair));
         _mainContainer.MouseOut();
     }
 
 
-    private async void PasswordOkClicked() {
+    private async Task PasswordOkClicked() {
         var authenticationId = await AuthorizationService.Authenticate(Name, _inputPassword.Value);
         if (authenticationId == Guid.Empty) {
-            Dispatcher.Dispatch(new NotifyBadLogin());
+            await Mediator.Send(new NotifyBadLogin(Pair));
         }
         else {
-            State.IsConnected = true;
-            State.ConnectedPair = Pair;
+            await Mediator.Send(new Connected(Pair));
         }
     }
 
     private void PasswordCancelClicked() {
-        _passwordInput.IsVisible = false;
+        Mediator.Send(new HidePassword(Pair));
     }
 
     private class MainContainer {
@@ -92,24 +89,6 @@
 
         public void MouseOver() => CssClass = Over;
         public void MouseOut() => CssClass = Out;
-    }
-
-
-    private class PasswordInput {
-        private const string AnimationError = "animated shake fast";
-
-        public bool IsVisible { get; set; }
-
-        public string Value { get; set; }
-
-
-        public void Reset() {
-            CssClass = string.Empty;
-        }
-
-        public string CssClass { get; set; }
-
-        public void AnimateError() => CssClass = AnimationError;
     }
 
 }

@@ -1,5 +1,5 @@
-using Blazor.Fluxor;
-using Microsoft.AspNetCore.Authentication;
+using System.Reflection;
+using BlazorState;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using WalletMate.BlazorApp.Data;
+using WalletMate.BlazorApp.Store.Login;
 using WalletMate.Infrastructure;
 
 namespace WalletMate.BlazorApp
@@ -28,8 +29,15 @@ namespace WalletMate.BlazorApp
 			services.AddRazorPages();
 			services.AddServerSideBlazor();
 			services.AddSingleton<WeatherForecastService>();
-			services.AddFluxor(options => options.UseDependencyInjection(typeof(Startup).Assembly));
-
+			services.AddBlazorState
+			(
+				(aOptions) => aOptions.Assemblies =
+					new[]
+					{
+						typeof(Startup).GetTypeInfo().Assembly,
+					}
+			);
+		
 			/*services.AddAuthentication("GuidAuthentication")
 				.AddScheme<AuthenticationSchemeOptions, GuidAuthenticationHandler>("GuidAuthentication", null);*/
 

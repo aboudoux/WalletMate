@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Blazor.Fluxor" Version="1.4.1" />
+    <PackageReference Include="Blazor-State" Version="3.2.0" />
   </ItemGroup>
 
 </Project>

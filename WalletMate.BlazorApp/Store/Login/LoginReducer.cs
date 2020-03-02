@@ -1,15 +1,67 @@
-﻿using Blazor.Fluxor;
+﻿using System.Threading;
+using System.Threading.Tasks;
+using BlazorState;
+using MediatR;
+using WalletMate.BlazorApp.Store.Actions;
 
 namespace WalletMate.BlazorApp.Store.Login
 {
-	public static class LoginReducer
+	public class NotifyBadLoginReducer : ActionHandler<NotifyBadLogin>
 	{
-		[ReducerMethod]
-		public static LoginState Handle(LoginState state, NotifyBadLogin action)
-			=> new LoginState(true);
+		private LoginState State => Store.GetState<LoginState>();
 
-		[ReducerMethod]
+		public NotifyBadLoginReducer(IStore aStore) : base(aStore) {
+		}
+
+		public override Task<Unit> Handle(NotifyBadLogin action, CancellationToken aCancellationToken) {
+
+			State.CurrentPairState(action.Pair).BadPassword = true;
+			return Unit.Task;
+		}
+
+
 		public static LoginState Handle(LoginState state, BadPasswordNotified action)
-			=> new LoginState(false);
+		{
+			state.CurrentPairState(action.Pair).BadPassword = false;
+			return state;
+		}
+
+		public static LoginState Handle(LoginState state, ShowPassword action) 
+			=> state.SetVisiblePassword(action.Pair);
+
+		public static LoginState Handle(LoginState state, HidePassword action)
+		{
+			state.CurrentPairState(action.Pair).VisiblePassword = false;
+			return state;
+		}
+
+		
+		public static LoginState Handle(LoginState state, Disconnect action)
+		{
+			state.IsConnected = false;
+			return state;
+		}
+
+		public static LoginState Handle(LoginState state, Connected action) {
+			state.IsConnected = true;
+			return state;
+		}
+	}
+
+	public class ConfiguredPairRetrievedReducer : ActionHandler<LoginState.ConfiguredPairRetrieved>
+	{
+		private LoginState State => Store.GetState<LoginState>();
+
+		public ConfiguredPairRetrievedReducer(IStore aStore) : base(aStore)
+		{
+		}
+
+		public override Task<Unit> Handle(LoginState.ConfiguredPairRetrieved action, CancellationToken aCancellationToken)
+		{
+			State.FirstPair.PairName = action.ConfiguredPair.FirstPairName;
+			State.SecondPair.PairName = action.ConfiguredPair.SecondPairName;
+			State.PairRetrieved = true;
+			return Unit.Task;
+		}
 	}
 }

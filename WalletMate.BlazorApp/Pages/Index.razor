@@ -1,30 +1,28 @@
-﻿@using WalletMate.Application.Pairs.Queries
+﻿@using BlazorState
+@using WalletMate.Application.Pairs.Queries
 @using WalletMate.BlazorApp.Components
 @using WalletMate.Domain.Periods.ValueObjects
 @inject WalletMate.Application.Core.IQueryBus QueryBus;
+@inherits BlazorState.BlazorStateComponent
 @page "/"
 
-@if (_configuredPair == null)
-{
+@if (!State.PairRetrieved) {
     <h1>Loading...</h1>
 }
-else
-{
-    if (State.IsConnected)
-    {
+else {
+    if (State.IsConnected) {
         <p>Connected</p>
         <button @onclick="DisconnectClicked">Disconnect</button>
-        <Datatable/>
+        <Datatable />
     }
-    else
-    {
+    else {
         <div class="container" style="margin-top: 20px;">
             <div class="row">
                 <div class="col text-center">
-                    <PairCard Name="@_configuredPair.FirstPairName" Pair="@Pair.First"/>
+                    <PairCard Name="@State.FirstPair.PairName" Pair="@Pair.First" BadPassword="@State.FirstPair.BadPassword" VisiblePassword="@State.FirstPair.VisiblePassword" />
                 </div>
                 <div class="col text-center" style="margin-left: 20px;">
-                    <PairCard Name="@_configuredPair.SecondPairName" Pair="@Pair.Second"/>
+                    <PairCard Name="@State.SecondPair.PairName" Pair="@Pair.Second" BadPassword="@State.SecondPair.BadPassword" VisiblePassword="@State.SecondPair.VisiblePassword" />
                 </div>
             </div>
         </div>
@@ -33,16 +31,13 @@ else
 
 @code
 {
-    [CascadingParameter]
-    private GlobalStateProvider State { get; set; }
-
-    private IConfiguredPair _configuredPair;
+    LoginState State => GetState<LoginState>();
 
     protected override async Task OnInitializedAsync()
     {
-        _configuredPair = await QueryBus.QueryAsync(new GetConfiguredPair());
+        var configuredPair = await QueryBus.QueryAsync(new GetConfiguredPair());
+        await Mediator.Send(new LoginState.ConfiguredPairRetrieved(configuredPair));
     }
 
-    private void DisconnectClicked() => State.IsConnected = false;
-
+    private void DisconnectClicked() => Mediator.Send(new Disconnect());
 }
