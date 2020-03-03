@@ -5,7 +5,7 @@ using MediatR;
 
 namespace WalletMate.BlazorApp.Store.Login
 {
-	public class RootReducer : ActionHandler<LoginState.ShowPassword>,
+	public class LoginReducer : ActionHandler<LoginState.ShowPassword>,
 		IRequestHandler<LoginState.NotifyBadLogin>,
 		IRequestHandler<LoginState.ConfiguredPairRetrieved>,
 		IRequestHandler<LoginState.Connected>,
@@ -15,7 +15,7 @@ namespace WalletMate.BlazorApp.Store.Login
 	{
 		private LoginState State => Store.GetState<LoginState>();
 
-		public RootReducer(IStore aStore) : base(aStore)
+		public LoginReducer(IStore aStore) : base(aStore)
 		{
 		}
 
@@ -39,8 +39,9 @@ namespace WalletMate.BlazorApp.Store.Login
 			return Unit.Task;
 		}
 
-		public Task<Unit> Handle(LoginState.Connected request, CancellationToken cancellationToken)
+		public Task<Unit> Handle(LoginState.Connected action, CancellationToken cancellationToken)
 		{
+			State.CurrentPairState(action.Pair).VisiblePassword = false;
 			State.IsConnected = true;
 			return Unit.Task;
 		}
@@ -51,7 +52,7 @@ namespace WalletMate.BlazorApp.Store.Login
 			return Unit.Task;
 		}
 
-		public Task<Unit> Handle(LoginState.Disconnect request, CancellationToken cancellationToken)
+		public Task<Unit> Handle(LoginState.Disconnect action, CancellationToken cancellationToken)
 		{
 			State.IsConnected = false;
 			return Unit.Task;

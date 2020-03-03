@@ -1,0 +1,21 @@
+﻿@using BlazorState
+@using WalletMate.BlazorApp.Store.Spreadsheet
+@inherits BlazorState.BlazorStateComponent
+
+    <div class="container">
+
+        @foreach (var periodName in State.Periods.Keys) {
+            <PeriodPanel PeriodName="@periodName" Clicked="@( () => OnClicked(periodName) )" Expanded="@State.Periods[periodName].IsExpanded" />
+        }
+    </div>
+
+@code {
+
+    private void OnClicked(string periodName)
+    {
+        Mediator.Send(new SpreadsheetState.ToggleExpand(periodName));
+    }
+
+    SpreadsheetState State => GetState<SpreadsheetState>();
+
+}

@@ -21,7 +21,7 @@
     @if (VisiblePassword) {
         <div class="row">
             <div class="col text-center">
-                <CascadingValue TValue="Action" Value="@AnimationEnd" Name="EndAnimation">
+                <CascadingValue TValue="Action" Value="@AnimationEnd" Name="OnAnimationEnd">
                     <InputPassword @ref="_inputPassword" Shake="@BadPassword" PlaceHolder="Mot de passe" style="margin: 20px;" />
                 </CascadingValue>
             </div>

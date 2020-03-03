@@ -21,11 +21,12 @@
     {
         none,
         bounce,
-        shake
+        shake,
+        zoomIn
     }
 
     private string CssClass => Type != AnimationType.none
-        ? $"animated {Type.ToString().ToLower()} faster"
+        ? $"animated {Type.ToString()} faster"
         : string.Empty;
     
     [Parameter]
@@ -37,9 +38,19 @@
     [JSInvokable("OnAnimationEnd")]
     public void AnimationEnd()
     {
-        OnAnimationEnd?.Invoke();
+        _animationEnd?.Invoke();
     }
 
-    [CascadingParameter(Name = "EndAnimation")]
-    public Action OnAnimationEnd { get; set; }
+    private Action _animationEnd;
+
+    [CascadingParameter(Name = "OnAnimationEnd")]
+    public Action CascadingOnAnimationEnd
+    {
+        set => _animationEnd = value;
+    }
+
+    [Parameter]
+    public Action OnAnimationEnd {
+        set => _animationEnd = value;
+    }
 }
