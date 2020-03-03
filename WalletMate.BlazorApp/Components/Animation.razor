@@ -1,8 +1,22 @@
-﻿<div class="@CssClass">
+﻿@inject IJSRuntime JsRuntime
+<div @ref="divElementReference" class="@CssClass">
     @ChildContent
 </div>
 
 @code {
+
+    ElementReference divElementReference;
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        base.OnAfterRender(firstRender);
+        if (firstRender)
+        {
+            var dotNetReference = DotNetObjectReference.Create(this);
+            JsRuntime.InvokeVoidAsync("AnimatedComponent.animationend",divElementReference, dotNetReference);
+        }
+
+    }
 
     public enum AnimationType
     {
@@ -20,5 +34,13 @@
 
     [Parameter]
     public AnimationType Type { get; set; }
-    
+
+    [JSInvokable("OnAnimationEnd")]
+    public void AnimationEnd()
+    {
+        OnAnimationEnd?.Invoke();
+    }
+
+    [Parameter]
+    public Action OnAnimationEnd { get; set; };
 }
