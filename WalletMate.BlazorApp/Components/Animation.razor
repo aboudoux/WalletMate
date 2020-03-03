@@ -15,7 +15,6 @@
             var dotNetReference = DotNetObjectReference.Create(this);
             JsRuntime.InvokeVoidAsync("AnimatedComponent.animationend",divElementReference, dotNetReference);
         }
-
     }
 
     public enum AnimationType
@@ -41,6 +40,6 @@
         OnAnimationEnd?.Invoke();
     }
 
-    [Parameter]
-    public Action OnAnimationEnd { get; set; };
+    [CascadingParameter(Name = "EndAnimation")]
+    public Action OnAnimationEnd { get; set; }
 }

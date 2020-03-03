@@ -69,6 +69,14 @@ namespace WalletMate.BlazorApp.Store.Login {
 			public NotifyBadLogin(Pair pair) : base(pair) {
 			}
 		}
+
+		public class BadLoginNotified : LoginAction
+		{
+			public BadLoginNotified(Pair pair) : base(pair)
+			{
+			}
+		}
+
 		#endregion
 	}
 

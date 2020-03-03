@@ -10,7 +10,8 @@ namespace WalletMate.BlazorApp.Store.Login
 		IRequestHandler<LoginState.ConfiguredPairRetrieved>,
 		IRequestHandler<LoginState.Connected>,
 		IRequestHandler<LoginState.HidePassword>,
-		IRequestHandler<LoginState.Disconnect>
+		IRequestHandler<LoginState.Disconnect>,
+		IRequestHandler<LoginState.BadLoginNotified>
 	{
 		private LoginState State => Store.GetState<LoginState>();
 
@@ -53,6 +54,12 @@ namespace WalletMate.BlazorApp.Store.Login
 		public Task<Unit> Handle(LoginState.Disconnect request, CancellationToken cancellationToken)
 		{
 			State.IsConnected = false;
+			return Unit.Task;
+		}
+
+		public Task<Unit> Handle(LoginState.BadLoginNotified action, CancellationToken cancellationToken)
+		{
+			State.CurrentPairState(action.Pair).BadPassword = false;
 			return Unit.Task;
 		}
 	}
