@@ -1,0 +1,24 @@
+﻿<div class="@CssClass">
+    @ChildContent
+</div>
+
+@code {
+
+    public enum AnimationType
+    {
+        none,
+        bounce,
+        shake
+    }
+
+    private string CssClass => Type != AnimationType.none
+        ? $"animated {Type.ToString().ToLower()} faster"
+        : string.Empty;
+    
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    [Parameter]
+    public AnimationType Type { get; set; }
+    
+}

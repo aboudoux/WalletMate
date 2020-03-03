@@ -21,7 +21,7 @@
     @if (VisiblePassword) {
         <div class="row">
             <div class="col text-center">
-                <InputPassword @ref="_inputPassword" Shake="@BadPassword" style="margin: 20px;" />
+                <InputPassword @ref="_inputPassword" Shake="@BadPassword" PlaceHolder="Mot de passe" style="margin: 20px;" />
             </div>
         </div>
         <div class="row">
@@ -40,13 +40,6 @@
 
     InputPassword _inputPassword;
 
-    protected override void OnAfterRender(bool firstRender) 
-    {
-        if(BadPassword)
-            Mediator.Send(new BadPasswordNotified(Pair));
-    }
-
-  
     [Parameter]
     public Pair Pair { get; set; }
 
@@ -70,15 +63,15 @@
     private async Task PasswordOkClicked() {
         var authenticationId = await AuthorizationService.Authenticate(Name, _inputPassword.Value);
         if (authenticationId == Guid.Empty) {
-            await Mediator.Send(new NotifyBadLogin(Pair));
+            await Mediator.Send(new LoginState.NotifyBadLogin(Pair));
         }
         else {
-            await Mediator.Send(new Connected(Pair));
+            await Mediator.Send(new LoginState.Connected(Pair));
         }
     }
 
     private void PasswordCancelClicked() {
-        Mediator.Send(new HidePassword(Pair));
+        Mediator.Send(new LoginState.HidePassword(Pair));
     }
 
     private class MainContainer {

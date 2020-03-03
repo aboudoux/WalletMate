@@ -2,15 +2,19 @@
 using System.Threading.Tasks;
 using BlazorState;
 using MediatR;
-using WalletMate.BlazorApp.Store.Actions;
 
 namespace WalletMate.BlazorApp.Store.Login
 {
-	public class ShowPasswordReducer : ActionHandler<LoginState.ShowPassword>
+	public class RootReducer : ActionHandler<LoginState.ShowPassword>,
+		IRequestHandler<LoginState.NotifyBadLogin>,
+		IRequestHandler<LoginState.ConfiguredPairRetrieved>,
+		IRequestHandler<LoginState.Connected>,
+		IRequestHandler<LoginState.HidePassword>,
+		IRequestHandler<LoginState.Disconnect>
 	{
 		private LoginState State => Store.GetState<LoginState>();
 
-		public ShowPasswordReducer(IStore aStore) : base(aStore)
+		public RootReducer(IStore aStore) : base(aStore)
 		{
 		}
 
@@ -19,60 +23,36 @@ namespace WalletMate.BlazorApp.Store.Login
 			State.SetVisiblePassword(action.Pair);
 			return Unit.Task;
 		}
-	}
 
-	public class NotifyBadLoginReducer : ActionHandler<NotifyBadLogin>
-	{
-		private LoginState State => Store.GetState<LoginState>();
-
-		public NotifyBadLoginReducer(IStore aStore) : base(aStore) {
-		}
-
-		public override Task<Unit> Handle(NotifyBadLogin action, CancellationToken aCancellationToken) {
-
+		public Task<Unit> Handle(LoginState.NotifyBadLogin action, CancellationToken cancellationToken)
+		{
 			State.CurrentPairState(action.Pair).BadPassword = true;
 			return Unit.Task;
 		}
 
-
-		public static LoginState Handle(LoginState state, BadPasswordNotified action)
-		{
-			state.CurrentPairState(action.Pair).BadPassword = false;
-			return state;
-		}
-
-		public static LoginState Handle(LoginState state, HidePassword action)
-		{
-			state.CurrentPairState(action.Pair).VisiblePassword = false;
-			return state;
-		}
-
-		
-		public static LoginState Handle(LoginState state, Disconnect action)
-		{
-			state.IsConnected = false;
-			return state;
-		}
-
-		public static LoginState Handle(LoginState state, Connected action) {
-			state.IsConnected = true;
-			return state;
-		}
-	}
-
-	public class ConfiguredPairRetrievedReducer : ActionHandler<LoginState.ConfiguredPairRetrieved>
-	{
-		private LoginState State => Store.GetState<LoginState>();
-
-		public ConfiguredPairRetrievedReducer(IStore aStore) : base(aStore)
-		{
-		}
-
-		public override Task<Unit> Handle(LoginState.ConfiguredPairRetrieved action, CancellationToken aCancellationToken)
+		public Task<Unit> Handle(LoginState.ConfiguredPairRetrieved action, CancellationToken cancellationToken)
 		{
 			State.FirstPair.PairName = action.ConfiguredPair.FirstPairName;
 			State.SecondPair.PairName = action.ConfiguredPair.SecondPairName;
 			State.PairRetrieved = true;
+			return Unit.Task;
+		}
+
+		public Task<Unit> Handle(LoginState.Connected request, CancellationToken cancellationToken)
+		{
+			State.IsConnected = true;
+			return Unit.Task;
+		}
+
+		public Task<Unit> Handle(LoginState.HidePassword action, CancellationToken cancellationToken)
+		{
+			State.CurrentPairState(action.Pair).VisiblePassword = false;
+			return Unit.Task;
+		}
+
+		public Task<Unit> Handle(LoginState.Disconnect request, CancellationToken cancellationToken)
+		{
+			State.IsConnected = false;
 			return Unit.Task;
 		}
 	}
