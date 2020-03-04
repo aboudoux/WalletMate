@@ -4,16 +4,20 @@
 
     <div class="container">
 
-        @foreach (var periodName in State.Periods.Keys) {
-            <PeriodPanel PeriodName="@periodName" Clicked="@( () => OnClicked(periodName) )" Expanded="@State.Periods[periodName].IsExpanded" />
+        @foreach (var periodId in State.Periods.Keys) {
+            <PeriodPanel 
+                PeriodName="@periodId.ToPeriodName().ToString()" 
+                Clicked="@( () => OnClicked(periodId) )" 
+                Expanded="@State.Periods[periodId].Expand" 
+                Operations="@State.Periods[periodId].Operations" />
         }
     </div>
 
 @code {
 
-    private void OnClicked(string periodName)
+    private void OnClicked(PeriodId periodId)
     {
-        Mediator.Send(new SpreadsheetState.ToggleExpand(periodName));
+        Mediator.Send(new SpreadsheetState.ToggleExpand(periodId));
     }
 
     SpreadsheetState State => GetState<SpreadsheetState>();

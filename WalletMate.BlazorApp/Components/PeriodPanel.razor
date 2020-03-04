@@ -1,4 +1,6 @@
-﻿<div class="card" @onclick="Clicked">
+﻿@using WalletMate.Application.Periods.Queries
+@using WalletMate.BlazorApp.Store.Spreadsheet
+<div class="card" @onclick="Clicked">
     <div class="card-header">
         <div class="row">
             <div class="col-md-10 offset-md-0" style="padding-top: 5;">
@@ -7,10 +9,13 @@
             <div class="col text-right"><i class="@Icon"></i></div>
         </div>
     </div>
-    @if (Expanded)
+    @if (Expanded == PeriodState.ExpandState.Expanded)
     {
         <div class="card-body">
-            <p class="card-text">Nullam id dolor id nibh ultricies vehicula ut id elit. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus.</p>
+            @foreach (var op in Operations)
+            {
+                <p>@op.Label</p>
+            }
         </div>
     }
 </div>
@@ -24,7 +29,26 @@
     public EventCallback Clicked { get; set; }
 
     [Parameter]
-    public bool Expanded { get; set; }
+    public PeriodState.ExpandState Expanded { get; set; }
 
-    string Icon => Expanded ? "fa fa-chevron-down" : "fa fa-chevron-right";
+    [Parameter]
+    public IReadOnlyList<IPeriodOperation> Operations { get; set; } = new List<IPeriodOperation>();
+
+    string Icon
+    {
+        get
+        {
+            switch (Expanded)
+            {
+                case PeriodState.ExpandState.Collapsed:
+                    return "fa fa-chevron-right";
+                case PeriodState.ExpandState.Expanding:
+                    return "";
+                case PeriodState.ExpandState.Expanded:
+                    return "fa fa-chevron-down";
+                
+            }
+            return string.Empty;
+        }
+    }
 }

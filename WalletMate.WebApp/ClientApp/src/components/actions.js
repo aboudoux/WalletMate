@@ -153,7 +153,7 @@ export function authenticate(login, password) {
     return function (dispatch) {
         const authenticationInfos = {
             Username: login,
-            Password: crypto.createHash('sha1').update(password).digest("hex")
+            Password: password //crypto.createHash('sha1').update(password).digest("hex")
         };
 
         PostAnonymous("/api/Authentication/authenticate", authenticationInfos)
