@@ -1,0 +1,16 @@
+﻿@page "/test"
+
+<h3>Test</h3>
+
+<Menu>
+    <MenuItem Label="Premier" @onclick="@(() => Clicked("Premier"))"/>
+    <MenuItem Label="Deuxieme" @onclick="@(() => Clicked("Second"))"/>
+</Menu>
+
+@code {
+
+    public void Clicked(string item)
+    {
+        Console.WriteLine(item);
+    }
+}
