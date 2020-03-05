@@ -1,0 +1,9 @@
+﻿<a role="presentation" class="dropdown-item" @onclick="OnClick">@Label</a>
+
+@code {
+    [Parameter]
+    public string Label { get; set; }
+
+    [Parameter]
+    public EventCallback<MouseEventArgs> OnClick { get; set; }
+}

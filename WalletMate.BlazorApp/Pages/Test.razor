@@ -2,7 +2,9 @@
 
 <h3>Test</h3>
 
-<Menu>
+<Navbar />
+
+<Menu @onclick="MenuClicked" Show="Show">
     <MenuItem Label="Premier" @onclick="@(() => Clicked("Premier"))"/>
     <MenuItem Label="Deuxieme" @onclick="@(() => Clicked("Second"))"/>
 </Menu>
@@ -12,5 +14,12 @@
     public void Clicked(string item)
     {
         Console.WriteLine(item);
+    }
+
+    private bool Show { get; set; }
+
+    public void MenuClicked()
+    {
+        Show = !Show;
     }
 }

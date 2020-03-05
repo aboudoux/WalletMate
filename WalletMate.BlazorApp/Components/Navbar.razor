@@ -1,0 +1,33 @@
+﻿<nav class="navbar navbar-light navbar-expand-md" style="background-color: #ccd2e3;">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">@Title</a>
+        <button data-toggle="collapse" data-target="#navcol-1" class="navbar-toggler">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse"
+             id="navcol-1">
+            <ul class="nav navbar-nav">
+                @ChildContent
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+
+@code {
+
+    [Parameter]
+    public string Title { get; set; }
+
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    private bool ShowMenu { get; set; }
+
+    private void MenuClicked()
+    {
+        ShowMenu = !ShowMenu;
+    }
+}

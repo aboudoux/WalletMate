@@ -10,8 +10,12 @@ using WalletMate.Domain.Periods.ValueObjects;
 namespace WalletMate.BlazorApp.Store.Spreadsheet
 {
 	public class SpreadsheetReducer : ActionHandler<SpreadsheetState.ToggleExpand>,
-		IRequestHandler<SpreadsheetState.RetrieveData>,
-		IRequestHandler<SpreadsheetState.DataRetrieved>
+		IRequestHandler<SpreadsheetState.RetrieveOperations>,
+		IRequestHandler<SpreadsheetState.OperationRetrieved>,
+		IRequestHandler<SpreadsheetState.RetrieveAllPeriods>,
+		IRequestHandler<SpreadsheetState.AllPeriodRetrieved>,
+		IRequestHandler<SpreadsheetState.ShowAddPeriodPanel>,
+		IRequestHandler<SpreadsheetState.ShowPeriodMenu>
 	{
 		private readonly IMediator _mediator;
 		private readonly IQueryBus _queryBus;
@@ -29,23 +33,49 @@ namespace WalletMate.BlazorApp.Store.Spreadsheet
 			if (expand == PeriodState.ExpandState.Expanded)
 				State.Periods[action.PeriodId].Expand = PeriodState.ExpandState.Collapsed;
 			else
-				return _mediator.Send(new SpreadsheetState.RetrieveData(action.PeriodId));
+				return _mediator.Send(new SpreadsheetState.RetrieveOperations(action.PeriodId));
 
 			return Unit.Task;
 		}
 
-		public async Task<Unit> Handle(SpreadsheetState.RetrieveData action, CancellationToken cancellationToken)
+		public async Task<Unit> Handle(SpreadsheetState.RetrieveOperations action, CancellationToken cancellationToken)
 		{
 			State.Periods[action.PeriodId].Expand = PeriodState.ExpandState.Expanding;
 			var operations =  await _queryBus.QueryAsync(new GetAllOperation(action.PeriodId));
-			await _mediator.Send(new SpreadsheetState.DataRetrieved(action.PeriodId, operations));
+			await _mediator.Send(new SpreadsheetState.OperationRetrieved(action.PeriodId, operations));
 			return Unit.Value;
 		}
 
-		public Task<Unit> Handle(SpreadsheetState.DataRetrieved action, CancellationToken cancellationToken)
+		public Task<Unit> Handle(SpreadsheetState.OperationRetrieved action, CancellationToken cancellationToken)
 		{
 			State.Periods[action.PeriodId].Expand = PeriodState.ExpandState.Expanded;
 			State.Periods[action.PeriodId].Operations = action.Operations;
+			return Unit.Task;
+		}
+
+		public async Task<Unit> Handle(SpreadsheetState.RetrieveAllPeriods action, CancellationToken cancellationToken)
+		{
+			var periods = await _queryBus.QueryAsync(new GetAllPeriod());
+			await _mediator.Send(new SpreadsheetState.AllPeriodRetrieved(periods));
+			return Unit.Value;
+		}
+
+		public Task<Unit> Handle(SpreadsheetState.AllPeriodRetrieved action, CancellationToken cancellationToken)
+		{
+			State.SetPeriods(action.Periods);
+			return Unit.Task;
+		}
+
+		public Task<Unit> Handle(SpreadsheetState.ShowAddPeriodPanel action, CancellationToken cancellationToken)
+		{
+			State.AddPeriodPanelVisible = action.Show;
+			State.PeriodMenuVisible = false;
+			return Unit.Task;
+		}
+
+		public Task<Unit> Handle(SpreadsheetState.ShowPeriodMenu action, CancellationToken cancellationToken)
+		{
+			State.PeriodMenuVisible = true;
 			return Unit.Task;
 		}
 	}

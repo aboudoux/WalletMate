@@ -1,0 +1,39 @@
+﻿@using WalletMate.Domain.Common
+@namespace WalletMate.BlazorApp.Components
+
+<div class="dropdown">
+    <button @onclick="OnClick" @onmouseover="OnMouseOver" @onmouseout="OnMouseOut" class="btn btn-secondary" data-toggle="dropdown" type="button">@ButtonTemplate(Label)</button>
+    <div role="menu" class="dropdown-menu @CssClass" @onmouseover="OnMouseOver">
+        @ChildContent
+    </div>
+</div>
+
+@code {
+
+    [Parameter]
+    public bool Show { get; set; }
+
+    private string CssClass => Show ? "show" : String.Empty;
+
+   // [Parameter]
+   // public string Icon { get; set; } = "fa fa-bars";
+
+    [Parameter]
+    public string Label { get; set; }
+
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    [Parameter]
+    public EventCallback<MouseEventArgs> OnClick { get; set; }
+
+    [Parameter]
+    public EventCallback<MouseEventArgs> OnMouseOver { get; set; }
+
+    [Parameter]
+    public EventCallback<MouseEventArgs> OnMouseOut { get; set; }
+
+    [Parameter]
+    public RenderFragment<string> ButtonTemplate { get; set; } = value => @<span>@value</span>;
+
+}

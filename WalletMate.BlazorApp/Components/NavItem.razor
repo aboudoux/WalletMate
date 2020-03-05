@@ -1,0 +1,10 @@
+﻿<li role="presentation" class="nav-item"><a class="nav-link" @onclick="OnClick">@Label</a></li>
+
+
+@code {
+    [Parameter]
+    public string Label { get; set; }
+
+    [Parameter]
+    public EventCallback<MouseEventArgs> OnClick { get; set; }
+}

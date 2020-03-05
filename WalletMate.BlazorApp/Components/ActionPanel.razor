@@ -1,0 +1,22 @@
+﻿@using System.Reflection.Metadata
+@typeparam TModel
+
+<EditForm Model="@ActionModel" class="bg-light border rounded border-dark shadow-lg" style="background-color: #cbe2f2;">
+    @TitleTemplate(Title)
+    @ChildContent
+</EditForm>
+
+@code {
+
+    [Parameter]
+    public string Title { get; set; }
+
+    [Parameter]
+    public RenderFragment<string> TitleTemplate { get; set; } = value =>@<h3>@value</h3>;
+
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    [Parameter]
+    public TModel ActionModel { get; set; }
+}

@@ -1,9 +1,26 @@
 ﻿@using BlazorState
+@using WalletMate.BlazorApp.Data
 @using WalletMate.BlazorApp.Store.Spreadsheet
 @inherits BlazorState.BlazorStateComponent
+<Navbar Title="WalletMate">
+    <Dropdown Show="@State.PeriodMenuVisible" @onclick="OnMenuClick" Label="Période">
+        <DropdownItem Label="Ajouter une période" @onclick="CreatePeriodClick"/>
+    </Dropdown>
+    <NavItem Label="Déconnecter" @onclick="OnDisconnectClick" />
+</Navbar>
+@if (State.AddPeriodPanelVisible)
+{
+    <ActionPanel TModel="NewPeriodModel" ActionModel="@NewPeriod" Title="Nouvelle période">
+        <ChildContent>
+            <label>Année</label>
+            <InputText @bind-Value=NewPeriod.Year></InputText>
+            <label>Mois</label>
+            <button class="btn btn-danger" @onclick="OnCancelAddPeriodClick">Annuler</button>
+        </ChildContent>
+    </ActionPanel>
+}
 
-    <div class="container">
-
+<div class="container" style="margin-top:20px">
         @foreach (var periodId in State.Periods.Keys) {
             <PeriodPanel 
                 PeriodName="@periodId.ToPeriodName().ToString()" 
@@ -15,11 +32,15 @@
 
 @code {
 
-    private void OnClicked(PeriodId periodId)
-    {
-        Mediator.Send(new SpreadsheetState.ToggleExpand(periodId));
-    }
-
     SpreadsheetState State => GetState<SpreadsheetState>();
 
+    private void OnClicked(PeriodId periodId) => Mediator.Send(new SpreadsheetState.ToggleExpand(periodId));
+    private void OnMenuClick() => Mediator.Send(new SpreadsheetState.ShowPeriodMenu());
+    private void OnDisconnectClick() =>  Mediator.Send(new LoginState.Disconnect());
+    private void OnCancelAddPeriodClick() => Mediator.Send(new SpreadsheetState.ShowAddPeriodPanel(false));
+    private void CreatePeriodClick() => Mediator.Send(new SpreadsheetState.ShowAddPeriodPanel(true));
+
+    private NewPeriodModel NewPeriod { get; set; } = new NewPeriodModel();
+
 }
+

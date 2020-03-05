@@ -1,7 +1,9 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using BlazorState;
 using MediatR;
+using WalletMate.BlazorApp.Store.Spreadsheet;
 
 namespace WalletMate.BlazorApp.Store.Login
 {
@@ -13,10 +15,12 @@ namespace WalletMate.BlazorApp.Store.Login
 		IRequestHandler<LoginState.Disconnect>,
 		IRequestHandler<LoginState.BadLoginNotified>
 	{
+		private readonly IMediator _mediator;
 		private LoginState State => Store.GetState<LoginState>();
 
-		public LoginReducer(IStore aStore) : base(aStore)
+		public LoginReducer(IStore aStore, IMediator mediator) : base(aStore)
 		{
+			_mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
 		}
 
 		public override Task<Unit> Handle(LoginState.ShowPassword action, CancellationToken aCancellationToken)
@@ -43,7 +47,7 @@ namespace WalletMate.BlazorApp.Store.Login
 		{
 			State.CurrentPairState(action.Pair).VisiblePassword = false;
 			State.IsConnected = true;
-			return Unit.Task;
+			return _mediator.Send(new SpreadsheetState.RetrieveAllPeriods());
 		}
 
 		public Task<Unit> Handle(LoginState.HidePassword action, CancellationToken cancellationToken)
