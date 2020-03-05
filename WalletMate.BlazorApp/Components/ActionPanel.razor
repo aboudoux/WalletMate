@@ -1,10 +1,14 @@
 ﻿@using System.Reflection.Metadata
 @typeparam TModel
 
-<EditForm Model="@ActionModel" class="bg-light border rounded border-dark shadow-lg" style="background-color: #cbe2f2;">
-    @TitleTemplate(Title)
-    @ChildContent
-</EditForm>
+    <EditForm Model="@ActionModel" OnValidSubmit="OnSubmit" class="text-center bg-light border rounded border-light shadow-lg" style="background-color: #cbe2f2; margin: 30px;">
+        @TitleTemplate(Title)
+        @ChildContent
+        <div role="group" class="btn-group d-md-flex justify-content-md-start align-items-md-center" style="margin: 10px;">
+            <button class="btn btn-success" type="submit" style="width: 70px;">OK</button>
+            <button class="btn btn-danger" type="button" style="width: 70px;" @onclick="OnCancel">Annuler</button>
+        </div>
+    </EditForm>
 
 @code {
 
@@ -19,4 +23,10 @@
 
     [Parameter]
     public TModel ActionModel { get; set; }
+
+    [Parameter]
+    public EventCallback<EditContext> OnSubmit { get; set; }
+
+    [Parameter]
+    public EventCallback<MouseEventArgs> OnCancel { get; set; }
 }

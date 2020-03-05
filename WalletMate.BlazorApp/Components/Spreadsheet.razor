@@ -4,31 +4,30 @@
 @inherits BlazorState.BlazorStateComponent
 <Navbar Title="WalletMate">
     <Dropdown Show="@State.PeriodMenuVisible" @onclick="OnMenuClick" Label="Période">
-        <DropdownItem Label="Ajouter une période" @onclick="CreatePeriodClick"/>
+        <DropdownItem Label="Ajouter une période" @onclick="CreatePeriodClick" />
     </Dropdown>
     <NavItem Label="Déconnecter" @onclick="OnDisconnectClick" />
 </Navbar>
-@if (State.AddPeriodPanelVisible)
-{
-    <ActionPanel TModel="NewPeriodModel" ActionModel="@NewPeriod" Title="Nouvelle période">
-        <ChildContent>
-            <label>Année</label>
-            <InputText @bind-Value=NewPeriod.Year></InputText>
-            <label>Mois</label>
-            <button class="btn btn-danger" @onclick="OnCancelAddPeriodClick">Annuler</button>
-        </ChildContent>
-    </ActionPanel>
+@if (State.AddPeriodPanelVisible) {
+    <Animation Type="Animation.AnimationType.bounceIn">
+        <ActionPanel TModel="NewPeriodModel" ActionModel="@NewPeriod" Title="Nouvelle période" OnSubmit="@SubmitCreatePeriodClick" OnCancel="@OnCancelAddPeriodClick">
+            <ChildContent>
+                <label>Année</label>
+                <InputText @bind-Value=NewPeriod.Year></InputText>
+                <label>Mois</label>
+            </ChildContent>
+        </ActionPanel>
+    </Animation>
 }
 
 <div class="container" style="margin-top:20px">
-        @foreach (var periodId in State.Periods.Keys) {
-            <PeriodPanel 
-                PeriodName="@periodId.ToPeriodName().ToString()" 
-                Clicked="@( () => OnClicked(periodId) )" 
-                Expanded="@State.Periods[periodId].Expand" 
-                Operations="@State.Periods[periodId].Operations" />
-        }
-    </div>
+    @foreach (var periodId in State.Periods.Keys) {
+        <PeriodPanel PeriodName="@periodId.ToPeriodName().ToString()"
+                     Clicked="@( () => OnClicked(periodId) )"
+                     Expanded="@State.Periods[periodId].Expand"
+                     Operations="@State.Periods[periodId].Operations" />
+    }
+</div>
 
 @code {
 
@@ -36,9 +35,14 @@
 
     private void OnClicked(PeriodId periodId) => Mediator.Send(new SpreadsheetState.ToggleExpand(periodId));
     private void OnMenuClick() => Mediator.Send(new SpreadsheetState.ShowPeriodMenu());
-    private void OnDisconnectClick() =>  Mediator.Send(new LoginState.Disconnect());
+    private void OnDisconnectClick() => Mediator.Send(new LoginState.Disconnect());
     private void OnCancelAddPeriodClick() => Mediator.Send(new SpreadsheetState.ShowAddPeriodPanel(false));
     private void CreatePeriodClick() => Mediator.Send(new SpreadsheetState.ShowAddPeriodPanel(true));
+
+    private void SubmitCreatePeriodClick()
+    {
+        Console.WriteLine(NewPeriod.Year);
+    }
 
     private NewPeriodModel NewPeriod { get; set; } = new NewPeriodModel();
 

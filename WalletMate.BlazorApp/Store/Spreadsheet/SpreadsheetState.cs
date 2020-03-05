@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using BlazorState;
 using WalletMate.Application.Periods.Queries;
-using WalletMate.Domain.Periods;
 using WalletMate.Domain.Periods.ValueObjects;
 
 namespace WalletMate.BlazorApp.Store.Spreadsheet {
