@@ -37,6 +37,33 @@ namespace WalletMate.BlazorApp.Store.Spreadsheet {
 			}
 		}
 
+		public class ShowAddOperationPanel : IAction
+		{
+			public readonly OperationType Type;
+
+			public enum OperationType
+			{
+				Spending,
+				Recipe
+			}
+			public ShowAddOperationPanel(OperationType operationType)
+			{
+				Type = operationType;
+			}
+		}
+
+		public class CreatePeriod : IAction
+		{
+			public int Year { get; }
+			public int Month { get; }
+
+			public CreatePeriod(int year, int month)
+			{
+				Year = year;
+				Month = month;
+			}
+		}
+
 		public class ShowAddPeriodPanel : IAction
 		{
 			public bool Show { get; }

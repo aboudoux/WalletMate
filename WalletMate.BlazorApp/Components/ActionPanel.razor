@@ -2,11 +2,18 @@
 @typeparam TModel
 
     <EditForm Model="@ActionModel" OnValidSubmit="OnSubmit" class="text-center bg-light border rounded border-light shadow-lg" style="background-color: #cbe2f2; margin: 30px;">
+        <DataAnnotationsValidator />
+
         @TitleTemplate(Title)
         @ChildContent
-        <div role="group" class="btn-group d-md-flex justify-content-md-start align-items-md-center" style="margin: 10px;">
-            <button class="btn btn-success" type="submit" style="width: 70px;">OK</button>
-            <button class="btn btn-danger" type="button" style="width: 70px;" @onclick="OnCancel">Annuler</button>
+
+        <div class="row">
+            <div class="col text-center">
+                <div role="group" class="btn-group btn-group-sm" style="margin: 10px;">
+                    <button class="btn btn-success" type="submit" style="width: 70px;">OK</button>
+                    <button class="btn btn-danger" type="button" style="width: 70px;" @onclick="OnCancel">Annuler</button>
+                </div>
+            </div>
         </div>
     </EditForm>
 

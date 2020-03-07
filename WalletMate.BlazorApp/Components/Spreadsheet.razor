@@ -13,8 +13,9 @@
         <ActionPanel TModel="NewPeriodModel" ActionModel="@NewPeriod" Title="Nouvelle période" OnSubmit="@SubmitCreatePeriodClick" OnCancel="@OnCancelAddPeriodClick">
             <ChildContent>
                 <label>Année</label>
-                <InputText @bind-Value=NewPeriod.Year></InputText>
+                <InputNumber @bind-Value=NewPeriod.Year class="form-control"></InputNumber>
                 <label>Mois</label>
+                <InputNumber @bind-Value=NewPeriod.Month class="form-control"></InputNumber>
             </ChildContent>
         </ActionPanel>
     </Animation>
@@ -25,7 +26,9 @@
         <PeriodPanel PeriodName="@periodId.ToPeriodName().ToString()"
                      Clicked="@( () => OnClicked(periodId) )"
                      Expanded="@State.Periods[periodId].Expand"
-                     Operations="@State.Periods[periodId].Operations" />
+                     Operations="@State.Periods[periodId].Operations"
+                     ClickAddSpending="@( () => AddSpendingClicked(periodId) )"
+                      />
     }
 </div>
 
@@ -34,17 +37,13 @@
     SpreadsheetState State => GetState<SpreadsheetState>();
 
     private void OnClicked(PeriodId periodId) => Mediator.Send(new SpreadsheetState.ToggleExpand(periodId));
+    private void AddSpendingClicked(PeriodId periodId) => Mediator.Send(new SpreadsheetState.ShowAddOperationPanel(SpreadsheetState.ShowAddOperationPanel.OperationType.Spending));
     private void OnMenuClick() => Mediator.Send(new SpreadsheetState.ShowPeriodMenu());
     private void OnDisconnectClick() => Mediator.Send(new LoginState.Disconnect());
     private void OnCancelAddPeriodClick() => Mediator.Send(new SpreadsheetState.ShowAddPeriodPanel(false));
     private void CreatePeriodClick() => Mediator.Send(new SpreadsheetState.ShowAddPeriodPanel(true));
-
-    private void SubmitCreatePeriodClick()
-    {
-        Console.WriteLine(NewPeriod.Year);
-    }
+    private void SubmitCreatePeriodClick() => Mediator.Send(new SpreadsheetState.CreatePeriod(NewPeriod.Year, NewPeriod.Month));
 
     private NewPeriodModel NewPeriod { get; set; } = new NewPeriodModel();
-
 }
 

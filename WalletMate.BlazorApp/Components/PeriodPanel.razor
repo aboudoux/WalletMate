@@ -12,12 +12,18 @@
     @if (Expanded == PeriodState.ExpandState.Expanded)
     {
         <div class="card-body">
-            @foreach (var op in Operations)
-            {
+            @foreach (var op in Operations) {
                 <p>@op.Label</p>
             }
+
+            <div class="row">
+                <button class="btn btn-warning" type="button" @onclick="ClickAddSpending">Dépense</button>
+                <button class="btn btn-warning" type="button" @onclick="ClickAddRecipe">Recette</button>
+            </div>
         </div>
     }
+    
+    // ajouter ActionPanel    
 </div>
 
 @code {
@@ -27,6 +33,13 @@
 
     [Parameter]
     public EventCallback Clicked { get; set; }
+
+    [Parameter]
+    public EventCallback ClickAddSpending { get; set; }
+
+    [Parameter]
+    public EventCallback ClickAddRecipe { get; set; }
+
 
     [Parameter]
     public PeriodState.ExpandState Expanded { get; set; }

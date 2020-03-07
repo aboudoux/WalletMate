@@ -4,7 +4,9 @@ using System.Threading.Tasks;
 using BlazorState;
 using MediatR;
 using WalletMate.Application.Core;
+using WalletMate.Application.Periods;
 using WalletMate.Application.Periods.Queries;
+using WalletMate.Domain.Periods.ValueObjects;
 
 namespace WalletMate.BlazorApp.Store.Spreadsheet
 {
@@ -14,16 +16,19 @@ namespace WalletMate.BlazorApp.Store.Spreadsheet
 		IRequestHandler<SpreadsheetState.RetrieveAllPeriods>,
 		IRequestHandler<SpreadsheetState.AllPeriodRetrieved>,
 		IRequestHandler<SpreadsheetState.ShowAddPeriodPanel>,
-		IRequestHandler<SpreadsheetState.ShowPeriodMenu>
+		IRequestHandler<SpreadsheetState.ShowPeriodMenu>,
+		IRequestHandler<SpreadsheetState.CreatePeriod>
 	{
 		private readonly IMediator _mediator;
 		private readonly IQueryBus _queryBus;
+		private readonly ICommandBus _commandBus;
 		private SpreadsheetState State => Store.GetState<SpreadsheetState>();
 
-		public SpreadsheetReducer(IStore aStore, IMediator mediator, IQueryBus queryBus) : base(aStore)
+		public SpreadsheetReducer(IStore aStore, IMediator mediator, IQueryBus queryBus, ICommandBus commandBus) : base(aStore)
 		{
 			_mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
 			_queryBus = queryBus ?? throw new ArgumentNullException(nameof(queryBus));
+			_commandBus = commandBus ?? throw new ArgumentNullException(nameof(commandBus));
 		}
 
 		public override Task<Unit> Handle(SpreadsheetState.ToggleExpand action, CancellationToken aCancellationToken)
@@ -76,6 +81,13 @@ namespace WalletMate.BlazorApp.Store.Spreadsheet
 		{
 			State.PeriodMenuVisible = true;
 			return Unit.Task;
+		}
+
+		public async Task<Unit> Handle(SpreadsheetState.CreatePeriod action, CancellationToken cancellationToken)
+		{
+			await _commandBus.SendAsync(new CreatePeriod(PeriodName.From(action.Month, action.Year)));
+			await _mediator.Send(new SpreadsheetState.RetrieveAllPeriods());
+			return Unit.Value;
 		}
 	}
 }
